@@ -1,0 +1,227 @@
+/* ============================================================
+   Media Stance · Design tokens
+   Espelho da coleção "Media Stance · Tokens" do Figma.
+
+   Modo claro é o padrão em :root.
+   Modo escuro em [data-tema="escuro"] (e automático via
+   prefers-color-scheme quando o usuário não escolheu nada).
+
+   Toda cor aqui já passou auditoria de contraste WCAG AA nos
+   dois modos. Se você precisar de um par novo, calcule a razão
+   antes de usar — não confie no olho.
+   ============================================================ */
+
+:root {
+  /* ---- Superfícies ---- */
+  --superficie-pagina: #f1f5f9;
+  --superficie-cartao: #ffffff;
+  --superficie-sutil: #f8fafc;
+  --superficie-nav: #0f172a;
+  --superficie-nav-item-ativo: #1e293b;
+  --superficie-icone-circulo: #334155;
+  --superficie-overlay: rgb(0 0 0 / 45%);
+  --superficie-destaque: #f1f5f9;
+  --superficie-selecionado: #0f172a;
+
+  /* ---- Texto ---- */
+  --texto-primario: #0f172a;
+  --texto-secundario: #475569;
+  --texto-terciario: #94a3b8;
+  --texto-inverso: #ffffff;
+  --texto-on-nav: #94a3b8;
+  --texto-on-nav-ativo: #ffffff;
+
+  /* ---- Bordas ---- */
+  --borda-padrao: #e2e8f0;
+  --borda-forte: #94a3b8;
+
+  /* ---- Acento ---- */
+  --acento-base: #2563eb;
+  --acento-forte: #1d4ed8;
+  --acento-claro: #60a5fa;
+  --acento-bg-sutil: #eff6ff;
+  --acento-sobre: #ffffff;
+  --acento-link: #2563eb;
+
+  /* ---- Classes de posicionamento ----
+     Cada classe é um par bg + fg. Nunca misture o fg de uma
+     classe com o bg de outra: os pares foram calculados juntos. */
+  --stance-a-favor-bg: #dcfce7;
+  --stance-a-favor-fg: #15803d;
+  --stance-contra-bg: #fee2e2;
+  --stance-contra-fg: #b91c1c;
+  --stance-pedido-bg: #dbeafe;
+  --stance-pedido-fg: #1d4ed8;
+  --stance-neutro-bg: #f1f5f9;
+  --stance-neutro-fg: #475569;
+  --stance-urgente-bg: #ffedd5;
+  --stance-urgente-fg: #c2410c;
+  --stance-engajamento-bg: #f3e8ff;
+  --stance-engajamento-fg: #7e22ce;
+
+  /* ---- Painel de marca (telas de autenticação) ---- */
+  --marca-painel-bg: #0f172a;
+  --marca-painel-acento: #60a5fa;
+  --marca-painel-texto: #94a3b8;
+  --marca-painel-label: #7a8aa0;
+  --marca-chip-favor-bg: rgb(220 252 231 / 12%);
+  --marca-chip-favor-fg: #86efac;
+  --marca-chip-contra-bg: rgb(254 226 226 / 12%);
+  --marca-chip-contra-fg: #fca5a5;
+  --marca-chip-pedido-bg: rgb(219 234 254 / 12%);
+  --marca-chip-pedido-fg: #93c5fd;
+
+  /* ---- Navegação ----
+     Constantes: a sidebar, o rail e a tab bar são escuros nos
+     dois modos, então nada aqui inverte. */
+  --nav-circulo: #334155;
+  --nav-circulo-ativo: #ffffff;
+  --nav-icone: #e2e8f0;
+  --nav-icone-ativo: #0f172a;
+
+  /* ---- Tipografia ---- */
+  --familia: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --peso-regular: 400;
+  --peso-medio: 500;
+  --peso-semibold: 600;
+  --peso-bold: 700;
+
+  --tamanho-micro: 10px;    /* só para rótulo de eixo em gráfico */
+  --tamanho-caption: 12px;  /* só para metadado não essencial */
+  --tamanho-label: 13px;    /* piso para texto legível */
+  --tamanho-corpo: 14px;
+  --tamanho-corpo-lg: 16px;
+  --tamanho-titulo-sm: 18px;
+  --tamanho-titulo-md: 20px;
+  --tamanho-titulo-lg: 22px;
+  --tamanho-display: 30px;
+  --tamanho-stat: 34px;     /* número grande dos cartões de resumo */
+
+  /* ---- Espaçamento ---- */
+  --espaco-2: 2px;
+  --espaco-4: 4px;
+  --espaco-6: 6px;
+  --espaco-8: 8px;
+  --espaco-10: 10px;
+  --espaco-12: 12px;
+  --espaco-16: 16px;
+  --espaco-20: 20px;
+  --espaco-24: 24px;
+  --espaco-32: 32px;
+  --espaco-40: 40px;
+
+  /* ---- Raio ---- */
+  --raio-xs: 4px;
+  --raio-sm: 8px;
+  --raio-md: 12px;
+  --raio-lg: 14px;
+  --raio-xl: 16px;
+  --raio-2xl: 20px;
+  --raio-pill: 100px;
+
+  /* ---- Layout ---- */
+  --largura-desktop: 1440px;
+  --largura-tablet: 744px;
+  --largura-mobile: 375px;
+  --sidebar: 240px;          /* desktop */
+  --rail: 88px;              /* tablet */
+  --altura-min-desktop: 1024px;
+  --altura-min-mobile: 812px;
+}
+
+/* ============================================================
+   Modo escuro
+   ============================================================ */
+
+:root[data-tema="escuro"] {
+  --superficie-pagina: #0b1220;
+  --superficie-cartao: #1e293b;
+  --superficie-sutil: #172033;
+  --superficie-nav: #020617;
+  --superficie-nav-item-ativo: #334155;
+  --superficie-icone-circulo: #475569;
+  --superficie-overlay: rgb(0 0 0 / 65%);
+  --superficie-destaque: #334155;
+  --superficie-selecionado: #64748b;
+
+  --texto-primario: #f1f5f9;
+  --texto-secundario: #94a3b8;
+  --texto-terciario: #8191a6;
+  --texto-inverso: #0f172a;
+
+  --borda-padrao: #64748b;
+  --borda-forte: #475569;
+
+  --acento-forte: #60a5fa;
+  --acento-claro: #93c5fd;
+  --acento-bg-sutil: #1e3a5f;
+  --acento-link: #60a5fa;
+
+  --stance-a-favor-bg: #14532d;
+  --stance-a-favor-fg: #86efac;
+  --stance-contra-bg: #450a0a;
+  --stance-contra-fg: #fca5a5;
+  --stance-pedido-bg: #1e3a5f;
+  --stance-pedido-fg: #93c5fd;
+  --stance-neutro-bg: #334155;
+  --stance-neutro-fg: #cbd5e1;
+  --stance-urgente-bg: #431407;
+  --stance-urgente-fg: #fdba74;
+  --stance-engajamento-bg: #3b0764;
+  --stance-engajamento-fg: #d8b4fe;
+
+  --marca-painel-bg: #020617;
+  --marca-painel-acento: #93c5fd;
+  --marca-chip-favor-bg: rgb(134 239 172 / 14%);
+  --marca-chip-contra-bg: rgb(252 165 165 / 14%);
+  --marca-chip-pedido-bg: rgb(147 197 253 / 14%);
+}
+
+/* Respeita a preferência do sistema enquanto o usuário não tocar
+   no botão de tema. Quando ele tocar, o atributo data-tema entra
+   e passa a mandar. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    --superficie-pagina: #0b1220;
+    --superficie-cartao: #1e293b;
+    --superficie-sutil: #172033;
+    --superficie-nav: #020617;
+    --superficie-nav-item-ativo: #334155;
+    --superficie-icone-circulo: #475569;
+    --superficie-overlay: rgb(0 0 0 / 65%);
+    --superficie-destaque: #334155;
+    --superficie-selecionado: #64748b;
+
+    --texto-primario: #f1f5f9;
+    --texto-secundario: #94a3b8;
+    --texto-terciario: #8191a6;
+    --texto-inverso: #0f172a;
+
+    --borda-padrao: #64748b;
+    --borda-forte: #475569;
+
+    --acento-forte: #60a5fa;
+    --acento-claro: #93c5fd;
+    --acento-bg-sutil: #1e3a5f;
+    --acento-link: #60a5fa;
+
+    --stance-a-favor-bg: #14532d;
+    --stance-a-favor-fg: #86efac;
+    --stance-contra-bg: #450a0a;
+    --stance-contra-fg: #fca5a5;
+    --stance-pedido-bg: #1e3a5f;
+    --stance-pedido-fg: #93c5fd;
+    --stance-neutro-bg: #334155;
+    --stance-neutro-fg: #cbd5e1;
+    --stance-urgente-bg: #431407;
+    --stance-urgente-fg: #fdba74;
+    --stance-engajamento-bg: #3b0764;
+    --stance-engajamento-fg: #d8b4fe;
+
+    --marca-painel-bg: #020617;
+    --marca-painel-acento: #93c5fd;
+    --marca-chip-favor-bg: rgb(134 239 172 / 14%);
+    --marca-chip-contra-bg: rgb(252 165 165 / 14%);
+    --marca-chip-pedido-bg: rgb(147 197 253 / 14%);
+  }
+}

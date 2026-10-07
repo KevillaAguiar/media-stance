@@ -1,0 +1,26 @@
+# ---- Segredos ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+token*.json
+credenciais*.json
+
+# ---- Node / build ----
+node_modules/
+dist/
+build/
+.next/
+.vite/
+coverage/
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- Sistema / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
