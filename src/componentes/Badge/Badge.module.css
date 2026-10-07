@@ -1,0 +1,46 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--espaco-4) var(--espaco-10);
+  border-radius: var(--raio-pill);
+  font-size: var(--tamanho-label);
+  font-weight: var(--peso-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.a_favor {
+  background: var(--stance-a-favor-bg);
+  color: var(--stance-a-favor-fg);
+}
+
+.contra {
+  background: var(--stance-contra-bg);
+  color: var(--stance-contra-fg);
+}
+
+.pedido {
+  background: var(--stance-pedido-bg);
+  color: var(--stance-pedido-fg);
+}
+
+.neutro {
+  background: var(--stance-neutro-bg);
+  color: var(--stance-neutro-fg);
+}
+
+.engajamento_afetivo {
+  background: var(--stance-engajamento-bg);
+  color: var(--stance-engajamento-fg);
+}
+
+/* Urgente vive dentro da faixa, que já é da cor da classe. Por isso o
+   fundo vem da superfície de cartão: é o contraste contra a faixa, não
+   contra a página. */
+.urgente {
+  background: var(--superficie-cartao);
+  color: var(--stance-urgente-fg);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: var(--tamanho-caption);
+}

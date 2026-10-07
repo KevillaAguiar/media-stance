@@ -31,6 +31,29 @@ substituem o Figma.
 
 ---
 
+## Rodando
+
+```bash
+npm install
+npm run dev      # servidor de desenvolvimento
+npm run build    # checagem de tipos + build de produção em dist/
+```
+
+Fontes e ícones vêm empacotados, não de CDN — a tela funciona offline, e a
+demo ao vivo de 12/11 não depende de rede de terceiro.
+
+```
+src/
+  api/           contratos + dados mockados; o ponto único a trocar
+                 quando o back-end subir
+  componentes/   Badge, Cartao, Icone, Navegacao, AlternarTema, Layout
+  paginas/       uma pasta por tela
+  styles/        tokens.css (espelho do Figma) + global.css
+  tema/          useTema — controla o atributo data-tema
+```
+
+---
+
 ## Tokens
 
 [`src/styles/tokens.css`](src/styles/tokens.css) é o espelho da coleção
@@ -90,9 +113,10 @@ Não é opcional aqui, e já custou várias rodadas de correção no protótipo:
 
 ## Stack
 
-Ainda não definida — é decisão de P4 em S0. `src/styles/tokens.css` é CSS puro
-de propósito: funciona com React, Vue, Svelte ou HTML direto, sem retrabalho
-quando a escolha sair.
+Vite + React + TypeScript, com CSS Modules sobre o `tokens.css`. Sem kit de
+UI: o design system já está fechado, e kit de terceiro chega com opinião
+própria de cor, espaçamento e raio que daria mais trabalho desfazer do que
+escrever o nosso.
 
 ---
 

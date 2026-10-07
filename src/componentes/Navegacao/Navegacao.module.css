@@ -1,0 +1,179 @@
+/* A navegação é escura nos DOIS modos. Nada aqui dentro usa token de
+   superfície ou de texto que inverta — só --superficie-nav, --texto-on-nav
+   e os --nav-*, que são constantes. Foi exatamente esse engano que quebrou
+   o contraste dos ícones no protótipo. */
+
+.navegacao {
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar);
+  flex-shrink: 0;
+  padding: var(--espaco-24);
+  background: var(--superficie-nav);
+}
+
+.marca {
+  margin-bottom: var(--espaco-24);
+}
+
+.nome {
+  font-size: var(--tamanho-corpo-lg);
+  font-weight: var(--peso-bold);
+  color: var(--texto-on-nav-ativo);
+}
+
+.usuario {
+  font-size: var(--tamanho-label);
+  color: var(--texto-on-nav);
+}
+
+.itens {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-4);
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-12);
+  padding: var(--espaco-10) var(--espaco-12);
+  border-radius: var(--raio-sm);
+  text-decoration: none;
+  font-size: var(--tamanho-corpo-lg);
+  color: var(--texto-on-nav);
+}
+
+.item:hover {
+  background: var(--superficie-nav-item-ativo);
+  color: var(--texto-on-nav-ativo);
+}
+
+.ativo {
+  background: var(--superficie-nav-item-ativo);
+  color: var(--texto-on-nav-ativo);
+  font-weight: var(--peso-semibold);
+}
+
+.circulo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--nav-icone);
+}
+
+.ativo .circulo {
+  color: var(--texto-on-nav-ativo);
+}
+
+.rodape {
+  margin-top: auto;
+  padding-top: var(--espaco-24);
+}
+
+/* ---- Tablet: rail de 88px ---- */
+
+@media (max-width: 1024px) {
+  .navegacao {
+    width: var(--rail);
+    padding: var(--espaco-20) var(--espaco-12);
+    align-items: center;
+  }
+
+  .marca,
+  .rotulo {
+    /* Mesmo recurso da classe .apenas-leitor-de-tela: some da tela,
+       continua no leitor. */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .itens {
+    gap: var(--espaco-12);
+  }
+
+  .item {
+    padding: 0;
+    background: none;
+  }
+
+  .item:hover {
+    background: none;
+  }
+
+  .circulo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--nav-circulo);
+    color: var(--nav-icone);
+  }
+
+  .item:hover .circulo {
+    background: var(--superficie-nav-item-ativo);
+  }
+
+  .ativo .circulo {
+    background: var(--nav-circulo-ativo);
+    color: var(--nav-icone-ativo);
+  }
+
+  .rodape {
+    padding-top: var(--espaco-16);
+  }
+}
+
+/* ---- Mobile: barra inferior ---- */
+
+@media (max-width: 640px) {
+  .navegacao {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 10;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    padding: var(--espaco-8) var(--espaco-12);
+    /* Área segura do iPhone, para a barra não ficar sob o indicador. */
+    padding-bottom: calc(var(--espaco-8) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .itens {
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 0;
+  }
+
+  .item {
+    flex-direction: column;
+    gap: var(--espaco-4);
+    /* Alvo de toque de 44px, mínimo recomendado. */
+    min-width: 44px;
+  }
+
+  .rotulo {
+    position: static;
+    width: auto;
+    height: auto;
+    clip: auto;
+    font-size: var(--tamanho-caption);
+  }
+
+  .circulo {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* A barra inferior já tem quatro alvos em 375px. Um quinto deixaria
+     todos abaixo do alvo de toque confortável, então no mobile a troca
+     de tema vive na tela de Perfil. */
+  .rodape {
+    display: none;
+  }
+}

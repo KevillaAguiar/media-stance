@@ -1,0 +1,87 @@
+/* Este componente mora dentro da navegação, que é escura nos dois modos.
+   Por isso nada aqui usa token de superfície: são os tokens --nav-* e
+   --texto-on-nav, que não invertem. */
+
+.alternar {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-12);
+  width: 100%;
+  padding: var(--espaco-8) var(--espaco-12);
+  border-radius: var(--raio-sm);
+  color: var(--texto-on-nav);
+}
+
+.alternar:hover {
+  background: var(--superficie-nav-item-ativo);
+  color: var(--texto-on-nav-ativo);
+}
+
+.icone {
+  color: var(--nav-icone);
+}
+
+.rotulo {
+  flex: 1;
+  text-align: left;
+  /* Um ponto abaixo dos itens de navegação: o rótulo precisa caber numa
+     linha nos 192px úteis da sidebar, e é um controle, não um destino. */
+  font-size: var(--tamanho-corpo);
+  white-space: nowrap;
+}
+
+.trilho {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 22px;
+  border-radius: var(--raio-pill);
+  background: var(--superficie-icone-circulo);
+  transition: background 150ms ease;
+}
+
+.trilho[data-ligado="true"] {
+  background: var(--acento-base);
+}
+
+.botao {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--nav-circulo-ativo);
+  transition: transform 150ms ease;
+}
+
+.trilho[data-ligado="true"] .botao {
+  transform: translateX(18px);
+}
+
+/* No rail do tablet não cabe rótulo nem trilho: vira só o ícone, com o
+   mesmo círculo dos itens de navegação. O estado continua anunciado,
+   porque o role="switch" e o aria-checked estão no botão. */
+@media (max-width: 1024px) {
+  .alternar {
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--nav-circulo);
+  }
+
+  .rotulo,
+  .trilho {
+    display: none;
+  }
+
+  .alternar[aria-checked="true"] {
+    background: var(--acento-base);
+  }
+
+  .alternar[aria-checked="true"] .icone {
+    color: var(--acento-sobre);
+  }
+}

@@ -1,0 +1,176 @@
+.pagina {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-24);
+  max-width: 1120px;
+}
+
+/* ---- Cabeçalho ---- */
+
+.cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-4);
+}
+
+.data {
+  font-size: var(--tamanho-label);
+  color: var(--texto-secundario);
+}
+
+.titulo {
+  font-size: var(--tamanho-display);
+  color: var(--texto-primario);
+}
+
+/* ---- Cartões de classe ---- */
+
+.estatisticas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--espaco-16);
+  margin: 0;
+}
+
+/* ---- Engajamento afetivo ---- */
+
+.engajamento {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-16);
+  font-size: var(--tamanho-corpo-lg);
+  color: var(--texto-primario);
+}
+
+/* ---- Faixa de urgência ---- */
+
+.urgente {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-16);
+  padding: var(--espaco-16) var(--espaco-20);
+  border-radius: var(--raio-xl);
+  background: var(--stance-urgente-bg);
+}
+
+.urgenteTexto {
+  flex: 1;
+  font-size: var(--tamanho-corpo-lg);
+  font-weight: var(--peso-semibold);
+  color: var(--stance-urgente-fg);
+}
+
+.urgenteLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-6);
+  font-weight: var(--peso-semibold);
+  color: var(--stance-urgente-fg);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.urgenteLink:hover {
+  text-decoration: underline;
+}
+
+/* ---- Publicação com maior atrito ---- */
+
+.atrito {
+  display: flex;
+  gap: var(--espaco-20);
+}
+
+.miniatura {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: var(--raio-md);
+  background: var(--superficie-destaque);
+  object-fit: cover;
+}
+
+.atritoTexto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-6);
+  min-width: 0;
+}
+
+.atritoRotulo {
+  font-size: var(--tamanho-label);
+  font-weight: var(--peso-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--texto-secundario);
+}
+
+.atritoLegenda {
+  font-size: var(--tamanho-titulo-sm);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+.atritoMeta {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+/* ---- Notas de leitura ---- */
+
+.notas ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-6);
+  margin: 0;
+}
+
+.notas li {
+  position: relative;
+  padding-left: var(--espaco-16);
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+.notas li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+}
+
+/* ---- Tablet ---- */
+
+@media (max-width: 1024px) {
+  .estatisticas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- Mobile ---- */
+
+@media (max-width: 640px) {
+  .estatisticas {
+    grid-template-columns: 1fr;
+  }
+
+  .engajamento,
+  .atrito {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* A faixa de urgência empilha, mas o link continua sendo o último
+     elemento: a ordem de leitura acompanha a de foco. */
+  .urgente {
+    flex-wrap: wrap;
+  }
+
+  .urgenteTexto {
+    flex-basis: 100%;
+  }
+
+  .miniatura {
+    width: 100%;
+    height: 180px;
+  }
+}

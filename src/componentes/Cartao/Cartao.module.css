@@ -1,0 +1,13 @@
+.cartao {
+  border-radius: var(--raio-xl);
+  border: 1px solid var(--borda-padrao);
+  padding: var(--espaco-20);
+}
+
+.padrao {
+  background: var(--superficie-cartao);
+}
+
+.sutil {
+  background: var(--superficie-sutil);
+}

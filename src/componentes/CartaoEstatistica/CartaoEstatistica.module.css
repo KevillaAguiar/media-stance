@@ -1,0 +1,36 @@
+.cartao {
+  display: flex;
+  flex-direction: column;
+  /* Sem isto o badge estica na largura do cartão: em coluna, o padrão do
+     flex é esticar o item no eixo transversal. */
+  align-items: flex-start;
+  gap: var(--espaco-10);
+}
+
+.numeros {
+  display: flex;
+  align-items: baseline;
+  gap: var(--espaco-8);
+}
+
+.quantidade {
+  font-size: var(--tamanho-stat);
+  font-weight: var(--peso-bold);
+  line-height: 1;
+  color: var(--texto-primario);
+  /* Mantém os dígitos na mesma largura: quatro cartões lado a lado com
+     números de tamanhos diferentes não devem dançar. */
+  font-variant-numeric: tabular-nums;
+}
+
+.proporcao {
+  font-size: var(--tamanho-corpo-lg);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-secundario);
+  font-variant-numeric: tabular-nums;
+}
+
+.legenda {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
