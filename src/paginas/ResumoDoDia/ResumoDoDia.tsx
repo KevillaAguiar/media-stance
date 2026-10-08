@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge } from "../../componentes/Badge/Badge";
 import { Cartao } from "../../componentes/Cartao/Cartao";
 import { CartaoEstatistica } from "../../componentes/CartaoEstatistica/CartaoEstatistica";
 import { Icone } from "../../componentes/Icone/Icone";
-import type { ResumoDoDia as Resumo } from "../../api";
+import { obterResumoDoDia, type ResumoDoDia as Resumo } from "../../api";
 import estilos from "./ResumoDoDia.module.css";
 
 const dataLonga = new Intl.DateTimeFormat("pt-BR", {
@@ -19,11 +20,39 @@ const umaCasa = new Intl.NumberFormat("pt-BR", {
 });
 const inteiro = new Intl.NumberFormat("pt-BR");
 
-export interface ResumoDoDiaProps {
-  resumo: Resumo;
-}
+export function ResumoDoDia() {
+  const [resumo, setResumo] = useState<Resumo | null>(null);
+  const [erro, setErro] = useState<string | null>(null);
 
-export function ResumoDoDia({ resumo }: ResumoDoDiaProps) {
+  useEffect(() => {
+    let ativo = true;
+    obterResumoDoDia()
+      .then((r) => ativo && setResumo(r))
+      .catch((e: unknown) =>
+        ativo &&
+        setErro(e instanceof Error ? e.message : "Não foi possível carregar."),
+      );
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
+  if (erro) {
+    return (
+      <p role="alert" className={estilos.erro}>
+        {erro}
+      </p>
+    );
+  }
+
+  if (!resumo) {
+    return (
+      <p className={estilos.aviso} aria-busy="true">
+        Carregando…
+      </p>
+    );
+  }
+
   const {
     data,
     classificados,
@@ -63,7 +92,9 @@ export function ResumoDoDia({ resumo }: ResumoDoDiaProps) {
 
       {urgentes > 0 && (
         <div className={estilos.urgente}>
-          <Badge tom="urgente">Urgente</Badge>
+          <Badge tom="urgente" variante="sobreFaixa">
+            Urgente
+          </Badge>
           <p className={estilos.urgenteTexto}>
             {urgentes}{" "}
             {urgentes === 1
