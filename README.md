@@ -131,6 +131,4 @@ Comentário de rede social carrega opinião política, que é dado pessoal
   nem como mock, nem em captura de tela. Para desenvolver, use exemplo
   inventado.
 
----
 
-Trabalho de Conclusão de Curso · Engenharia de Software · iCEV
