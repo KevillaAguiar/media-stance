@@ -1,4 +1,4 @@
-import { useId, type InputHTMLAttributes } from "react";
+import { useId, type InputHTMLAttributes, type ReactNode } from "react";
 import { Icone, type NomeDeIcone } from "../Icone/Icone";
 import estilos from "./Campo.module.css";
 
@@ -9,6 +9,8 @@ export interface CampoProps extends InputHTMLAttributes<HTMLInputElement> {
   erro?: string;
   /** Texto de apoio abaixo do campo, como regra de senha. */
   ajuda?: string;
+  /** Botão à direita dentro da caixa, como mostrar/ocultar senha. */
+  acaoFinal?: ReactNode;
 }
 
 /**
@@ -23,6 +25,7 @@ export function Campo({
   icone,
   erro,
   ajuda,
+  acaoFinal,
   className,
   ...resto
 }: CampoProps) {
@@ -47,6 +50,7 @@ export function Campo({
           aria-describedby={descritores || undefined}
           {...resto}
         />
+        {acaoFinal}
       </div>
 
       {ajuda && (

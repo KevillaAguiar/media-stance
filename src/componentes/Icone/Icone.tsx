@@ -14,6 +14,8 @@ import lock from "@material-symbols/svg-400/outlined/lock.svg?raw";
 import logout from "@material-symbols/svg-400/outlined/logout.svg?raw";
 import mail from "@material-symbols/svg-400/outlined/mail.svg?raw";
 import person from "@material-symbols/svg-400/outlined/person.svg?raw";
+import visibility from "@material-symbols/svg-400/outlined/visibility.svg?raw";
+import visibilityOff from "@material-symbols/svg-400/outlined/visibility_off.svg?raw";
 
 /* Ícones como SVG embutido, não como fonte.
    ---------------------------------------------------------------
@@ -43,6 +45,8 @@ const FONTES = {
   logout,
   mail,
   person,
+  visibility,
+  visibility_off: visibilityOff,
 } as const;
 
 export type NomeDeIcone = keyof typeof FONTES;

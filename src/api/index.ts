@@ -81,3 +81,52 @@ export async function alterarSenha(
     throw new Error("A nova senha precisa ser diferente da atual.");
   }
 }
+
+/* ---- Autenticação ----------------------------------------------------
+   Nenhuma destas funções verifica credencial: quem verifica é o servidor.
+   O que existe aqui é o contrato e a simulação do caminho feliz e do de
+   erro, para que as telas possam ser construídas e demonstradas. */
+
+export async function entrar(email: string, senha: string): Promise<void> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 700);
+  if (!email.includes("@") || senha.length < 8) {
+    // Mensagem única de propósito: dizer qual dos dois errou revela se o
+    // e-mail existe na base, e isso é o que se usa para descobrir contas.
+    throw new Error("E-mail ou senha incorretos.");
+  }
+}
+
+export async function criarConta(dados: {
+  nome: string;
+  email: string;
+  senha: string;
+}): Promise<void> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 700);
+  if (dados.email.endsWith("@exemplo.com")) {
+    throw new Error("Já existe uma conta com este e-mail.");
+  }
+}
+
+/**
+ * Pede o link de redefinição.
+ *
+ * Nunca diz se o e-mail existe: a tela responde a mesma coisa nos dois
+ * casos, pelo mesmo motivo da mensagem única do login.
+ */
+export async function solicitarRedefinicao(email: string): Promise<void> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 700);
+  void email;
+}
+
+export async function redefinirSenha(
+  token: string,
+  novaSenha: string,
+): Promise<void> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 700);
+  if (!token) throw new Error("Link inválido ou expirado. Peça um novo.");
+  void novaSenha;
+}

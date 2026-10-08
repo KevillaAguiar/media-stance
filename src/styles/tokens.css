@@ -137,7 +137,11 @@
    Modo escuro
    ============================================================ */
 
-:root[data-tema="escuro"] {
+/* Sem `:root` no seletor de propósito: assim um trecho da página pode
+   pedir o tema escuro para si — é o que as telas de entrada e cadastro
+   fazem — sem que os valores precisem ser escritos de novo. */
+[data-tema="escuro"] {
+  color-scheme: dark;
   --superficie-pagina: #0b1220;
   --superficie-cartao: #1e293b;
   --superficie-sutil: #172033;

@@ -25,6 +25,19 @@ olhando o Figma, ou abrindo discussão com P4 antes de mudar.
 | **Login · Cadastro · Esqueci senha · Modificar senha · Perfil** | Autenticação e conta |
 | **Estados vazios** | Uma variação por tela, todas com o ícone `all_inbox` |
 
+### Rotas
+
+| Rota | |
+|---|---|
+| `/` `/comentarios` `/demandas` `/perfil` | Internas, exigem sessão |
+| `/entrar` `/criar-conta` `/esqueci-senha` `/redefinir-senha` | Públicas |
+
+**A sessão em `src/sessao/` é simulada e não protege nada.** É um
+sinalizador no navegador para que o fluxo possa ser demonstrado sem
+back-end. Quem autentica é o servidor, e quem guarda a sessão é um cookie
+`HttpOnly`. Proteger rota no front é conveniência de navegação, nunca
+barreira de segurança — ao ligar a API real, aquele arquivo sai.
+
 Cada uma existe em desktop, tablet e mobile. Capturas das três telas principais
 estão em [`design/telas/`](design/telas/) — são referência rápida, não
 substituem o Figma.

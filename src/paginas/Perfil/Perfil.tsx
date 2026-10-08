@@ -1,14 +1,18 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { AlternarTema } from "../../componentes/AlternarTema/AlternarTema";
 import { Botao } from "../../componentes/Botao/Botao";
 import { Campo } from "../../componentes/Campo/Campo";
 import { Icone } from "../../componentes/Icone/Icone";
 import { alterarSenha, obterPerfil, type Perfil as DadosDoPerfil } from "../../api";
+import { useSessao } from "../../sessao/sessao";
 import estilos from "./Perfil.module.css";
 
 const MINIMO_DE_CARACTERES = 8;
 
 export function Perfil() {
+  const navegar = useNavigate();
+  const { sair } = useSessao();
   const [perfil, setPerfil] = useState<DadosDoPerfil | null>(null);
   const [erroAoCarregar, setErroAoCarregar] = useState<string | null>(null);
 
@@ -198,7 +202,14 @@ export function Perfil() {
         <AlternarTema contexto="pagina" />
       </div>
 
-      <button type="button" className={estilos.sair}>
+      <button
+        type="button"
+        className={estilos.sair}
+        onClick={() => {
+          sair();
+          navegar("/entrar", { replace: true });
+        }}
+      >
         <Icone nome="logout" tamanho={20} />
         Sair
       </button>

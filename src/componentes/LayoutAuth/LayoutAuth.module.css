@@ -1,0 +1,149 @@
+.pagina {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--espaco-24);
+  background: var(--superficie-pagina);
+}
+
+.cartao {
+  display: grid;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--raio-2xl);
+  background: var(--superficie-cartao);
+  box-shadow: 0 12px 40px rgb(15 23 42 / 10%);
+}
+
+.apresentacao {
+  max-width: 880px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.foco {
+  max-width: 540px;
+  grid-template-columns: 1fr;
+}
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-16);
+  padding: var(--espaco-40);
+}
+
+.marcaCentral {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--espaco-8);
+}
+
+/* ---- Painel de marca ----
+   Escuro nos dois modos, como a navegação. Por isso usa os tokens
+   --marca-*, que não invertem. */
+
+.marca {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--espaco-32);
+  padding: var(--espaco-40);
+  background: var(--marca-painel-bg);
+}
+
+.chamada {
+  font-size: var(--tamanho-titulo-lg);
+  font-weight: var(--peso-bold);
+  line-height: 1.3;
+  color: var(--acento-sobre);
+  margin-bottom: var(--espaco-12);
+}
+
+.enfase {
+  font-style: normal;
+  color: var(--marca-painel-acento);
+}
+
+.subchamada {
+  font-size: var(--tamanho-corpo);
+  line-height: 1.6;
+  color: var(--marca-painel-texto);
+}
+
+.rotuloResumo {
+  margin-bottom: var(--espaco-10);
+  font-size: var(--tamanho-caption);
+  font-weight: var(--peso-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--marca-painel-label);
+}
+
+.chips {
+  display: flex;
+  gap: var(--espaco-8);
+  margin: 0;
+}
+
+.chip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  flex: 1;
+  min-width: 0;
+  padding: var(--espaco-10) var(--espaco-12);
+  border-radius: var(--raio-md);
+}
+
+.chipValor {
+  font-size: var(--tamanho-titulo-sm);
+  font-weight: var(--peso-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.chipRotulo {
+  font-size: var(--tamanho-micro);
+  font-weight: var(--peso-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.favor {
+  background: var(--marca-chip-favor-bg);
+  color: var(--marca-chip-favor-fg);
+}
+
+.contra {
+  background: var(--marca-chip-contra-bg);
+  color: var(--marca-chip-contra-fg);
+}
+
+.pedido {
+  background: var(--marca-chip-pedido-bg);
+  color: var(--marca-chip-pedido-fg);
+}
+
+/* Abaixo de 860px o painel e o formulário lado a lado espremem os dois.
+   O painel sai: ele apresenta o produto, e o formulário é a tarefa. */
+@media (max-width: 860px) {
+  .apresentacao {
+    max-width: 480px;
+    grid-template-columns: 1fr;
+  }
+
+  .marca {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .pagina {
+    padding: var(--espaco-16);
+  }
+
+  .conteudo {
+    padding: var(--espaco-24);
+  }
+}

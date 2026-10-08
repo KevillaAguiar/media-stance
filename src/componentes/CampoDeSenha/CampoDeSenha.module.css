@@ -1,0 +1,18 @@
+.olho {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 32px dentro de um campo de 48px: alvo confortável sem empurrar a
+     altura da caixa. */
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  margin-right: calc(-1 * var(--espaco-6));
+  border-radius: var(--raio-sm);
+  color: var(--texto-secundario);
+}
+
+.olho:hover {
+  background: var(--superficie-destaque);
+  color: var(--texto-primario);
+}

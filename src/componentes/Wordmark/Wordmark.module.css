@@ -1,0 +1,20 @@
+.wordmark {
+  font-size: var(--tamanho-corpo-lg);
+  font-weight: var(--peso-bold);
+  letter-spacing: 0.14em;
+  color: var(--texto-primario);
+}
+
+.acento {
+  color: var(--acento-link);
+}
+
+/* Dentro do painel de marca, que é escuro nos dois modos, as cores não
+   podem inverter junto com a página. */
+.wordmark[data-tom="claro"] {
+  color: var(--acento-sobre);
+}
+
+.wordmark[data-tom="claro"] .acento {
+  color: var(--marca-painel-acento);
+}
