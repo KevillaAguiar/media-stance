@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Badge } from "../../componentes/Badge/Badge";
 import { Cartao } from "../../componentes/Cartao/Cartao";
 import { CartaoEstatistica } from "../../componentes/CartaoEstatistica/CartaoEstatistica";
+import { EstadoVazio } from "../../componentes/EstadoVazio/EstadoVazio";
 import { Icone } from "../../componentes/Icone/Icone";
 import { obterResumoDoDia, type ResumoDoDia as Resumo } from "../../api";
 import estilos from "./ResumoDoDia.module.css";
@@ -62,6 +63,30 @@ export function ResumoDoDia() {
     janelaDias,
     minimoDeComentariosParaTaxa,
   } = resumo;
+
+  // "Nada coletado" é diferente de "zero a favor": sem nenhum comentário
+  // não há denominador, e quatro cartões zerados não explicam por quê.
+  const totalColetado =
+    classificados.reduce((soma, c) => soma + c.quantidade, 0) +
+    engajamentoAfetivo.quantidade;
+
+  if (totalColetado === 0) {
+    return (
+      <div className={estilos.pagina}>
+        <header className={estilos.cabecalho}>
+          <p className={estilos.data}>
+            <time dateTime={data}>{dataLonga.format(new Date(data))}</time>
+          </p>
+          <h1 className={estilos.titulo}>Resumo do dia</h1>
+        </header>
+
+        <EstadoVazio
+          titulo="Nenhum comentário coletado ainda hoje"
+          descricao="A coleta roda automaticamente ao longo do dia."
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={estilos.pagina}>

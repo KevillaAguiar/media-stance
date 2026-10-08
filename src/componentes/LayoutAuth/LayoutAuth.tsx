@@ -52,8 +52,10 @@ export interface LayoutAuthProps {
   variante?: "apresentacao" | "foco";
   /**
    * "escuro" fixa o tema escuro nesta tela, independente da preferência.
-   * Vale para a porta de entrada do produto, que é peça de apresentação;
-   * dentro do produto quem manda é a escolha da pessoa.
+   * Vale para todo o conjunto público: entrar, criar conta e recuperar
+   * senha são passos de um fluxo só, e alternar claro/escuro no meio dele
+   * parece troca de produto. Dentro do produto quem manda é a escolha da
+   * pessoa.
    */
   tema?: "auto" | "escuro";
   children: ReactNode;

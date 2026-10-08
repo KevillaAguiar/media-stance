@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Cartao } from "../../componentes/Cartao/Cartao";
+import { EstadoVazio } from "../../componentes/EstadoVazio/EstadoVazio";
 import { Icone } from "../../componentes/Icone/Icone";
 import { ItemComentario } from "../../componentes/ItemComentario/ItemComentario";
 import { ListaDeContagens } from "../../componentes/ListaDeContagens/ListaDeContagens";
@@ -147,13 +147,10 @@ export function Demandas() {
 
           <div aria-live="polite">
             {painel.itens.length === 0 ? (
-              <Cartao className={estilos.vazio}>
-                <Icone nome="all_inbox" tamanho={40} className={estilos.iconeVazio} />
-                <p className={estilos.vazioTitulo}>Nenhuma demanda por aqui</p>
-                <p className={estilos.vazioTexto}>
-                  Nenhum pedido de eleitor casa com o recorte escolhido.
-                </p>
-              </Cartao>
+              <EstadoVazio
+                titulo="Nenhuma demanda por aqui"
+                descricao="Nenhum pedido de eleitor casa com o recorte escolhido."
+              />
             ) : (
               <>
                 <ul className={estilos.lista}>

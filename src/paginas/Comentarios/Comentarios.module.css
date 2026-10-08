@@ -99,28 +99,3 @@
   font-weight: var(--peso-semibold);
 }
 
-/* ---- Estado vazio ---- */
-
-.vazio {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--espaco-8);
-  padding: var(--espaco-40);
-  text-align: center;
-}
-
-.iconeVazio {
-  color: var(--texto-terciario);
-}
-
-.vazioTitulo {
-  font-size: var(--tamanho-titulo-sm);
-  font-weight: var(--peso-semibold);
-  color: var(--texto-primario);
-}
-
-.vazioTexto {
-  font-size: var(--tamanho-corpo);
-  color: var(--texto-secundario);
-}

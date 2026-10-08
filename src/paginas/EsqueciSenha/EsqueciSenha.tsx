@@ -31,7 +31,7 @@ export function EsqueciSenha() {
   }
 
   return (
-    <LayoutAuth variante="foco">
+    <LayoutAuth variante="foco" tema="escuro">
       <header>
         <h1 className={estilos.titulo}>Esqueci minha senha</h1>
         <p className={estilos.subtitulo}>

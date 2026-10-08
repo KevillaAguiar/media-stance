@@ -20,7 +20,11 @@ export function CartaoEstatistica({ contagem }: CartaoEstatisticaProps) {
 
       <p className={estilos.numeros}>
         <span className={estilos.quantidade}>{inteiro.format(quantidade)}</span>
-        <span className={estilos.proporcao}>{porcentagem.format(proporcao)}</span>
+        {/* Uma proporção sem denominador chega como NaN e o formatador
+            escreve "NaN%" na tela. Um traço diz a mesma coisa sem assustar. */}
+        <span className={estilos.proporcao}>
+          {Number.isFinite(proporcao) ? porcentagem.format(proporcao) : "—"}
+        </span>
       </p>
 
       <p className={estilos.legenda}>comentários classificados</p>

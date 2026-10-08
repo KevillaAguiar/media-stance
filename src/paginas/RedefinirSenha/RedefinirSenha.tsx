@@ -49,7 +49,7 @@ export function RedefinirSenha() {
   }
 
   return (
-    <LayoutAuth variante="foco">
+    <LayoutAuth variante="foco" tema="escuro">
       <header>
         <h1 className={estilos.titulo}>Redefinir senha</h1>
       </header>

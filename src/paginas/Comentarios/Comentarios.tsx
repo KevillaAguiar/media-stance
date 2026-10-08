@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Cartao } from "../../componentes/Cartao/Cartao";
+import { EstadoVazio } from "../../componentes/EstadoVazio/EstadoVazio";
 import { Icone } from "../../componentes/Icone/Icone";
 import { ItemComentario } from "../../componentes/ItemComentario/ItemComentario";
 import { Menu } from "../../componentes/Menu/Menu";
@@ -174,13 +174,10 @@ export function Comentarios() {
         {!erro && carregando && <p className={estilos.aviso}>Carregando…</p>}
 
         {!erro && !carregando && pagina && pagina.itens.length === 0 && (
-          <Cartao className={estilos.vazio}>
-            <Icone nome="all_inbox" tamanho={40} className={estilos.iconeVazio} />
-            <p className={estilos.vazioTitulo}>Nenhum comentário por aqui</p>
-            <p className={estilos.vazioTexto}>
-              Nenhum comentário casa com os filtros escolhidos.
-            </p>
-          </Cartao>
+          <EstadoVazio
+                titulo="Nenhum comentário por aqui"
+                descricao="Nenhum comentário casa com os filtros escolhidos."
+              />
         )}
 
         {!erro && !carregando && pagina && pagina.itens.length > 0 && (
