@@ -1,0 +1,68 @@
+.raiz {
+  position: relative;
+}
+
+.gatilho {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-8);
+  min-height: 40px;
+  padding: var(--espaco-8) var(--espaco-16);
+  border: 1px solid var(--borda-padrao);
+  border-radius: var(--raio-pill);
+  background: var(--superficie-cartao);
+  color: var(--texto-primario);
+  font-size: var(--tamanho-corpo);
+  white-space: nowrap;
+}
+
+.gatilho:hover {
+  background: var(--superficie-destaque);
+}
+
+.icone {
+  color: var(--texto-secundario);
+}
+
+.seta {
+  color: var(--texto-secundario);
+  margin-left: calc(-1 * var(--espaco-4));
+}
+
+.lista {
+  position: absolute;
+  top: calc(100% + var(--espaco-6));
+  left: 0;
+  z-index: 30;
+  min-width: 100%;
+  max-height: 280px;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--espaco-6);
+  border: 1px solid var(--borda-padrao);
+  border-radius: var(--raio-md);
+  background: var(--superficie-cartao);
+  /* A sombra é o que separa o menu do conteúdo atrás dele; sem ela, no
+     modo escuro, o painel some dentro da página. */
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+}
+
+.opcao {
+  display: block;
+  width: 100%;
+  padding: var(--espaco-8) var(--espaco-12);
+  border-radius: var(--raio-sm);
+  text-align: left;
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-primario);
+  white-space: nowrap;
+}
+
+.emFoco {
+  background: var(--superficie-destaque);
+}
+
+.opcao[aria-checked="true"] {
+  font-weight: var(--peso-semibold);
+  color: var(--acento-link);
+}

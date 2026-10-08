@@ -1,9 +1,14 @@
 import accountCircle from "@material-symbols/svg-400/outlined/account_circle.svg?raw";
 import allInbox from "@material-symbols/svg-400/outlined/all_inbox.svg?raw";
+import arrowDropDown from "@material-symbols/svg-400/outlined/arrow_drop_down.svg?raw";
 import arrowRightAlt from "@material-symbols/svg-400/outlined/arrow_right_alt.svg?raw";
 import assignment from "@material-symbols/svg-400/outlined/assignment.svg?raw";
 import barChart from "@material-symbols/svg-400/outlined/bar_chart.svg?raw";
 import brightness6 from "@material-symbols/svg-400/outlined/brightness_6.svg?raw";
+import calendarMonth from "@material-symbols/svg-400/outlined/calendar_month.svg?raw";
+import chevronLeft from "@material-symbols/svg-400/outlined/chevron_left.svg?raw";
+import chevronRight from "@material-symbols/svg-400/outlined/chevron_right.svg?raw";
+import close from "@material-symbols/svg-400/outlined/close.svg?raw";
 import forum from "@material-symbols/svg-400/outlined/forum.svg?raw";
 
 /* Ícones como SVG embutido, não como fonte.
@@ -20,10 +25,15 @@ import forum from "@material-symbols/svg-400/outlined/forum.svg?raw";
 const FONTES = {
   account_circle: accountCircle,
   all_inbox: allInbox,
+  arrow_drop_down: arrowDropDown,
   arrow_right_alt: arrowRightAlt,
   assignment,
   bar_chart: barChart,
   brightness_6: brightness6,
+  calendar_month: calendarMonth,
+  chevron_left: chevronLeft,
+  chevron_right: chevronRight,
+  close,
   forum,
 } as const;
 

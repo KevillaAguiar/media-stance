@@ -1,0 +1,126 @@
+.pagina {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-24);
+  max-width: 1120px;
+}
+
+.cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-4);
+}
+
+.data {
+  font-size: var(--tamanho-label);
+  color: var(--texto-secundario);
+}
+
+.titulo {
+  font-size: var(--tamanho-display);
+  color: var(--texto-primario);
+}
+
+/* ---- Filtros ---- */
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-12);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-6);
+  min-height: 40px;
+  padding: var(--espaco-8) var(--espaco-20);
+  border: 1px solid var(--borda-padrao);
+  border-radius: var(--raio-pill);
+  background: var(--superficie-cartao);
+  color: var(--texto-primario);
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+}
+
+.chip:hover {
+  background: var(--superficie-destaque);
+}
+
+/* Cada filtro de classe carrega a cor da sua classe na borda e no texto,
+   para que a ligação com os badges da lista seja imediata. */
+.contra {
+  border-color: var(--stance-contra-fg);
+  color: var(--stance-contra-fg);
+}
+
+.pedido {
+  border-color: var(--stance-pedido-fg);
+  color: var(--stance-pedido-fg);
+}
+
+.urgentes {
+  border-color: var(--stance-urgente-fg);
+  color: var(--stance-urgente-fg);
+}
+
+/* Selecionado é pílula cheia, não só cor de borda: a diferença precisa
+   sobreviver a quem não distingue vermelho de azul. `aria-pressed` conta
+   a mesma coisa ao leitor de tela. */
+.ativo,
+.ativo:hover {
+  background: var(--superficie-selecionado);
+  border-color: var(--superficie-selecionado);
+  color: var(--texto-on-nav-ativo);
+}
+
+/* ---- Resultado ---- */
+
+.resultado {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-24);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-12);
+  margin: 0;
+}
+
+.aviso {
+  color: var(--texto-secundario);
+}
+
+.erro {
+  color: var(--stance-contra-fg);
+  font-weight: var(--peso-semibold);
+}
+
+/* ---- Estado vazio ---- */
+
+.vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-8);
+  padding: var(--espaco-40);
+  text-align: center;
+}
+
+.iconeVazio {
+  color: var(--texto-terciario);
+}
+
+.vazioTitulo {
+  font-size: var(--tamanho-titulo-sm);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+.vazioTexto {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}

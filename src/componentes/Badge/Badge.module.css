@@ -34,13 +34,17 @@
   color: var(--stance-engajamento-fg);
 }
 
-/* Urgente vive dentro da faixa, que já é da cor da classe. Por isso o
-   fundo vem da superfície de cartão: é o contraste contra a faixa, não
-   contra a página. */
 .urgente {
-  background: var(--superficie-cartao);
+  background: var(--stance-urgente-bg);
   color: var(--stance-urgente-fg);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: var(--tamanho-caption);
+}
+
+/* Dentro de um bloco que já usa a cor da classe — a faixa de urgência do
+   resumo do dia — o fundo da classe deixaria o badge invisível. Aí ele
+   recua para a superfície de cartão. */
+.sobreFaixa {
+  background: var(--superficie-cartao);
 }

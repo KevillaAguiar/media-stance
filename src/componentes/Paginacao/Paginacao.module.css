@@ -1,0 +1,51 @@
+.paginacao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-8);
+}
+
+.numeros {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-4);
+  margin: 0;
+}
+
+.seta,
+.numero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 40px é o alvo mínimo confortável; abaixo disso errar o clique numa
+     lista de números vira regra, não exceção. */
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+.seta:hover:not(:disabled),
+.numero:hover {
+  background: var(--superficie-destaque);
+  color: var(--texto-primario);
+}
+
+.seta:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.atual,
+.atual:hover {
+  background: var(--superficie-selecionado);
+  color: var(--texto-on-nav-ativo);
+  font-weight: var(--peso-semibold);
+}
+
+.reticencias {
+  padding: 0 var(--espaco-4);
+  color: var(--texto-terciario);
+  letter-spacing: 0.2em;
+}

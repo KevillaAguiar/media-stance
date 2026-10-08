@@ -33,6 +33,53 @@ export interface Conta {
   usuario: string;
 }
 
+export interface Comentario {
+  id: string;
+  texto: string;
+  classe: ClasseDePosicionamento;
+  /** Marcador que acompanha a classe; não é classe do codebook. */
+  urgente: boolean;
+  /** Tema da demanda, quando houver. Alimenta a tela de demandas. */
+  tema: string | null;
+  /** ISO 8601 com hora. */
+  publicadoEm: string;
+  /**
+   * Link para o comentário na rede social. Responder acontece lá, não
+   * aqui — está fora do MVP.
+   */
+  urlNaRede: string;
+}
+
+export type RecorteDePeriodo = "hoje" | "7dias" | "30dias" | "personalizado";
+
+/** Intervalo fechado, em datas ISO sem hora. */
+export interface Periodo {
+  de: string;
+  ate: string;
+}
+
+export interface FiltrosDeComentarios {
+  /** `null` = todas as classes. */
+  classe: ClasseDePosicionamento | null;
+  /** `null` = todos os temas. */
+  tema: string | null;
+  periodo: RecorteDePeriodo;
+  /** Só quando `periodo` é "personalizado"; `null` nos recortes prontos. */
+  intervalo: Periodo | null;
+  apenasUrgentes: boolean;
+  pagina: number;
+}
+
+export interface PaginaDeComentarios {
+  itens: Comentario[];
+  pagina: number;
+  totalDePaginas: number;
+  /** Total de comentários que casam com o filtro, não só os desta página. */
+  total: number;
+  /** Para preencher o seletor de tema sem uma segunda requisição. */
+  temasDisponiveis: string[];
+}
+
 export interface ResumoDoDia {
   conta: Conta;
   /** ISO 8601, só a data. */

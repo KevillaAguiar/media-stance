@@ -1,4 +1,9 @@
-import type { ResumoDoDia } from "./tipos";
+import type {
+  Conta,
+  FiltrosDeComentarios,
+  PaginaDeComentarios,
+  ResumoDoDia,
+} from "./tipos";
 import * as mock from "./mock";
 
 export * from "./tipos";
@@ -26,7 +31,20 @@ function atraso<T>(valor: T, ms = 400): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(valor), ms));
 }
 
+/** Conta do parlamentar em sessão. Virá do endpoint de sessão. */
+export async function obterConta(): Promise<Conta> {
+  if (USANDO_MOCK) return atraso(mock.resumoDoDia().conta, 150);
+  throw new Error("API real ainda não configurada");
+}
+
 export async function obterResumoDoDia(): Promise<ResumoDoDia> {
   if (USANDO_MOCK) return atraso(mock.resumoDoDia());
+  throw new Error("API real ainda não configurada");
+}
+
+export async function obterComentarios(
+  filtros: FiltrosDeComentarios,
+): Promise<PaginaDeComentarios> {
+  if (USANDO_MOCK) return atraso(mock.paginaDeComentarios(filtros));
   throw new Error("API real ainda não configurada");
 }

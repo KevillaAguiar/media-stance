@@ -1,0 +1,55 @@
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-8);
+  /* 48px de altura: alvo de toque confortável sem depender do padding do
+     texto, que muda conforme o rótulo. */
+  min-height: 48px;
+  padding: var(--espaco-12) var(--espaco-24);
+  border-radius: var(--raio-md);
+  font-size: var(--tamanho-corpo-lg);
+  font-weight: var(--peso-semibold);
+  /* Vale para a variante em âncora: link herda sublinhado do estilo base. */
+  text-decoration: none;
+}
+
+.largo {
+  width: 100%;
+}
+
+.primario {
+  background: var(--acento-base);
+  color: var(--acento-sobre);
+}
+
+.primario:hover {
+  background: var(--acento-forte);
+}
+
+/* --acento-forte clareia no modo escuro, então o texto branco deixaria de
+   contrastar no hover. Lá o texto inverte junto. */
+:root[data-tema="escuro"] .primario:hover {
+  color: var(--texto-inverso);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .primario:hover {
+    color: var(--texto-inverso);
+  }
+}
+
+.secundario {
+  background: var(--superficie-cartao);
+  color: var(--texto-primario);
+  border: 1px solid var(--borda-padrao);
+}
+
+.secundario:hover {
+  background: var(--superficie-destaque);
+}
+
+.botao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

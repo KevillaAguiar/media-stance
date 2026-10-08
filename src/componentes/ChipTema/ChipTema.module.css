@@ -1,0 +1,14 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--espaco-4) var(--espaco-10);
+  border-radius: var(--raio-sm);
+  /* O par de stance/neutro, não --superficie-destaque + --texto-secundario.
+     Os dois dão a mesma cor no modo claro, mas no escuro o par genérico
+     cai para 4,04:1 — abaixo do mínimo. Os pares de classe foram
+     calculados juntos; os tokens genéricos não. */
+  background: var(--stance-neutro-bg);
+  color: var(--stance-neutro-fg);
+  font-size: var(--tamanho-label);
+  font-weight: var(--peso-medio);
+}

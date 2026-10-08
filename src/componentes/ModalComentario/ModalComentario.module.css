@@ -1,0 +1,95 @@
+.caixa {
+  width: min(560px, calc(100vw - 2 * var(--espaco-24)));
+  /* O navegador centraliza o <dialog> modal com `margin: auto`, mas o
+     nosso reset zera a margem de tudo e leva isso junto. */
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--raio-2xl);
+  background: var(--superficie-cartao);
+  color: var(--texto-primario);
+}
+
+.caixa::backdrop {
+  background: var(--superficie-overlay, rgb(0 0 0 / 50%));
+}
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-16);
+  padding: var(--espaco-32);
+}
+
+.cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--espaco-16);
+}
+
+.titulo {
+  font-size: var(--tamanho-titulo-md);
+  color: var(--texto-primario);
+}
+
+.fechar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  /* Compensa o alvo de 40px para que o ícone fique alinhado com a borda
+     do padding, e não recuado. */
+  margin: calc(-1 * var(--espaco-8)) calc(-1 * var(--espaco-8)) 0 0;
+  border-radius: 50%;
+  color: var(--texto-secundario);
+}
+
+.fechar:hover {
+  background: var(--superficie-destaque);
+  color: var(--texto-primario);
+}
+
+.marcadores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-8);
+}
+
+.citacao {
+  margin: 0;
+  padding: var(--espaco-20);
+  border-radius: var(--raio-md);
+  background: var(--superficie-destaque);
+  font-size: var(--tamanho-titulo-sm);
+  font-weight: var(--peso-semibold);
+  text-align: center;
+  /* Comentário é texto de terceiro e pode vir sem espaços: sem isto, uma
+     sequência longa estoura a caixa. */
+  overflow-wrap: anywhere;
+}
+
+.publicacao {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+.divisor {
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--borda-padrao);
+}
+
+.explicacao {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+@media (max-width: 640px) {
+  .conteudo {
+    padding: var(--espaco-20);
+  }
+}

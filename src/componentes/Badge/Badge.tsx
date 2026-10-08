@@ -9,6 +9,13 @@ export type TomDoBadge = Classe | Marcador;
 
 export interface BadgeProps {
   tom: TomDoBadge;
+  /**
+   * `sobreFaixa` para quando o badge estiver dentro de um bloco que já usa
+   * a cor da classe — a faixa de urgência do resumo do dia. Aí o fundo do
+   * badge vem da superfície de cartão, porque o contraste a vencer é
+   * contra a faixa, não contra a página.
+   */
+  variante?: "solido" | "sobreFaixa";
   children: ReactNode;
 }
 
@@ -30,6 +37,18 @@ export const ROTULOS: Record<Classe, string> = {
  * O texto dentro do badge não é decorativo: é ele que carrega o
  * significado para quem não distingue as cores.
  */
-export function Badge({ tom, children }: BadgeProps) {
-  return <span className={`${estilos.badge} ${estilos[tom]}`}>{children}</span>;
+export function Badge({ tom, variante = "solido", children }: BadgeProps) {
+  return (
+    <span
+      className={[
+        estilos.badge,
+        estilos[tom],
+        variante === "sobreFaixa" && estilos.sobreFaixa,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      {children}
+    </span>
+  );
 }

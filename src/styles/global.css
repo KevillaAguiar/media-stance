@@ -80,3 +80,89 @@ img {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ------------------------------------------------------------------
+   Calendário (react-day-picker)
+
+   As classes .rdp-* são globais, por isso o tema mora aqui e não num
+   módulo. Só mapeamos as variáveis da biblioteca para os nossos tokens:
+   assim o calendário acompanha claro e escuro sem CSS paralelo.
+   ------------------------------------------------------------------ */
+
+.rdp-root {
+  --rdp-accent-color: var(--acento-base);
+  --rdp-accent-background-color: var(--acento-bg-sutil);
+
+  --rdp-day-height: 36px;
+  --rdp-day-width: 36px;
+  --rdp-day_button-height: 36px;
+  --rdp-day_button-width: 36px;
+  --rdp-day_button-border-radius: var(--raio-sm);
+  --rdp-day_button-border: 1px solid transparent;
+
+  --rdp-selected-border: 0;
+
+  --rdp-today-color: var(--acento-link);
+
+  --rdp-nav_button-height: 32px;
+  --rdp-nav_button-width: 32px;
+
+  --rdp-weekday-opacity: 1;
+  --rdp-weekday-text-transform: lowercase;
+  /* O padrão é 0.75, que reprova em contraste. O apagamento necessário
+     já vem da cor terciária, que foi calculada para passar. */
+  --rdp-outside-opacity: 1;
+  --rdp-disabled-opacity: 0.35;
+
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-primario);
+}
+
+.rdp-month_caption {
+  font-weight: var(--peso-semibold);
+}
+
+.rdp-weekday {
+  color: var(--texto-secundario);
+  font-weight: var(--peso-medio);
+}
+
+/* A biblioteca esconde os dias dos meses vizinhos por padrão. Se alguém
+   ligar `showOutsideDays`, eles continuam clicáveis — daí a cor
+   secundária, e não a terciária, que no modo claro dá 2,56:1. */
+.rdp-outside .rdp-day_button {
+  color: var(--texto-secundario);
+}
+
+/* Seleção explícita em vez das variáveis de gradiente da biblioteca: o
+   gradiente serve para meias-células, e aqui só precisamos de cheio nas
+   pontas e sutil no meio. */
+.rdp-range_start,
+.rdp-range_end,
+.rdp-range_middle {
+  background: none;
+}
+
+.rdp-selected .rdp-day_button,
+.rdp-range_start .rdp-day_button,
+.rdp-range_end .rdp-day_button {
+  background: var(--acento-base);
+  color: var(--acento-sobre);
+  border-color: transparent;
+}
+
+.rdp-range_middle .rdp-day_button {
+  background: var(--acento-bg-sutil);
+  color: var(--texto-primario);
+}
+
+/* O `:not(.rdp-selected)` é o que impede o hover de apagar visualmente um
+   dia já escolhido — no modo claro o destaque é quase branco e o dia
+   selecionado parecia desmarcado sob o cursor. */
+.rdp-day:not(.rdp-selected) .rdp-day_button:hover:not([disabled]) {
+  background: var(--superficie-destaque);
+}
+
+.rdp-chevron {
+  fill: var(--texto-secundario);
+}

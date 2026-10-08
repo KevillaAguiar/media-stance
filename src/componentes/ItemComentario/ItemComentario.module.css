@@ -1,0 +1,75 @@
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-20);
+}
+
+.marcadores {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-8);
+  /* Largura fixa para que o texto dos comentários comece na mesma coluna
+     em todas as linhas, com ou sem o marcador de urgência. */
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.corpo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-8);
+  flex: 1;
+  min-width: 0;
+}
+
+.texto {
+  font-size: var(--tamanho-corpo-lg);
+  color: var(--texto-primario);
+}
+
+.hora {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+  font-variant-numeric: tabular-nums;
+}
+
+.ver {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-6);
+  flex-shrink: 0;
+  padding: var(--espaco-8);
+  margin: calc(-1 * var(--espaco-8));
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+  color: var(--acento-link);
+  white-space: nowrap;
+}
+
+.ver:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .item {
+    flex-wrap: wrap;
+  }
+
+  .marcadores {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .corpo {
+    flex-basis: 100%;
+    order: 1;
+  }
+
+  .ver {
+    order: 2;
+    margin-left: auto;
+  }
+}

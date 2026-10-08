@@ -174,3 +174,12 @@
     height: 180px;
   }
 }
+
+.aviso {
+  color: var(--texto-secundario);
+}
+
+.erro {
+  color: var(--stance-contra-fg);
+  font-weight: var(--peso-semibold);
+}
