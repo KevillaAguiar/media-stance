@@ -1,0 +1,112 @@
+.pagina {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-16);
+  /* Formulário largo é formulário difícil de ler: a linha fica longa e o
+     olho perde o rótulo do campo seguinte. */
+  max-width: 532px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--superficie-destaque);
+  color: var(--texto-secundario);
+}
+
+.identidade {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+}
+
+.nome {
+  font-size: var(--tamanho-titulo-lg);
+  color: var(--texto-primario);
+}
+
+.cargo {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+.alterar {
+  margin-top: var(--espaco-8);
+}
+
+.subtitulo {
+  font-size: var(--tamanho-titulo-sm);
+  color: var(--texto-primario);
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-16);
+  width: 100%;
+  margin-top: var(--espaco-8);
+  padding-top: var(--espaco-20);
+  border-top: 1px solid var(--borda-padrao);
+}
+
+.acoes {
+  display: flex;
+  gap: var(--espaco-12);
+}
+
+.sucesso {
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+  color: var(--stance-a-favor-fg);
+}
+
+.erro {
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+  color: var(--stance-contra-fg);
+}
+
+.aviso {
+  color: var(--texto-secundario);
+}
+
+/* A troca de tema só aparece no mobile: no desktop ela vive na sidebar e
+   no tablet no rail. */
+.tema {
+  display: none;
+  flex-direction: column;
+  gap: var(--espaco-8);
+  width: 100%;
+  margin-top: var(--espaco-8);
+  padding-top: var(--espaco-20);
+  border-top: 1px solid var(--borda-padrao);
+}
+
+@media (max-width: 640px) {
+  .tema {
+    display: flex;
+  }
+}
+
+.sair {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-8);
+  min-height: 44px;
+  margin-top: var(--espaco-8);
+  padding: var(--espaco-8) var(--espaco-12);
+  margin-left: calc(-1 * var(--espaco-12));
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+  color: var(--stance-contra-fg);
+}
+
+.sair:hover {
+  background: var(--stance-contra-bg);
+}

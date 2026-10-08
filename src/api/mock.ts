@@ -1,7 +1,11 @@
 import type {
   Comentario,
+  ContagemDeDemanda,
   FiltrosDeComentarios,
+  FiltrosDeDemandas,
   PaginaDeComentarios,
+  PainelDeDemandas,
+  Perfil,
   ResumoDoDia,
 } from "./tipos";
 
@@ -57,6 +61,8 @@ const SEMENTES: Semente[] = [
     classe: "contra",
     urgente: true,
     tema: "cobrança promessa",
+    categoria: null,
+    localidade: null,
     hora: "08:12",
     urlNaRede: "https://www.instagram.com/p/exemplo-1/",
   },
@@ -65,6 +71,8 @@ const SEMENTES: Semente[] = [
     classe: "pedido",
     urgente: false,
     tema: "visita Quilombo CEPISA",
+    categoria: "Infraestrutura vicinal",
+    localidade: "Quilombo CEPISA",
     hora: "09:47",
     urlNaRede: "https://www.instagram.com/p/exemplo-2/",
   },
@@ -73,6 +81,8 @@ const SEMENTES: Semente[] = [
     classe: "contra",
     urgente: false,
     tema: "crítica projeto",
+    categoria: null,
+    localidade: null,
     hora: "10:03",
     urlNaRede: "https://www.instagram.com/p/exemplo-3/",
   },
@@ -82,6 +92,8 @@ const SEMENTES: Semente[] = [
     classe: "pedido",
     urgente: true,
     tema: "água comunidade",
+    categoria: "Água e saneamento",
+    localidade: "Comunidade Aldeia",
     hora: "11:20",
     urlNaRede: "https://www.instagram.com/p/exemplo-4/",
   },
@@ -90,6 +102,8 @@ const SEMENTES: Semente[] = [
     classe: "contra",
     urgente: false,
     tema: "crítica partidária",
+    categoria: null,
+    localidade: null,
     hora: "12:05",
     urlNaRede: "https://www.instagram.com/p/exemplo-5/",
   },
@@ -98,6 +112,8 @@ const SEMENTES: Semente[] = [
     classe: "pedido",
     urgente: true,
     tema: "escola sem professor",
+    categoria: "Educação",
+    localidade: "Oeiras",
     hora: "13:31",
     urlNaRede: "https://www.instagram.com/p/exemplo-6/",
   },
@@ -106,6 +122,8 @@ const SEMENTES: Semente[] = [
     classe: "contra",
     urgente: false,
     tema: "crítica oportunismo",
+    categoria: null,
+    localidade: null,
     hora: "14:08",
     urlNaRede: "https://www.instagram.com/p/exemplo-7/",
   },
@@ -114,8 +132,60 @@ const SEMENTES: Semente[] = [
     classe: "pedido",
     urgente: false,
     tema: "posto de saúde",
+    categoria: "Saúde",
+    localidade: "Bairro Centro",
     hora: "15:44",
     urlNaRede: "https://www.instagram.com/p/exemplo-8/",
+  },
+  {
+    texto: "Quero esse projeto e fazer uma barragem na nossa aldeia",
+    classe: "pedido",
+    urgente: false,
+    tema: "barragem aldeia",
+    categoria: "Água e saneamento",
+    localidade: "Comunidade Aldeia",
+    hora: "14:02",
+    urlNaRede: "https://www.instagram.com/p/exemplo-9/",
+  },
+  {
+    texto: "Precisamos de poço aqui na zona rural, já faz meses",
+    classe: "pedido",
+    urgente: false,
+    tema: "poço zona rural",
+    categoria: "Água e saneamento",
+    localidade: "Zona rural",
+    hora: "15:40",
+    urlNaRede: "https://www.instagram.com/p/exemplo-10/",
+  },
+  {
+    texto: "A estrada que liga o povoado está intransitável desde a chuva",
+    classe: "pedido",
+    urgente: true,
+    tema: "estrada povoado",
+    categoria: "Infraestrutura vicinal",
+    localidade: "Zona rural",
+    hora: "08:55",
+    urlNaRede: "https://www.instagram.com/p/exemplo-11/",
+  },
+  {
+    texto: "Falta iluminação na praça, já teve assalto três vezes esse mês",
+    classe: "pedido",
+    urgente: true,
+    tema: "iluminação praça",
+    categoria: "Segurança",
+    localidade: "Bairro Centro",
+    hora: "19:12",
+    urlNaRede: "https://www.instagram.com/p/exemplo-12/",
+  },
+  {
+    texto: "O esgoto corre a céu aberto na rua de trás da escola",
+    classe: "pedido",
+    urgente: true,
+    tema: "esgoto a céu aberto",
+    categoria: "Água e saneamento",
+    localidade: "Oeiras",
+    hora: "10:28",
+    urlNaRede: "https://www.instagram.com/p/exemplo-13/",
   },
 ];
 
@@ -212,3 +282,76 @@ export function paginaDeComentarios(
     ].sort((a, b) => a.localeCompare(b, "pt-BR")),
   };
 }
+
+/* ---- Painel de demandas ---------------------------------------------
+   Demanda é comentário da classe `pedido` com categoria identificada.
+   As outras classes não entram: o painel existe para encaminhar pedido
+   de eleitor, não para medir oposição. */
+
+function contar(
+  itens: Comentario[],
+  campo: "categoria" | "localidade",
+): ContagemDeDemanda[] {
+  const mapa = new Map<string, number>();
+  for (const item of itens) {
+    const valor = item[campo];
+    if (valor) mapa.set(valor, (mapa.get(valor) ?? 0) + 1);
+  }
+  return [...mapa.entries()]
+    .map(([rotulo, quantidade]) => ({ rotulo, quantidade }))
+    .sort((a, b) => b.quantidade - a.quantidade || a.rotulo.localeCompare(b.rotulo, "pt-BR"));
+}
+
+export function painelDeDemandas(filtros: FiltrosDeDemandas): PainelDeDemandas {
+  const de =
+    filtros.periodo === "personalizado"
+      ? (filtros.intervalo?.de ?? diasAtras(0))
+      : diasAtras(filtros.periodo === "hoje" ? 0 : filtros.periodo === "7dias" ? 6 : 29);
+  const ate =
+    filtros.periodo === "personalizado"
+      ? (filtros.intervalo?.ate ?? diasAtras(0))
+      : diasAtras(0);
+
+  const noPeriodo = todosOsComentarios().filter((c) => {
+    const dia = c.publicadoEm.slice(0, 10);
+    return c.classe === "pedido" && c.categoria !== null && dia >= de && dia <= ate;
+  });
+
+  const porTema = contar(noPeriodo, "categoria");
+  const porLocalidade = contar(noPeriodo, "localidade");
+
+  // Sem escolha do usuário, a lista abre na categoria mais volumosa: é a
+  // que a assessoria vai querer ver primeiro.
+  const categoria = filtros.categoria ?? porTema[0]?.rotulo ?? null;
+
+  const emFoco = noPeriodo.filter(
+    (c) =>
+      (categoria === null || c.categoria === categoria) &&
+      (filtros.localidade === null || c.localidade === filtros.localidade),
+  );
+
+  const totalDePaginas = Math.max(1, Math.ceil(emFoco.length / POR_PAGINA));
+  const pagina = Math.min(Math.max(1, filtros.pagina), totalDePaginas);
+  const inicio = (pagina - 1) * POR_PAGINA;
+
+  const rotulo = [categoria, filtros.localidade].filter(Boolean).join(" · ");
+
+  return {
+    porTema,
+    porLocalidade,
+    foco: { rotulo: rotulo || "Todas as demandas", total: emFoco.length },
+    itens: emFoco.slice(inicio, inicio + POR_PAGINA),
+    pagina,
+    totalDePaginas,
+    categoriasDisponiveis: porTema.map((t) => t.rotulo),
+  };
+}
+
+/* ---- Perfil ---- */
+
+export const perfil: Perfil = {
+  nome: "Nome do Assessor",
+  cargo: "Assessor de Comunicação",
+  email: "assessor@dep.gov.br",
+  contaVinculada: "@dep.assessoria",
+};

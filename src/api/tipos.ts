@@ -39,8 +39,15 @@ export interface Comentario {
   classe: ClasseDePosicionamento;
   /** Marcador que acompanha a classe; não é classe do codebook. */
   urgente: boolean;
-  /** Tema da demanda, quando houver. Alimenta a tela de demandas. */
+  /** Rótulo curto do assunto, como aparece no chip da lista. */
   tema: string | null;
+  /**
+   * Categoria da demanda ("Água e saneamento", "Saúde"). Só os `pedido`
+   * carregam: é por ela que o painel de demandas agrupa.
+   */
+  categoria: string | null;
+  /** Localidade citada na demanda, quando identificada. */
+  localidade: string | null;
   /** ISO 8601 com hora. */
   publicadoEm: string;
   /**
@@ -93,4 +100,41 @@ export interface ResumoDoDia {
   /** Parâmetros do cálculo, para as notas de rodapé não ficarem fixas no código. */
   janelaDias: number;
   minimoDeComentariosParaTaxa: number;
+}
+
+/* ---- Painel de demandas ---- */
+
+export interface ContagemDeDemanda {
+  rotulo: string;
+  quantidade: number;
+}
+
+export interface FiltrosDeDemandas {
+  /** `null` = a categoria mais volumosa do período. */
+  categoria: string | null;
+  localidade: string | null;
+  periodo: RecorteDePeriodo;
+  intervalo: Periodo | null;
+  pagina: number;
+}
+
+export interface PainelDeDemandas {
+  porTema: ContagemDeDemanda[];
+  porLocalidade: ContagemDeDemanda[];
+  /** Recorte em foco, para o título da lista. */
+  foco: { rotulo: string; total: number };
+  itens: Comentario[];
+  pagina: number;
+  totalDePaginas: number;
+  categoriasDisponiveis: string[];
+}
+
+/* ---- Perfil ---- */
+
+export interface Perfil {
+  nome: string;
+  cargo: string;
+  email: string;
+  /** Conta do parlamentar que esta pessoa acompanha. */
+  contaVinculada: string;
 }

@@ -1,7 +1,10 @@
 import type {
   Conta,
   FiltrosDeComentarios,
+  FiltrosDeDemandas,
   PaginaDeComentarios,
+  PainelDeDemandas,
+  Perfil,
   ResumoDoDia,
 } from "./tipos";
 import * as mock from "./mock";
@@ -47,4 +50,34 @@ export async function obterComentarios(
 ): Promise<PaginaDeComentarios> {
   if (USANDO_MOCK) return atraso(mock.paginaDeComentarios(filtros));
   throw new Error("API real ainda não configurada");
+}
+
+export async function obterDemandas(
+  filtros: FiltrosDeDemandas,
+): Promise<PainelDeDemandas> {
+  if (USANDO_MOCK) return atraso(mock.painelDeDemandas(filtros));
+  throw new Error("API real ainda não configurada");
+}
+
+export async function obterPerfil(): Promise<Perfil> {
+  if (USANDO_MOCK) return atraso(mock.perfil, 200);
+  throw new Error("API real ainda não configurada");
+}
+
+/**
+ * Troca a senha da pessoa em sessão.
+ *
+ * A senha atual vai junto de propósito: quem conferiu que ela confere é o
+ * servidor, nunca o front. Nada aqui valida credencial — só formato.
+ */
+export async function alterarSenha(
+  senhaAtual: string,
+  novaSenha: string,
+): Promise<void> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 600);
+  // Enquanto não há back-end, erra para exercitar o caminho de falha.
+  if (senhaAtual === novaSenha) {
+    throw new Error("A nova senha precisa ser diferente da atual.");
+  }
 }

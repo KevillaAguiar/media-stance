@@ -1,0 +1,76 @@
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-6);
+  /* Campo ocupa a largura que o contêiner der. Quem limita é o
+     formulário, não cada campo — senão a largura passa a depender do
+     tamanho do valor que está dentro. */
+  width: 100%;
+}
+
+.rotulo {
+  font-size: var(--tamanho-label);
+  color: var(--texto-secundario);
+}
+
+.caixa {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-10);
+  min-height: 48px;
+  padding: 0 var(--espaco-16);
+  border: 1px solid var(--borda-campo);
+  border-radius: var(--raio-md);
+  background: var(--superficie-cartao);
+}
+
+.caixa:focus-within {
+  border-color: var(--acento-base);
+  outline: 2px solid var(--acento-base);
+  outline-offset: -1px;
+}
+
+/* O vermelho não pode ser o único sinal de erro — a mensagem abaixo do
+   campo e o `aria-invalid` dizem a mesma coisa sem depender da cor. */
+.invalida {
+  border-color: var(--stance-contra-fg);
+}
+
+.icone {
+  color: var(--texto-secundario);
+}
+
+.entrada {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--texto-primario);
+}
+
+.entrada:focus {
+  outline: none;
+}
+
+.entrada::placeholder {
+  color: var(--texto-secundario);
+}
+
+.entrada:disabled {
+  color: var(--texto-secundario);
+  /* Sem cursor de bloqueio: estes campos são informativos, e o cadeado
+     visual já vem da ausência de foco. */
+  cursor: default;
+}
+
+.ajuda {
+  font-size: var(--tamanho-label);
+  color: var(--texto-secundario);
+}
+
+.erro {
+  font-size: var(--tamanho-label);
+  font-weight: var(--peso-medio);
+  color: var(--stance-contra-fg);
+}

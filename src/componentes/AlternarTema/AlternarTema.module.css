@@ -63,7 +63,7 @@
    mesmo círculo dos itens de navegação. O estado continua anunciado,
    porque o role="switch" e o aria-checked estão no botão. */
 @media (max-width: 1024px) {
-  .alternar {
+  .alternar[data-contexto="nav"] {
     justify-content: center;
     width: 44px;
     height: 44px;
@@ -72,16 +72,31 @@
     background: var(--nav-circulo);
   }
 
-  .rotulo,
-  .trilho {
+  .alternar[data-contexto="nav"] .rotulo,
+  .alternar[data-contexto="nav"] .trilho {
     display: none;
   }
 
-  .alternar[aria-checked="true"] {
+  .alternar[data-contexto="nav"][aria-checked="true"] {
     background: var(--acento-base);
   }
 
-  .alternar[aria-checked="true"] .icone {
+  .alternar[data-contexto="nav"][aria-checked="true"] .icone {
     color: var(--acento-sobre);
   }
+}
+
+/* Dentro de uma página, as cores são as da página — não as da navegação,
+   que é escura nos dois modos. */
+.alternar[data-contexto="pagina"] {
+  color: var(--texto-primario);
+}
+
+.alternar[data-contexto="pagina"]:hover {
+  background: var(--superficie-destaque);
+  color: var(--texto-primario);
+}
+
+.alternar[data-contexto="pagina"] .icone {
+  color: var(--texto-secundario);
 }

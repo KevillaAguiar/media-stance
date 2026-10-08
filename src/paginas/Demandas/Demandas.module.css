@@ -1,0 +1,115 @@
+.pagina {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-24);
+  max-width: 1120px;
+}
+
+.cabecalho {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--espaco-16);
+  flex-wrap: wrap;
+}
+
+.recorte {
+  font-size: var(--tamanho-label);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espaco-4);
+}
+
+.titulo {
+  font-size: var(--tamanho-display);
+  color: var(--texto-primario);
+}
+
+.corpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-24);
+}
+
+.rankings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco-24);
+}
+
+.foco {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-16);
+  flex-wrap: wrap;
+}
+
+.focoTitulo {
+  font-size: var(--tamanho-titulo-lg);
+  color: var(--texto-primario);
+}
+
+.limpar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-6);
+  min-height: 40px;
+  padding: var(--espaco-8) var(--espaco-16);
+  border: 1px solid var(--borda-padrao);
+  border-radius: var(--raio-pill);
+  background: var(--superficie-cartao);
+  color: var(--texto-primario);
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+}
+
+.limpar:hover {
+  background: var(--superficie-destaque);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-12);
+  margin: 0 0 var(--espaco-24);
+}
+
+.aviso {
+  color: var(--texto-secundario);
+}
+
+.erro {
+  color: var(--stance-contra-fg);
+  font-weight: var(--peso-semibold);
+}
+
+.vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-8);
+  padding: var(--espaco-40);
+  text-align: center;
+}
+
+.iconeVazio {
+  color: var(--texto-terciario);
+}
+
+.vazioTitulo {
+  font-size: var(--tamanho-titulo-sm);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+.vazioTexto {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+@media (max-width: 1024px) {
+  .rankings {
+    grid-template-columns: 1fr;
+    gap: var(--espaco-16);
+  }
+}

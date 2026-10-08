@@ -1,0 +1,73 @@
+.cartao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-12);
+}
+
+.titulo {
+  font-size: var(--tamanho-titulo-sm);
+  color: var(--texto-primario);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  margin: 0;
+}
+
+.linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-16);
+  width: 100%;
+  min-height: 40px;
+  padding: var(--espaco-6) var(--espaco-8);
+  margin-inline: calc(-1 * var(--espaco-8));
+  width: calc(100% + 2 * var(--espaco-8));
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-corpo-lg);
+  color: var(--texto-primario);
+  text-align: left;
+}
+
+.linha:hover {
+  background: var(--superficie-destaque);
+}
+
+.ativo,
+.ativo:hover {
+  background: var(--acento-bg-sutil);
+  font-weight: var(--peso-semibold);
+}
+
+.rotulo {
+  min-width: 0;
+}
+
+.contagem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  padding: var(--espaco-2) var(--espaco-8);
+  border-radius: var(--raio-pill);
+  /* O par de stance/neutro, porque a pílula é um fundo com texto em cima
+     e os tokens genéricos não foram calculados como par. */
+  background: var(--stance-neutro-bg);
+  color: var(--stance-neutro-fg);
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.ativo .contagem {
+  background: var(--acento-base);
+  color: var(--acento-sobre);
+}
+
+.vazio {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}

@@ -10,6 +10,10 @@ import chevronLeft from "@material-symbols/svg-400/outlined/chevron_left.svg?raw
 import chevronRight from "@material-symbols/svg-400/outlined/chevron_right.svg?raw";
 import close from "@material-symbols/svg-400/outlined/close.svg?raw";
 import forum from "@material-symbols/svg-400/outlined/forum.svg?raw";
+import lock from "@material-symbols/svg-400/outlined/lock.svg?raw";
+import logout from "@material-symbols/svg-400/outlined/logout.svg?raw";
+import mail from "@material-symbols/svg-400/outlined/mail.svg?raw";
+import person from "@material-symbols/svg-400/outlined/person.svg?raw";
 
 /* Ícones como SVG embutido, não como fonte.
    ---------------------------------------------------------------
@@ -35,6 +39,10 @@ const FONTES = {
   chevron_right: chevronRight,
   close,
   forum,
+  lock,
+  logout,
+  mail,
+  person,
 } as const;
 
 export type NomeDeIcone = keyof typeof FONTES;
