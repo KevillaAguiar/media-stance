@@ -1,7 +1,12 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
+  server: {
+    // Abre no navegador padrão do sistema, e não no visualizador interno
+    // do editor — que renderiza diferente e não tem as ferramentas de
+    // desenvolvedor de verdade.
+    open: true,
+  },
+});

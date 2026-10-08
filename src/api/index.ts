@@ -27,6 +27,6 @@ function atraso<T>(valor: T, ms = 400): Promise<T> {
 }
 
 export async function obterResumoDoDia(): Promise<ResumoDoDia> {
-  if (USANDO_MOCK) return atraso(mock.resumoDoDia);
+  if (USANDO_MOCK) return atraso(mock.resumoDoDia());
   throw new Error("API real ainda não configurada");
 }
