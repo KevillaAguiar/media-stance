@@ -3,12 +3,14 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Layout } from "./componentes/Layout/Layout";
 import { Cadastro } from "./paginas/Cadastro/Cadastro";
 import { Comentarios } from "./paginas/Comentarios/Comentarios";
+import { ConectarConta } from "./paginas/ConectarConta/ConectarConta";
 import { Demandas } from "./paginas/Demandas/Demandas";
 import { EsqueciSenha } from "./paginas/EsqueciSenha/EsqueciSenha";
 import { Login } from "./paginas/Login/Login";
 import { Perfil } from "./paginas/Perfil/Perfil";
 import { RedefinirSenha } from "./paginas/RedefinirSenha/RedefinirSenha";
 import { ResumoDoDia } from "./paginas/ResumoDoDia/ResumoDoDia";
+import { RetornoAutorizacao } from "./paginas/RetornoAutorizacao/RetornoAutorizacao";
 import { obterConta, type Conta } from "./api";
 import { useSessao } from "./sessao/sessao";
 
@@ -56,6 +58,11 @@ function AreaInterna() {
         <Route path="/comentarios" element={<Comentarios />} />
         <Route path="/demandas" element={<Demandas />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/conectar-conta" element={<ConectarConta />} />
+        {/* O retorno da Meta é rota interna de propósito: só faz sentido
+            para quem já está em sessão, e assim quem cair aqui sem sessão
+            passa pelo login e volta para cá em vez de ver uma tela morta. */}
+        <Route path="/autorizacao/retorno" element={<RetornoAutorizacao />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>

@@ -3,8 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { AlternarTema } from "../../componentes/AlternarTema/AlternarTema";
 import { Botao } from "../../componentes/Botao/Botao";
 import { Campo } from "../../componentes/Campo/Campo";
+import { EstadoDaConexao } from "../../componentes/EstadoDaConexao/EstadoDaConexao";
 import { Icone } from "../../componentes/Icone/Icone";
-import { alterarSenha, obterPerfil, type Perfil as DadosDoPerfil } from "../../api";
+import {
+  alterarSenha,
+  desconectarInstagram,
+  obterConexaoComInstagram,
+  obterPerfil,
+  type ConexaoDeConta,
+  type Perfil as DadosDoPerfil,
+} from "../../api";
 import { useSessao } from "../../sessao/sessao";
 import estilos from "./Perfil.module.css";
 
@@ -14,6 +22,7 @@ export function Perfil() {
   const navegar = useNavigate();
   const { sair } = useSessao();
   const [perfil, setPerfil] = useState<DadosDoPerfil | null>(null);
+  const [conexao, setConexao] = useState<ConexaoDeConta | null>(null);
   const [erroAoCarregar, setErroAoCarregar] = useState<string | null>(null);
 
   const [trocando, setTrocando] = useState(false);
@@ -34,6 +43,20 @@ export function Perfil() {
           e instanceof Error ? e.message : "Não foi possível carregar.",
         ),
       );
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let ativo = true;
+    // Em efeito próprio, e não junto do perfil: se a conexão falhar ao
+    // carregar, a tela ainda mostra nome, e-mail e troca de senha.
+    obterConexaoComInstagram()
+      .then((c) => ativo && setConexao(c))
+      .catch(() => {
+        /* O cartão simplesmente não aparece. */
+      });
     return () => {
       ativo = false;
     };
@@ -119,6 +142,19 @@ export function Perfil() {
         readOnly
         disabled
       />
+
+      {/* O estado da conexão mora aqui porque é daqui que a pessoa volta
+          quando o acesso cai — o alerta do RF-016 aponta para esta tela. */}
+      {conexao && (
+        <EstadoDaConexao
+          conexao={conexao}
+          aoConectar={() => navegar("/conectar-conta")}
+          aoDesconectar={async () => {
+            await desconectarInstagram();
+            setConexao(await obterConexaoComInstagram());
+          }}
+        />
+      )}
 
       {sucesso && (
         <p role="status" className={estilos.sucesso}>

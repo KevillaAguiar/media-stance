@@ -138,3 +138,45 @@ export interface Perfil {
   /** Conta do parlamentar que esta pessoa acompanha. */
   contaVinculada: string;
 }
+
+/* ---- Conexão com a conta do Instagram (RF-053, RF-054) ---- */
+
+export type EstadoDaConexao = "ausente" | "conectada" | "expirando" | "erro";
+
+/**
+ * Por que o motivo é um código e não uma frase: a mensagem que a pessoa
+ * lê muda com o idioma e com o que a gente aprende sobre onde ela trava.
+ * Se o servidor mandasse o texto pronto, mudar a redação viraria mudança
+ * de servidor.
+ */
+export type MotivoDeErroDeConexao =
+  | "conta_nao_profissional"
+  | "sem_pagina_vinculada"
+  | "permissao_recusada"
+  | "state_invalido"
+  | "token_expirado"
+  | "falha_do_provedor";
+
+export interface ConexaoDeConta {
+  estado: EstadoDaConexao;
+  /** `@usuario` da conta conectada; `null` quando não há conexão. */
+  usuario: string | null;
+  /** ISO 8601 só a data. */
+  expiraEm: string | null;
+  /**
+   * Quem decide se é "expirando" é o servidor, não a tela. Se a regra
+   * vivesse nos dois lugares, uma hora elas divergiriam e o alerta do
+   * RF-016 apareceria num lugar e não no outro.
+   */
+  diasParaExpirar: number | null;
+  erro: MotivoDeErroDeConexao | null;
+  /* RF-054: registro de quem autorizou, quando e o quê. */
+  autorizadaPor: string | null;
+  autorizadaEm: string | null;
+  permissoes: string[];
+}
+
+export interface InicioDeAutorizacao {
+  /** Para onde mandar a pessoa. Quem monta é o servidor. */
+  urlDeAutorizacao: string;
+}

@@ -41,7 +41,10 @@ export function Cadastro() {
     try {
       await criarConta({ nome, email, senha });
       entrar();
-      navegar("/", { replace: true });
+      // Conectar a conta é o passo seguinte do cadastro, não um ajuste
+      // opcional: sem ele o sistema não recebe comentário nenhum, e o
+      // resumo do dia abre vazio sem explicar por quê.
+      navegar("/conectar-conta", { replace: true });
     } catch (e: unknown) {
       setErros({
         geral: e instanceof Error ? e.message : "Não foi possível criar a conta.",

@@ -1,0 +1,90 @@
+.cartao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-16);
+  padding: var(--espaco-20);
+}
+
+.cabecalho {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-10);
+}
+
+/* A cor vem do par de tokens de stance porque eles já foram conferidos
+   nos dois temas. Um verde novo aqui seria um verde a mais para auditar. */
+.boa {
+  color: var(--stance-a-favor-fg);
+}
+
+.atencao {
+  color: var(--stance-urgente-fg);
+}
+
+.ruim {
+  color: var(--stance-contra-fg);
+}
+
+.neutro {
+  color: var(--texto-secundario);
+}
+
+.titulo {
+  font-size: var(--tamanho-titulo-sm);
+  font-weight: var(--peso-semibold);
+  /* O título volta ao texto comum: a cor fica no ícone, que é onde ela
+     diz alguma coisa sem competir com a leitura. */
+  color: var(--texto-primario);
+}
+
+.texto {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+  line-height: 1.5;
+  max-width: 60ch;
+}
+
+.aviso {
+  font-size: var(--tamanho-corpo);
+  color: var(--stance-urgente-fg);
+  background: var(--stance-urgente-bg);
+  padding: var(--espaco-12) var(--espaco-16);
+  border-radius: var(--raio-sm);
+  line-height: 1.5;
+}
+
+.detalhes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--espaco-16);
+}
+
+.detalhes dt {
+  font-size: var(--tamanho-label);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espaco-4);
+}
+
+.detalhes dd {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-primario);
+  font-weight: var(--peso-medio);
+}
+
+.dias {
+  color: var(--texto-secundario);
+  font-weight: var(--peso-regular);
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-12);
+}
+
+@media (max-width: 520px) {
+  .acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

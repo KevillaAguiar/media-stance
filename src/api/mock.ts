@@ -1,6 +1,9 @@
 import type {
   Comentario,
+  ConexaoDeConta,
   ContagemDeDemanda,
+  EstadoDaConexao,
+  MotivoDeErroDeConexao,
   FiltrosDeComentarios,
   FiltrosDeDemandas,
   PaginaDeComentarios,
@@ -355,3 +358,90 @@ export const perfil: Perfil = {
   email: "assessor@dep.gov.br",
   contaVinculada: "@dep.assessoria",
 };
+
+/* ---- Conexão com a conta do Instagram ----------------------------------
+   Estado em memória, só para o fluxo poder ser percorrido inteiro sem
+   servidor. Some a cada recarga de página, e isso é proposital: a
+   conexão de verdade vive no banco, não aqui. */
+
+let conexao: ConexaoDeConta = {
+  estado: "ausente",
+  usuario: null,
+  expiraEm: null,
+  diasParaExpirar: null,
+  erro: null,
+  autorizadaPor: null,
+  autorizadaEm: null,
+  permissoes: [],
+};
+
+export function conexaoAtual(): ConexaoDeConta {
+  return { ...conexao };
+}
+
+/** Data de N dias à frente, como "AAAA-MM-DD". */
+function daquiA(dias: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + dias);
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  const dia = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${mes}-${dia}`;
+}
+
+export function conectar(motivoSimulado: MotivoDeErroDeConexao | null): ConexaoDeConta {
+  if (motivoSimulado) {
+    conexao = { ...conexao, estado: "erro", erro: motivoSimulado };
+    return conexaoAtual();
+  }
+
+  // 60 dias é a validade do token longo da Meta.
+  const dias = 60;
+  conexao = {
+    estado: "conectada",
+    usuario: perfil.contaVinculada,
+    expiraEm: daquiA(dias),
+    diasParaExpirar: dias,
+    erro: null,
+    autorizadaPor: perfil.email,
+    autorizadaEm: new Date().toISOString(),
+    permissoes: [
+      "instagram_basic",
+      "instagram_manage_comments",
+      "pages_show_list",
+      "pages_read_engagement",
+    ],
+  };
+  return conexaoAtual();
+}
+
+export function desconectar(): void {
+  conexao = {
+    estado: "ausente",
+    usuario: null,
+    expiraEm: null,
+    diasParaExpirar: null,
+    erro: null,
+    autorizadaPor: null,
+    autorizadaEm: null,
+    permissoes: [],
+  };
+}
+
+/**
+ * Força um estado, para a demonstração poder mostrar cada caso sem
+ * esperar 53 dias nem quebrar a conta de propósito.
+ */
+export function forcarEstado(estado: EstadoDaConexao): ConexaoDeConta {
+  if (estado === "conectada") return conectar(null);
+  if (estado === "ausente") {
+    desconectar();
+    return conexaoAtual();
+  }
+  if (estado === "expirando") {
+    conectar(null);
+    conexao = { ...conexao, estado: "expirando", expiraEm: daquiA(5), diasParaExpirar: 5 };
+    return conexaoAtual();
+  }
+  conexao = { ...conexao, estado: "erro", erro: "token_expirado" };
+  return conexaoAtual();
+}

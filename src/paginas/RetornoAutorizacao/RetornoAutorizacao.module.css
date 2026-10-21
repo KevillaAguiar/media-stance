@@ -1,0 +1,32 @@
+.pagina {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-20);
+  max-width: 640px;
+}
+
+.titulo {
+  font-size: var(--tamanho-titulo-lg);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+.aguardando {
+  font-size: var(--tamanho-titulo-sm);
+  font-weight: var(--peso-medio);
+  color: var(--texto-primario);
+}
+
+.nota {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+  line-height: 1.5;
+  max-width: 60ch;
+}
+
+.erro {
+  font-size: var(--tamanho-corpo);
+  color: var(--stance-contra-fg);
+  font-weight: var(--peso-semibold);
+}

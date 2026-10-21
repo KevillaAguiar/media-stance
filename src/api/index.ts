@@ -1,5 +1,9 @@
 import type {
+  ConexaoDeConta,
   Conta,
+  EstadoDaConexao,
+  InicioDeAutorizacao,
+  MotivoDeErroDeConexao,
   FiltrosDeComentarios,
   FiltrosDeDemandas,
   PaginaDeComentarios,
@@ -28,7 +32,7 @@ export * from "./tipos";
      }
    --------------------------------------------------------------- */
 
-const USANDO_MOCK = true;
+export const USANDO_MOCK = true;
 
 function atraso<T>(valor: T, ms = 400): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(valor), ms));
@@ -129,4 +133,64 @@ export async function redefinirSenha(
   await atraso(null, 700);
   if (!token) throw new Error("Link inválido ou expirado. Peça um novo.");
   void novaSenha;
+}
+
+/* ---- Conexão com a conta do Instagram (RF-053, RF-054) ----------------
+   O front-end não participa da parte secreta deste fluxo. Ele pede a URL
+   ao servidor, manda a pessoa para a Meta, e devolve ao servidor o código
+   que volta. Quem troca o código pelo token é o servidor, porque essa
+   troca usa a chave secreta do aplicativo — no navegador ela ficaria
+   visível para quem abrisse o inspetor. */
+
+/** Para onde o retorno da Meta aponta. Cadastrada no painel do aplicativo. */
+export const ROTA_DE_RETORNO = "/autorizacao/retorno";
+
+export async function iniciarConexaoComInstagram(): Promise<InicioDeAutorizacao> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 400);
+  // Sem servidor não há Meta para visitar: o simulador manda direto ao
+  // retorno, o que exercita a volta, a leitura dos parâmetros e a troca.
+  // O `state` de verdade é gerado e guardado pelo servidor.
+  const state = `simulado-${Date.now().toString(36)}`;
+  return { urlDeAutorizacao: `${ROTA_DE_RETORNO}?code=simulado&state=${state}` };
+}
+
+/**
+ * Entrega ao servidor o código que a Meta devolveu.
+ *
+ * `simular` existe só enquanto o mock existe: deixa a demonstração
+ * mostrar cada estado de erro sem precisar quebrar uma conta de verdade.
+ * O servidor real ignora parâmetros que não conhece.
+ */
+export async function concluirConexaoComInstagram(
+  code: string,
+  state: string,
+  simular?: MotivoDeErroDeConexao | null,
+): Promise<ConexaoDeConta> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 900);
+  if (!code || !state) {
+    return { ...mock.conexaoAtual(), estado: "erro", erro: "state_invalido" };
+  }
+  return mock.conectar(simular ?? null);
+}
+
+export async function obterConexaoComInstagram(): Promise<ConexaoDeConta> {
+  if (USANDO_MOCK) return atraso(mock.conexaoAtual(), 250);
+  throw new Error("API real ainda não configurada");
+}
+
+export async function desconectarInstagram(): Promise<void> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 400);
+  mock.desconectar();
+}
+
+/** Só com o mock: força um estado para a demonstração. */
+export async function simularEstadoDaConexao(
+  estado: EstadoDaConexao,
+): Promise<ConexaoDeConta> {
+  if (!USANDO_MOCK) throw new Error("Disponível apenas com dados simulados");
+  await atraso(null, 200);
+  return mock.forcarEstado(estado);
 }

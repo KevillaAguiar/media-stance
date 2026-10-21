@@ -1,0 +1,157 @@
+.pagina {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-24);
+  max-width: 720px;
+}
+
+.cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-8);
+}
+
+.titulo {
+  font-size: var(--tamanho-titulo-lg);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+.subtitulo {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+  line-height: 1.5;
+  max-width: 60ch;
+}
+
+.explicacao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-12);
+}
+
+.subtituloSecao {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-8);
+  font-size: var(--tamanho-corpo-lg);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+  margin-top: var(--espaco-8);
+}
+
+.passos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-8);
+  padding-left: var(--espaco-20);
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+  line-height: 1.5;
+  list-style: decimal;
+}
+
+.permissoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-8);
+  list-style: none;
+}
+
+.permissoes li {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-8);
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-primario);
+}
+
+.permissoes svg {
+  color: var(--stance-a-favor-fg);
+  flex-shrink: 0;
+}
+
+.nota {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+  line-height: 1.5;
+  max-width: 60ch;
+}
+
+/* ---- Painel de demonstração ---- */
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-12);
+  padding: var(--espaco-16);
+  border: 1px dashed var(--borda-campo);
+  border-radius: var(--raio-md);
+  background: var(--superficie-sutil);
+}
+
+/* A borda tracejada e a etiqueta dizem "isto não é produto" sem precisar
+   de uma frase. Some junto com o mock. */
+.marcaDemo {
+  font-size: var(--tamanho-caption);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--stance-engajamento-fg);
+  background: var(--stance-engajamento-bg);
+  padding: var(--espaco-2) var(--espaco-8);
+  border-radius: var(--raio-pill);
+}
+
+.botoesDemo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-8);
+}
+
+.botaoDemo {
+  font-size: var(--tamanho-label);
+  color: var(--texto-primario);
+  background: var(--superficie-cartao);
+  border: 1px solid var(--borda-campo);
+  border-radius: var(--raio-sm);
+  padding: var(--espaco-8) var(--espaco-12);
+  cursor: pointer;
+  min-height: 36px;
+}
+
+.botaoDemo:hover {
+  border-color: var(--acento-base);
+  color: var(--acento-base);
+}
+
+/* ---- Rodapé ---- */
+
+.pular {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-6);
+  align-self: flex-start;
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+  background: none;
+  border: none;
+  padding: var(--espaco-8) 0;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.pular:hover {
+  color: var(--acento-base);
+}
+
+.aviso,
+.erro {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+.erro {
+  color: var(--stance-contra-fg);
+  font-weight: var(--peso-semibold);
+}

@@ -6,14 +6,21 @@ import assignment from "@material-symbols/svg-400/outlined/assignment.svg?raw";
 import barChart from "@material-symbols/svg-400/outlined/bar_chart.svg?raw";
 import brightness6 from "@material-symbols/svg-400/outlined/brightness_6.svg?raw";
 import calendarMonth from "@material-symbols/svg-400/outlined/calendar_month.svg?raw";
+import checkCircle from "@material-symbols/svg-400/outlined/check_circle.svg?raw";
 import chevronLeft from "@material-symbols/svg-400/outlined/chevron_left.svg?raw";
 import chevronRight from "@material-symbols/svg-400/outlined/chevron_right.svg?raw";
 import close from "@material-symbols/svg-400/outlined/close.svg?raw";
+import error from "@material-symbols/svg-400/outlined/error.svg?raw";
 import forum from "@material-symbols/svg-400/outlined/forum.svg?raw";
+import link from "@material-symbols/svg-400/outlined/link.svg?raw";
 import lock from "@material-symbols/svg-400/outlined/lock.svg?raw";
 import logout from "@material-symbols/svg-400/outlined/logout.svg?raw";
 import mail from "@material-symbols/svg-400/outlined/mail.svg?raw";
+import openInNew from "@material-symbols/svg-400/outlined/open_in_new.svg?raw";
 import person from "@material-symbols/svg-400/outlined/person.svg?raw";
+import schedule from "@material-symbols/svg-400/outlined/schedule.svg?raw";
+import sync from "@material-symbols/svg-400/outlined/sync.svg?raw";
+import warning from "@material-symbols/svg-400/outlined/warning.svg?raw";
 import visibility from "@material-symbols/svg-400/outlined/visibility.svg?raw";
 import visibilityOff from "@material-symbols/svg-400/outlined/visibility_off.svg?raw";
 
@@ -37,14 +44,21 @@ const FONTES = {
   bar_chart: barChart,
   brightness_6: brightness6,
   calendar_month: calendarMonth,
+  check_circle: checkCircle,
   chevron_left: chevronLeft,
   chevron_right: chevronRight,
   close,
+  error,
   forum,
+  link,
   lock,
   logout,
   mail,
+  open_in_new: openInNew,
   person,
+  schedule,
+  sync,
+  warning,
   visibility,
   visibility_off: visibilityOff,
 } as const;
