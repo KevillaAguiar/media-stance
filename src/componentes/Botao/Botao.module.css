@@ -42,7 +42,10 @@
 .secundario {
   background: var(--superficie-cartao);
   color: var(--texto-primario);
-  border: 1px solid var(--borda-padrao);
+  /* `--borda-padrao` é divisória (1,23:1 no claro) e aqui é o único
+     limite visível do controle — o 1.4.11 pede 3:1. `--borda-campo`
+     é o token de contorno de controle, já em 3,36:1. */
+  border: 1px solid var(--borda-campo);
 }
 
 .secundario:hover {

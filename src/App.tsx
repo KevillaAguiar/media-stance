@@ -14,7 +14,14 @@ import { RedefinirSenha } from "./paginas/RedefinirSenha/RedefinirSenha";
 import { ResumoDoDia } from "./paginas/ResumoDoDia/ResumoDoDia";
 import { RetornoAutorizacao } from "./paginas/RetornoAutorizacao/RetornoAutorizacao";
 import { SemPermissao } from "./componentes/SemPermissao/SemPermissao";
-import { obterConta, obterPerfil, type Conta, type PapelDoUsuario } from "./api";
+import {
+  obterConta,
+  obterContaEmFoco,
+  obterPerfil,
+  type Conta,
+  type ContaEmFoco,
+  type PapelDoUsuario,
+} from "./api";
 import { useSessao } from "./sessao/sessao";
 
 /**
@@ -68,6 +75,7 @@ function ExigePapel({
 function AreaInterna() {
   const [conta, setConta] = useState<Conta | null>(null);
   const [papel, setPapel] = useState<PapelDoUsuario | null>(null);
+  const [foco, setFoco] = useState<ContaEmFoco | null>(null);
 
   // A conta pertence à sessão, não a uma tela: fica aqui porque a
   // navegação a usa em todas elas. Cada página busca os próprios dados.
@@ -95,8 +103,22 @@ function AreaInterna() {
     };
   }, []);
 
+  // Qual conta as telas mostram. Vive na sessão do servidor; aqui é só a
+  // cópia que a interface desenha.
+  useEffect(() => {
+    let ativo = true;
+    obterContaEmFoco()
+      .then((c) => ativo && setFoco(c))
+      .catch(() => {
+        /* Sem foco o seletor não aparece; as telas seguem funcionando. */
+      });
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
   return (
-    <Layout conta={conta} papel={papel}>
+    <Layout conta={conta} papel={papel} foco={foco} aoTrocarConta={setFoco}>
       <Routes>
         <Route path="/" element={<ResumoDoDia />} />
         <Route path="/comentarios" element={<Comentarios />} />

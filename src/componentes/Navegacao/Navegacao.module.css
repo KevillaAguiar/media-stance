@@ -177,3 +177,18 @@
     display: none;
   }
 }
+
+/* Seletor de conta: some no celular, onde ele vira faixa no conteúdo. */
+/* Menos recuo que os itens da navegação: o gatilho é um cartão com borda,
+   e com o recuo deles sobrava pouco para o nome — "Deputado Limma" saía
+   cortado em "Deputado Li…" na largura de 240px da lateral. */
+.seletor {
+  padding: 0 var(--espaco-12) var(--espaco-8);
+}
+
+
+@media (max-width: 640px) {
+  .seletor {
+    display: none;
+  }
+}

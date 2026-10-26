@@ -1,0 +1,211 @@
+.area {
+  position: relative;
+}
+
+/* ---- gatilho ---- */
+
+.gatilho {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-10);
+  width: 100%;
+  min-height: 48px;
+  padding: var(--espaco-8) var(--espaco-10) var(--espaco-8) var(--espaco-12);
+  border-radius: var(--raio-sm);
+  cursor: pointer;
+  text-align: left;
+}
+
+.nav .gatilho {
+  border: 1px solid var(--superficie-icone-circulo);
+  background: var(--superficie-nav-item-ativo);
+  color: var(--texto-on-nav-ativo);
+}
+
+.nav .gatilho:hover {
+  border-color: var(--acento-claro);
+}
+
+.faixa .gatilho {
+  border: none;
+  background: none;
+  color: var(--texto-primario);
+}
+
+.identidade {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  /* Sem isto o nome empurra o contêiner e a seta sai do gatilho. */
+  min-width: 0;
+}
+
+.nome {
+  font-size: var(--tamanho-label);
+  font-weight: var(--peso-medio);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.usuario,
+.semConexao {
+  font-size: var(--tamanho-caption);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav .usuario {
+  color: var(--texto-on-nav);
+}
+
+.faixa .usuario {
+  color: var(--texto-secundario);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: var(--raio-pill);
+  background: var(--superficie-destaque);
+  color: var(--texto-secundario);
+}
+
+/* ---- lista ---- */
+
+.veu {
+  display: none;
+}
+
+.lista {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + var(--espaco-8));
+  left: 0;
+  width: 280px;
+  padding: var(--espaco-6) 0;
+  border: 1px solid var(--borda-padrao);
+  border-radius: var(--raio-md);
+  background: var(--superficie-cartao);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+}
+
+.tituloLista {
+  padding: var(--espaco-6) var(--espaco-16);
+  font-size: var(--tamanho-caption);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-terciario);
+}
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-10);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--espaco-10) var(--espaco-12) var(--espaco-10) var(--espaco-16);
+  border: none;
+  background: none;
+  color: var(--texto-primario);
+  cursor: pointer;
+  text-align: left;
+}
+
+.opcao:hover:not(:disabled) {
+  background: var(--superficie-destaque);
+}
+
+.atual {
+  background: var(--acento-bg-sutil);
+}
+
+.atual .nome {
+  color: var(--acento-forte);
+  font-weight: var(--peso-semibold);
+}
+
+.atual svg {
+  color: var(--acento-forte);
+  flex-shrink: 0;
+}
+
+.opcao .usuario {
+  color: var(--texto-secundario);
+}
+
+/* O fundo tingido da opção atual é mais claro que a superfície normal,
+   e sobre ele `--texto-secundario` cai para 4,49:1 no escuro — abaixo
+   do 4,5 por um fio. Na linha marcada o @ vai no texto primário. */
+.atual .usuario {
+  color: var(--texto-primario);
+}
+
+.semConexao {
+  color: var(--stance-urgente-fg);
+}
+
+.gerenciar {
+  width: 100%;
+  margin-top: var(--espaco-6);
+  padding: var(--espaco-12) var(--espaco-16);
+  border: none;
+  border-top: 1px solid var(--borda-padrao);
+  background: none;
+  color: var(--acento-link);
+  font-size: var(--tamanho-label);
+  text-align: left;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.gerenciar:hover {
+  background: var(--superficie-destaque);
+}
+
+/* ---- celular: a lista sobe de baixo ---- */
+
+@media (max-width: 640px) {
+  .veu {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--superficie-overlay);
+  }
+
+  .lista {
+    position: fixed;
+    z-index: 51;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* A folha encosta na borda de baixo, que no celular é onde mora a
+       barra de gestos. Sem a área segura, "Gerenciar contas" fica
+       embaixo dela e o toque vai para o sistema, não para o botão. */
+    padding-bottom: max(var(--espaco-24), env(safe-area-inset-bottom));
+    border: none;
+    border-radius: var(--raio-xl) var(--raio-xl) 0 0;
+    box-shadow: 0 -8px 32px rgb(0 0 0 / 28%);
+  }
+
+  .tituloLista {
+    padding: var(--espaco-12) var(--espaco-16) var(--espaco-8);
+    font-size: var(--tamanho-corpo);
+    color: var(--texto-primario);
+  }
+
+  .opcao {
+    min-height: 64px;
+  }
+
+  .opcao .nome {
+    font-size: var(--tamanho-corpo);
+  }
+}

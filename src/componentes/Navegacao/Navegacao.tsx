@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { Icone, type NomeDeIcone } from "../Icone/Icone";
 import { AlternarTema } from "../AlternarTema/AlternarTema";
-import type { Conta, PapelDoUsuario } from "../../api";
+import { SeletorDeConta } from "../SeletorDeConta/SeletorDeConta";
+import type { Conta, ContaEmFoco, PapelDoUsuario } from "../../api";
 import estilos from "./Navegacao.module.css";
 
 interface ItemDeNavegacao {
@@ -20,6 +21,8 @@ const ITENS: ItemDeNavegacao[] = [
 export interface NavegacaoProps {
   conta: Conta | null;
   papel?: PapelDoUsuario | null;
+  foco?: ContaEmFoco | null;
+  aoTrocarConta?: (conta: ContaEmFoco) => void;
 }
 
 /**
@@ -39,14 +42,23 @@ export interface NavegacaoProps {
  * o polegar. Elas são alcançadas pelo Perfil, que é onde quem administra
  * já vai para trocar senha e sair.
  */
-export function Navegacao({ conta, papel = null }: NavegacaoProps) {
+export function Navegacao({ conta, papel = null, foco = null, aoTrocarConta }: NavegacaoProps) {
   void papel;
   return (
     <nav className={estilos.navegacao} aria-label="Navegação principal">
+      {/* A marca ficou só com o nome do produto. O `@` que estava aqui era
+          o do USUÁRIO, e ao lado de um seletor de conta duas identidades
+          empilhadas confundem em vez de informar — quem a pessoa é fica
+          no Perfil, qual conta ela vê fica no seletor. */}
       <div className={estilos.marca}>
         <p className={estilos.nome}>{conta?.nome ?? "Media Stance"}</p>
-        {conta && <p className={estilos.usuario}>{conta.usuario}</p>}
       </div>
+
+      {foco && aoTrocarConta && (
+        <div className={estilos.seletor}>
+          <SeletorDeConta foco={foco} aoTrocar={aoTrocarConta} contexto="nav" />
+        </div>
+      )}
 
       <ul className={estilos.itens}>
         {ITENS.map((item) => (

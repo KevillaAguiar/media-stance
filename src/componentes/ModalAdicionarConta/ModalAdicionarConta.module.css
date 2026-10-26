@@ -1,0 +1,226 @@
+.caixa {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 64px);
+  padding: 0;
+  border: none;
+  border-radius: var(--raio-xl);
+  background: var(--superficie-cartao);
+  color: var(--texto-primario);
+  /* O `* { margin: 0 }` do global mata o `margin: auto` que o navegador
+     dá ao <dialog>, e sem ele a caixa cola no topo à esquerda. */
+  margin: auto;
+}
+
+.caixa::backdrop {
+  background: var(--superficie-overlay);
+}
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-20);
+  padding: var(--espaco-24);
+}
+
+.cabecalho {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-12);
+}
+
+.titulos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-4);
+  flex: 1;
+  min-width: 0;
+}
+
+.titulo {
+  font-size: var(--tamanho-titulo-sm);
+  font-weight: var(--peso-semibold);
+}
+
+.subtitulo {
+  font-size: var(--tamanho-label);
+  line-height: 1.5;
+  color: var(--texto-secundario);
+}
+
+.fechar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--raio-sm);
+  background: none;
+  color: var(--texto-secundario);
+  cursor: pointer;
+}
+
+.fechar:hover {
+  background: var(--superficie-destaque);
+  color: var(--texto-primario);
+}
+
+/* ---- início ---- */
+
+.passos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-12);
+  list-style: none;
+}
+
+.passo {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-12);
+  font-size: var(--tamanho-corpo);
+  line-height: 1.5;
+}
+
+.numero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: var(--raio-pill);
+  background: var(--acento-bg-sutil);
+  color: var(--acento-forte);
+  font-size: var(--tamanho-caption);
+  font-weight: var(--peso-semibold);
+}
+
+.nota {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-10);
+  padding: var(--espaco-12);
+  border-radius: var(--raio-sm);
+  background: var(--superficie-sutil);
+  font-size: var(--tamanho-label);
+  line-height: 1.5;
+  color: var(--texto-secundario);
+}
+
+.nota svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ---- escolher ---- */
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.item {
+  border-top: 1px solid var(--borda-padrao);
+}
+
+.bloqueado {
+  opacity: 0.55;
+}
+
+.escolha {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-12);
+  padding: var(--espaco-12) 0;
+  cursor: pointer;
+}
+
+.bloqueado .escolha {
+  cursor: default;
+}
+
+.marcador {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: var(--acento-base);
+}
+
+.dados {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  min-width: 0;
+}
+
+.linhaNome {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-8);
+  flex-wrap: wrap;
+}
+
+.nome {
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-medio);
+}
+
+.etiqueta {
+  padding: var(--espaco-2) var(--espaco-8);
+  border-radius: var(--raio-pill);
+  background: var(--stance-neutro-bg);
+  color: var(--stance-neutro-fg);
+  font-size: var(--tamanho-caption);
+  font-weight: var(--peso-semibold);
+}
+
+.usuario {
+  font-size: var(--tamanho-label);
+  color: var(--texto-secundario);
+}
+
+/* O motivo fica em destaque: é o que a pessoa precisa resolver, e some
+   no cinza junto com a Página de origem. */
+.impedimento {
+  font-size: var(--tamanho-label);
+  color: var(--stance-urgente-fg);
+}
+
+.pagina {
+  font-size: var(--tamanho-caption);
+  color: var(--texto-terciario);
+}
+
+/* ---- rodapé ---- */
+
+.acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--espaco-12);
+}
+
+.erro {
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+  color: var(--stance-contra-fg);
+}
+
+@media (max-width: 640px) {
+  .conteudo {
+    padding: var(--espaco-20);
+    gap: var(--espaco-16);
+  }
+
+  .acoes {
+    flex-direction: column-reverse;
+  }
+
+  .acoes > * {
+    width: 100%;
+  }
+}

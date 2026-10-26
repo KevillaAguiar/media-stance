@@ -3,6 +3,8 @@ import type {
   Comentario,
   ConexaoDeConta,
   ConfiguracaoPolitica,
+  ContaDaMeta,
+  ContaEmFoco,
   ContagemDeDemanda,
   EstadoDaConexao,
   MotivoDeErroDeConexao,
@@ -537,4 +539,55 @@ export function salvarNovaVersao(nova: ConfiguracaoPolitica): ConfiguracaoPoliti
 
   politica = { ...nova, versao, atualizadaEm: hoje, atualizadaPor: perfil.email };
   return politicaAtual();
+}
+
+/* ---- Contas da Meta e conta em foco ---- */
+
+/** O que a Meta devolveria em /me/accounts depois da autorização. */
+export function contasDaMeta(): ContaDaMeta[] {
+  const vinculadas = new Set(cliente.contas.map((c) => c.usuario));
+  return [
+    { id: "ig_limma", nome: "Deputado Limma", usuario: "@dep.limma",
+      pagina: "Dep. Limma", jaVinculada: vinculadas.has("@dep.limma"), impedimento: null },
+    { id: "ig_elzuila", nome: "Deputada Elzuila", usuario: "@dep.elzuila",
+      pagina: "Elzuila Oficial", jaVinculada: vinculadas.has("@dep.elzuila"), impedimento: null },
+    { id: "ig_limma_noticias", nome: "Limma Notícias", usuario: "@limma.noticias",
+      pagina: "Limma Notícias", jaVinculada: vinculadas.has("@limma.noticias"),
+      impedimento: null },
+    { id: null, nome: "Gabinete Limma", usuario: null, pagina: "Gabinete Limma",
+      jaVinculada: false,
+      impedimento: "Página sem conta do Instagram vinculada" },
+  ];
+}
+
+export function vincularContasDaMeta(ids: string[]): Cliente {
+  const disponiveis = contasDaMeta();
+  for (const id of ids) {
+    const m = disponiveis.find((c) => c.id === id);
+    if (!m || !m.usuario || m.jaVinculada) continue;
+    cliente = {
+      ...cliente,
+      contas: [...cliente.contas,
+        { id: m.id!, nome: m.nome, usuario: m.usuario, conectada: true }],
+    };
+  }
+  return clienteAtual();
+}
+
+let contaEmFoco = "conta_limma";
+
+export function focoAtual(): ContaEmFoco {
+  const c = cliente.contas.find((x) => x.id === contaEmFoco) ?? cliente.contas[0];
+  return { id: c.id, nome: c.nome, usuario: c.usuario, conectada: c.conectada };
+}
+
+export function trocarFoco(id: string): ContaEmFoco {
+  if (cliente.contas.some((c) => c.id === id)) contaEmFoco = id;
+  return focoAtual();
+}
+
+export function contasDoCliente(): ContaEmFoco[] {
+  return cliente.contas.map((c) => ({
+    id: c.id, nome: c.nome, usuario: c.usuario, conectada: c.conectada,
+  }));
 }

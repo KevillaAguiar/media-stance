@@ -49,3 +49,19 @@
     padding-bottom: calc(var(--espaco-40) + 72px);
   }
 }
+
+/* A faixa só existe no celular: nos outros tamanhos o seletor mora na
+   barra lateral, e duas cópias dele na mesma tela seriam duas verdades. */
+.faixaDeConta {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .faixaDeConta {
+    display: block;
+    margin: calc(var(--espaco-16) * -1) calc(var(--espaco-16) * -1) var(--espaco-16);
+    padding: var(--espaco-4) var(--espaco-8);
+    border-bottom: 1px solid var(--borda-padrao);
+    background: var(--superficie-cartao);
+  }
+}

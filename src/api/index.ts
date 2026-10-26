@@ -3,6 +3,8 @@ import type {
   ConexaoDeConta,
   ConfiguracaoPolitica,
   Conta,
+  ContaDaMeta,
+  ContaEmFoco,
   EstadoDaConexao,
   InicioDeAutorizacao,
   MotivoDeErroDeConexao,
@@ -242,4 +244,42 @@ export async function salvarNovaVersaoDaConfiguracao(
     throw new Error("A lista de aliados não pode ficar vazia: é ela que evita ler elogio a aliado como oposição.");
   }
   return mock.salvarNovaVersao(configuracao);
+}
+
+/* ---- Contas da Meta ---------------------------------------------------
+   Vem depois da volta da autorização: a Meta diz quais Páginas a pessoa
+   administra, e quais delas têm conta profissional do Instagram ligada.
+   Nada aqui é digitado — é essa a diferença que torna o `id` confiável. */
+
+export async function listarContasDaMeta(): Promise<ContaDaMeta[]> {
+  if (USANDO_MOCK) return atraso(mock.contasDaMeta(), 900);
+  throw new Error("API real ainda não configurada");
+}
+
+export async function vincularContasDaMeta(ids: string[]): Promise<Cliente> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 600);
+  if (ids.length === 0) throw new Error("Escolha ao menos uma conta.");
+  return mock.vincularContasDaMeta(ids);
+}
+
+/* ---- Conta em foco ----------------------------------------------------
+   Qual parlamentar as telas estão mostrando. Mora na sessão, no servidor:
+   as rotas de dados continuam sem parâmetro de conta, e trocar o foco é
+   uma chamada só em vez de um argumento a mais em cada uma delas. */
+
+export async function obterContaEmFoco(): Promise<ContaEmFoco> {
+  if (USANDO_MOCK) return atraso(mock.focoAtual(), 150);
+  throw new Error("API real ainda não configurada");
+}
+
+export async function listarContasDoCliente(): Promise<ContaEmFoco[]> {
+  if (USANDO_MOCK) return atraso(mock.contasDoCliente(), 200);
+  throw new Error("API real ainda não configurada");
+}
+
+export async function trocarContaEmFoco(id: string): Promise<ContaEmFoco> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 400);
+  return mock.trocarFoco(id);
 }

@@ -254,3 +254,41 @@ export interface VersaoDeConfiguracao {
   resumo: string;
   vigente: boolean;
 }
+
+/* ---- Contas que a Meta devolve (RF-053) ---- */
+
+/**
+ * Uma Página do Facebook que a pessoa administra, e a conta do Instagram
+ * ligada a ela — quando há uma.
+ *
+ * O nome e o `usuario` vêm da Meta, não de digitação. É o que torna o
+ * `id` confiável: digitado, ele seria um palpite sobre qual conta é.
+ */
+export interface ContaDaMeta {
+  /** Identificador da conta do Instagram na Meta. `null` sem vínculo. */
+  id: string | null;
+  nome: string;
+  usuario: string | null;
+  /** A Página de onde ela veio, que é o que a pessoa reconhece. */
+  pagina: string;
+  /** Já pertence a este cliente: aparece na lista, mas não é selecionável. */
+  jaVinculada: boolean;
+  /**
+   * Por que não dá para adicionar. `null` quando dá.
+   * A causa mais comum é Página sem conta profissional vinculada — e
+   * mostrar isso aqui evita o erro aparecer só depois de salvar.
+   */
+  impedimento: string | null;
+}
+
+/* ---- Conta em foco ----
+   Qual parlamentar as telas estão mostrando. Fica na sessão, no servidor:
+   se vivesse só no navegador, abrir o sistema de outro aparelho mostraria
+   outra conta sem a pessoa ter trocado nada. */
+
+export interface ContaEmFoco {
+  id: string;
+  nome: string;
+  usuario: string;
+  conectada: boolean;
+}

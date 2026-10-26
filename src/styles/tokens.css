@@ -26,7 +26,9 @@
   /* ---- Texto ---- */
   --texto-primario: #0f172a;
   --texto-secundario: #475569;
-  --texto-terciario: #94a3b8;
+  /* 4,76:1 sobre branco. O valor anterior (#94a3b8) dava 2,56:1 e
+     reprovava no 1.4.3 em todo texto terciário do modo claro. */
+  --texto-terciario: #64748b;
   --texto-inverso: #ffffff;
   --texto-on-nav: #94a3b8;
   --texto-on-nav-ativo: #ffffff;

@@ -4,6 +4,7 @@ import { Campo } from "../../componentes/Campo/Campo";
 import { Cartao } from "../../componentes/Cartao/Cartao";
 import { Voltar } from "../../componentes/Voltar/Voltar";
 import { Icone } from "../../componentes/Icone/Icone";
+import { ModalAdicionarConta } from "../../componentes/ModalAdicionarConta/ModalAdicionarConta";
 import {
   obterCliente,
   salvarCliente,
@@ -22,6 +23,7 @@ export function ConfiguracaoCliente() {
   const [erro, setErro] = useState<string | null>(null);
   const [salvando, setSalvando] = useState(false);
   const [salvo, setSalvo] = useState(false);
+  const [adicionando, setAdicionando] = useState(false);
 
   useEffect(() => {
     let ativo = true;
@@ -160,24 +162,10 @@ export function ConfiguracaoCliente() {
           </p>
         )}
 
-        <Botao
-          type="button"
-          variante="secundario"
-          onClick={() =>
-            setCliente({
-              ...cliente,
-              contas: [
-                ...cliente.contas,
-                {
-                  id: `conta_${Date.now()}`,
-                  nome: "Nova conta",
-                  usuario: "@",
-                  conectada: false,
-                },
-              ],
-            })
-          }
-        >
+        {/* Não cria uma linha em branco para preencher: a conta vem da
+            Meta, com o identificador que a API usa. Digitar o @ seria um
+            palpite, e o erro só apareceria na hora de coletar. */}
+        <Botao type="button" variante="secundario" onClick={() => setAdicionando(true)}>
           Adicionar conta
         </Botao>
       </Cartao>
@@ -192,6 +180,12 @@ export function ConfiguracaoCliente() {
           {erro}
         </p>
       )}
+
+      <ModalAdicionarConta
+        aberto={adicionando}
+        aoFechar={() => setAdicionando(false)}
+        aoVincular={setCliente}
+      />
 
       <div className={estilos.acoes}>
         <Botao type="submit" disabled={salvando}>
