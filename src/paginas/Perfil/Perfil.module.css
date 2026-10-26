@@ -110,3 +110,52 @@
 .sair:hover {
   background: var(--stance-contra-bg);
 }
+
+/* ---- atalhos de administração ---- */
+
+.configuracoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-8);
+  width: 100%;
+}
+
+.atalho {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-12);
+  padding: var(--espaco-12) var(--espaco-16);
+  border: 1px solid var(--borda-padrao);
+  border-radius: var(--raio-md);
+  background: var(--superficie-cartao);
+  color: var(--texto-primario);
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.atalho:hover {
+  border-color: var(--acento-base);
+}
+
+.atalho:focus-visible {
+  outline: 2px solid var(--acento-base);
+  outline-offset: 2px;
+}
+
+.atalhoTexto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.atalhoTitulo {
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-medio);
+}
+
+.atalhoAjuda {
+  font-size: var(--tamanho-caption);
+  color: var(--texto-secundario);
+}

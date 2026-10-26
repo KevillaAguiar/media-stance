@@ -195,3 +195,62 @@ export interface InicioDeAutorizacao {
   /** Para onde mandar a pessoa. Quem monta é o servidor. */
   urlDeAutorizacao: string;
 }
+
+/* ---- Cadastro de cliente (RF-001 a RF-005) ---- */
+
+export type TipoDeCliente = "agencia" | "mandato";
+
+export interface ContaVinculada {
+  id: string;
+  nome: string;
+  usuario: string;
+  /** Reflete o estado da conexão com a Meta, não um campo editável. */
+  conectada: boolean;
+}
+
+export interface Cliente {
+  id: string;
+  nome: string;
+  tipo: TipoDeCliente;
+  contas: ContaVinculada[];
+}
+
+/* ---- Configuração política (RD-016, RN-020) ---- */
+
+export interface Partido {
+  sigla: string;
+  numeroDoPartido: string;
+  numeroDoCandidato: string;
+}
+
+/**
+ * A tabela de alinhamento que entra no prompt do modelo.
+ *
+ * Os nomes dos campos seguem o `config_politico.json` do pipeline de
+ * propósito: são a mesma coisa, e inventar um segundo vocabulário aqui
+ * criaria uma tradução para alguém manter.
+ */
+export interface ConfiguracaoPolitica {
+  contaId: string;
+  versao: string;
+  atualizadaEm: string;
+  atualizadaPor: string;
+  alvo: string;
+  cargo: string;
+  escopoDoAlvo: string;
+  partido: Partido;
+  campo: string;
+  aliados: string[];
+  adversarios: string[];
+  terceirosNaoPoliticos: string[];
+  /** O que ainda não foi confirmado com o cliente; `null` quando nada falta. */
+  pendenteDeConfirmacao: string | null;
+}
+
+export interface VersaoDeConfiguracao {
+  versao: string;
+  criadaEm: string;
+  criadaPor: string;
+  resumo: string;
+  vigente: boolean;
+}

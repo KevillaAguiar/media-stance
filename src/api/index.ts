@@ -1,5 +1,7 @@
 import type {
+  Cliente,
   ConexaoDeConta,
+  ConfiguracaoPolitica,
   Conta,
   EstadoDaConexao,
   InicioDeAutorizacao,
@@ -10,6 +12,7 @@ import type {
   PainelDeDemandas,
   Perfil,
   ResumoDoDia,
+  VersaoDeConfiguracao,
 } from "./tipos";
 import * as mock from "./mock";
 
@@ -193,4 +196,50 @@ export async function simularEstadoDaConexao(
   if (!USANDO_MOCK) throw new Error("Disponível apenas com dados simulados");
   await atraso(null, 200);
   return mock.forcarEstado(estado);
+}
+
+/* ---- Cliente e configuração política ---------------------------------
+   Rotas de administração: o servidor responde 403 a quem não for
+   administrador. O `papel` no perfil serve para a interface não oferecer
+   o que vai ser recusado — não é ele que protege. */
+
+export async function obterCliente(): Promise<Cliente> {
+  if (USANDO_MOCK) return atraso(mock.clienteAtual(), 250);
+  throw new Error("API real ainda não configurada");
+}
+
+export async function salvarCliente(cliente: Cliente): Promise<Cliente> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 600);
+  if (!cliente.nome.trim()) throw new Error("O cliente precisa de um nome.");
+  if (cliente.contas.length === 0) {
+    throw new Error("Vincule ao menos uma conta ao cliente.");
+  }
+  return mock.salvarCliente(cliente);
+}
+
+export async function obterConfiguracaoPolitica(): Promise<ConfiguracaoPolitica> {
+  if (USANDO_MOCK) return atraso(mock.politicaAtual(), 250);
+  throw new Error("API real ainda não configurada");
+}
+
+export async function listarVersoesDaConfiguracao(): Promise<VersaoDeConfiguracao[]> {
+  if (USANDO_MOCK) return atraso(mock.versoesDaPolitica(), 200);
+  throw new Error("API real ainda não configurada");
+}
+
+/**
+ * Cria uma versão nova. Repare que não existe uma função de "atualizar":
+ * a configuração é um registro que só cresce, e é isso que mantém o
+ * carimbo `politica_versao` apontando para algo que ainda existe.
+ */
+export async function salvarNovaVersaoDaConfiguracao(
+  configuracao: ConfiguracaoPolitica,
+): Promise<ConfiguracaoPolitica> {
+  if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
+  await atraso(null, 700);
+  if (configuracao.aliados.length === 0) {
+    throw new Error("A lista de aliados não pode ficar vazia: é ela que evita ler elogio a aliado como oposição.");
+  }
+  return mock.salvarNovaVersao(configuracao);
 }

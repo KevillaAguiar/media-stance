@@ -1,0 +1,43 @@
+.pagina {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-12);
+  max-width: 52ch;
+  padding: var(--espaco-32) 0;
+}
+
+.icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--raio-pill);
+  background: var(--superficie-destaque);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espaco-4);
+}
+
+.titulo {
+  font-size: var(--tamanho-titulo-lg);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+.texto {
+  font-size: var(--tamanho-corpo);
+  line-height: 1.55;
+  color: var(--texto-secundario);
+}
+
+@media (max-width: 640px) {
+  .pagina {
+    padding: var(--espaco-20) 0;
+  }
+
+  .pagina > button,
+  .pagina > a {
+    width: 100%;
+  }
+}

@@ -4,6 +4,8 @@ import { Layout } from "./componentes/Layout/Layout";
 import { Cadastro } from "./paginas/Cadastro/Cadastro";
 import { Comentarios } from "./paginas/Comentarios/Comentarios";
 import { ConectarConta } from "./paginas/ConectarConta/ConectarConta";
+import { ConfiguracaoCliente } from "./paginas/ConfiguracaoCliente/ConfiguracaoCliente";
+import { ConfiguracaoPolitica } from "./paginas/ConfiguracaoPolitica/ConfiguracaoPolitica";
 import { Demandas } from "./paginas/Demandas/Demandas";
 import { EsqueciSenha } from "./paginas/EsqueciSenha/EsqueciSenha";
 import { Login } from "./paginas/Login/Login";
@@ -11,7 +13,8 @@ import { Perfil } from "./paginas/Perfil/Perfil";
 import { RedefinirSenha } from "./paginas/RedefinirSenha/RedefinirSenha";
 import { ResumoDoDia } from "./paginas/ResumoDoDia/ResumoDoDia";
 import { RetornoAutorizacao } from "./paginas/RetornoAutorizacao/RetornoAutorizacao";
-import { obterConta, type Conta } from "./api";
+import { SemPermissao } from "./componentes/SemPermissao/SemPermissao";
+import { obterConta, obterPerfil, type Conta, type PapelDoUsuario } from "./api";
 import { useSessao } from "./sessao/sessao";
 
 /**
@@ -34,8 +37,37 @@ function ExigeSessao({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+/**
+ * Mostra a tela de acesso restrito quando o papel não permite.
+ *
+ * ISTO NÃO PROTEGE NADA, pelo mesmo motivo de `ExigeSessao`: quem abre o
+ * console passa, e quem chama a API direto nem vem por aqui. O que
+ * impede é o servidor responder 403. O que isto faz é não oferecer à
+ * pessoa um caminho que vai terminar em recusa.
+ *
+ * Enquanto o papel não chegou, nada é decidido: mostrar "acesso
+ * restrito" por um instante e depois a tela de verdade pisca na cara de
+ * quem tem permissão.
+ */
+function ExigePapel({
+  papel,
+  permitido,
+  area,
+  children,
+}: {
+  papel: PapelDoUsuario | null;
+  permitido: PapelDoUsuario;
+  area: string;
+  children: ReactNode;
+}) {
+  if (papel === null) return null;
+  if (papel !== permitido) return <SemPermissao area={area} />;
+  return <>{children}</>;
+}
+
 function AreaInterna() {
   const [conta, setConta] = useState<Conta | null>(null);
+  const [papel, setPapel] = useState<PapelDoUsuario | null>(null);
 
   // A conta pertence à sessão, não a uma tela: fica aqui porque a
   // navegação a usa em todas elas. Cada página busca os próprios dados.
@@ -51,14 +83,49 @@ function AreaInterna() {
     };
   }, []);
 
+  // O papel vem do perfil e vale para a navegação e para as rotas, então
+  // mora aqui e não dentro de cada tela.
+  useEffect(() => {
+    let ativo = true;
+    obterPerfil()
+      .then((p) => ativo && setPapel(p.papel))
+      .catch(() => ativo && setPapel("assessor"));
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
   return (
-    <Layout conta={conta}>
+    <Layout conta={conta} papel={papel}>
       <Routes>
         <Route path="/" element={<ResumoDoDia />} />
         <Route path="/comentarios" element={<Comentarios />} />
         <Route path="/demandas" element={<Demandas />} />
         <Route path="/perfil" element={<Perfil />} />
-        <Route path="/conectar-conta" element={<ConectarConta />} />
+        <Route
+          path="/conectar-conta"
+          element={
+            <ExigePapel papel={papel} permitido="administrador" area="Conectar conta">
+              <ConectarConta />
+            </ExigePapel>
+          }
+        />
+        <Route
+          path="/configuracoes/cliente"
+          element={
+            <ExigePapel papel={papel} permitido="administrador" area="O cadastro de cliente">
+              <ConfiguracaoCliente />
+            </ExigePapel>
+          }
+        />
+        <Route
+          path="/configuracoes/politica"
+          element={
+            <ExigePapel papel={papel} permitido="administrador" area="A configuração política">
+              <ConfiguracaoPolitica />
+            </ExigePapel>
+          }
+        />
         {/* O retorno da Meta é rota interna de propósito: só faz sentido
             para quem já está em sessão, e assim quem cair aqui sem sessão
             passa pelo login e volta para cá em vez de ver uma tela morta. */}

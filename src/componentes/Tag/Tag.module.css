@@ -1,0 +1,52 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-4);
+  padding: var(--espaco-4) var(--espaco-6) var(--espaco-4) var(--espaco-10);
+  border-radius: var(--raio-pill);
+  font-size: var(--tamanho-label);
+  font-weight: var(--peso-medio);
+  /* A tag não quebra no meio de um nome composto: "Rafael Fonteles"
+     partido em duas linhas vira dois termos aos olhos de quem lê. */
+  white-space: nowrap;
+}
+
+.aliado {
+  background: var(--stance-a-favor-bg);
+  color: var(--stance-a-favor-fg);
+}
+
+.adversario {
+  background: var(--stance-contra-bg);
+  color: var(--stance-contra-fg);
+}
+
+.neutro {
+  background: var(--stance-neutro-bg);
+  color: var(--stance-neutro-fg);
+}
+
+.remover {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: var(--raio-pill);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.remover:hover {
+  opacity: 1;
+  background: rgb(0 0 0 / 10%);
+}
+
+.remover:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+  opacity: 1;
+}

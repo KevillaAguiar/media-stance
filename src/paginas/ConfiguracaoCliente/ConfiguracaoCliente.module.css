@@ -1,0 +1,270 @@
+.pagina {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-24);
+  max-width: 820px;
+}
+
+.cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-4);
+}
+
+.titulo {
+  font-size: var(--tamanho-titulo-lg);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+.subtitulo,
+.ajuda {
+  font-size: var(--tamanho-corpo);
+  line-height: 1.5;
+  color: var(--texto-secundario);
+  max-width: 60ch;
+}
+
+.ajuda {
+  font-size: var(--tamanho-label);
+}
+
+.cartao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-16);
+  padding: var(--espaco-20);
+}
+
+.cabecalhoSecao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-4);
+}
+
+.secao {
+  font-size: var(--tamanho-corpo-lg);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+/* ---- seletor de tipo ---- */
+
+.tipo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-8);
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legenda {
+  font-size: var(--tamanho-label);
+  color: var(--texto-secundario);
+  padding: 0;
+}
+
+.opcoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco-12);
+}
+
+.opcao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-4);
+  padding: var(--espaco-16);
+  border: 1px solid var(--borda-campo);
+  border-radius: var(--raio-sm);
+  background: var(--superficie-cartao);
+  cursor: pointer;
+}
+
+.marcada {
+  border-color: var(--acento-forte);
+  border-width: 2px;
+  background: var(--acento-bg-sutil);
+  /* Compensa a borda que engordou, senão o cartão marcado empurra o
+     vizinho 1px e a linha inteira tremula ao trocar de opção. */
+  padding: calc(var(--espaco-16) - 1px);
+}
+
+/* O rádio some aos olhos mas continua existindo para o teclado e para o
+   leitor de tela: o cartão inteiro é o alvo de clique. */
+.radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opcao:focus-within {
+  outline: 2px solid var(--acento-base);
+  outline-offset: 2px;
+}
+
+.opcaoTitulo {
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-semibold);
+  color: var(--texto-primario);
+}
+
+.marcada .opcaoTitulo {
+  color: var(--acento-forte);
+}
+
+.opcaoDescricao {
+  font-size: var(--tamanho-caption);
+  color: var(--texto-secundario);
+  line-height: 1.45;
+}
+
+/* ---- contas ---- */
+
+.contas {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.conta {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-12);
+  padding: var(--espaco-12) 0;
+  border-top: 1px solid var(--borda-padrao);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--raio-pill);
+  background: var(--superficie-destaque);
+  color: var(--texto-secundario);
+}
+
+.identidade {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.contaNome {
+  font-size: var(--tamanho-corpo);
+  font-weight: var(--peso-medio);
+  color: var(--texto-primario);
+}
+
+.contaUsuario {
+  font-size: var(--tamanho-caption);
+  color: var(--texto-secundario);
+}
+
+.estado {
+  padding: var(--espaco-2) var(--espaco-8);
+  border-radius: var(--raio-pill);
+  font-size: var(--tamanho-caption);
+  font-weight: var(--peso-semibold);
+  white-space: nowrap;
+}
+
+.conectada {
+  background: var(--stance-a-favor-bg);
+  color: var(--stance-a-favor-fg);
+}
+
+.pendente {
+  background: var(--stance-urgente-bg);
+  color: var(--stance-urgente-fg);
+}
+
+.remover {
+  font-size: var(--tamanho-label);
+  color: var(--acento-link);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--espaco-8);
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+.remover:hover {
+  text-decoration: underline;
+}
+
+/* ---- rodapé ---- */
+
+.acoes {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sucesso {
+  font-size: var(--tamanho-corpo);
+  color: var(--stance-a-favor-fg);
+  font-weight: var(--peso-semibold);
+}
+
+.erro {
+  font-size: var(--tamanho-corpo);
+  color: var(--stance-contra-fg);
+  font-weight: var(--peso-semibold);
+}
+
+.aviso {
+  font-size: var(--tamanho-corpo);
+  color: var(--texto-secundario);
+}
+
+/* ---- tablet ---- */
+
+@media (max-width: 1024px) {
+  .pagina {
+    max-width: none;
+  }
+}
+
+/* ---- celular ---- */
+
+@media (max-width: 640px) {
+  .opcoes {
+    grid-template-columns: 1fr;
+  }
+
+  /* A linha da conta passa a duas: em 375px, avatar, nome, estado e
+     "Remover" lado a lado espremem o nome a quatro letras. */
+  .conta {
+    flex-wrap: wrap;
+    row-gap: var(--espaco-8);
+  }
+
+  .identidade {
+    flex-basis: calc(100% - 48px);
+  }
+
+  .estado {
+    margin-left: 48px;
+  }
+
+  .remover {
+    margin-left: auto;
+  }
+
+  .acoes {
+    justify-content: stretch;
+  }
+
+  .acoes > * {
+    width: 100%;
+  }
+}

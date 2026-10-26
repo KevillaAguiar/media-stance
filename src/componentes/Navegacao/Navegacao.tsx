@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Icone, type NomeDeIcone } from "../Icone/Icone";
 import { AlternarTema } from "../AlternarTema/AlternarTema";
-import type { Conta } from "../../api";
+import type { Conta, PapelDoUsuario } from "../../api";
 import estilos from "./Navegacao.module.css";
 
 interface ItemDeNavegacao {
@@ -19,6 +19,7 @@ const ITENS: ItemDeNavegacao[] = [
 
 export interface NavegacaoProps {
   conta: Conta | null;
+  papel?: PapelDoUsuario | null;
 }
 
 /**
@@ -31,7 +32,15 @@ export interface NavegacaoProps {
  * O que muda é só CSS. A ordem no DOM é a mesma nos três, o que mantém a
  * navegação por teclado previsível.
  */
-export function Navegacao({ conta }: NavegacaoProps) {
+/*
+ * As telas de configuração NÃO entram aqui, e isso é decisão, não
+ * esquecimento. No celular esta navegação vira barra inferior, e quatro
+ * alvos já ocupam os 375px; um quinto deixa todos apertados demais para
+ * o polegar. Elas são alcançadas pelo Perfil, que é onde quem administra
+ * já vai para trocar senha e sair.
+ */
+export function Navegacao({ conta, papel = null }: NavegacaoProps) {
+  void papel;
   return (
     <nav className={estilos.navegacao} aria-label="Navegação principal">
       <div className={estilos.marca}>

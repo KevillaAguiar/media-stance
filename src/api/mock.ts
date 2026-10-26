@@ -1,6 +1,8 @@
 import type {
+  Cliente,
   Comentario,
   ConexaoDeConta,
+  ConfiguracaoPolitica,
   ContagemDeDemanda,
   EstadoDaConexao,
   MotivoDeErroDeConexao,
@@ -10,6 +12,7 @@ import type {
   PainelDeDemandas,
   Perfil,
   ResumoDoDia,
+  VersaoDeConfiguracao,
 } from "./tipos";
 
 /* Dados inventados para desenvolver sem depender do pipeline.
@@ -446,4 +449,92 @@ export function forcarEstado(estado: EstadoDaConexao): ConexaoDeConta {
   }
   conexao = { ...conexao, estado: "erro", erro: "token_expirado" };
   return conexaoAtual();
+}
+
+/* ---- Cliente e configuração política -----------------------------------
+   Estado em memória, como a conexão. Os valores reproduzem a forma do
+   config_politico.json do pipeline, com as duas contas do projeto. */
+
+let cliente: Cliente = {
+  id: "cli_1",
+  nome: "Mandato Dep. Limma",
+  tipo: "mandato",
+  contas: [
+    { id: "conta_limma", nome: "Deputado Limma", usuario: "@dep.limma", conectada: true },
+    { id: "conta_elzuila", nome: "Deputada Elzuila", usuario: "@dep.elzuila", conectada: false },
+  ],
+};
+
+export function clienteAtual(): Cliente {
+  return { ...cliente, contas: cliente.contas.map((c) => ({ ...c })) };
+}
+
+export function salvarCliente(novo: Cliente): Cliente {
+  cliente = { ...novo, contas: novo.contas.map((c) => ({ ...c })) };
+  return clienteAtual();
+}
+
+const POLITICA_INICIAL: ConfiguracaoPolitica = {
+  contaId: "conta_limma",
+  versao: "v1.0",
+  atualizadaEm: "2026-09-19",
+  atualizadaPor: "assessor@dep.gov.br",
+  alvo: "Limma",
+  cargo: "Deputado estadual — Piauí",
+  escopoDoAlvo: "Atitude em relação ao titular e sua atuação pública",
+  partido: { sigla: "PT", numeroDoPartido: "13", numeroDoCandidato: "13123" },
+  campo: 'Coligação do governo do Piauí — campo Lula / Rafael Fonteles, "time do povo"',
+  aliados: [
+    "Lula", "Rafael Fonteles", "Wellington Dias", "Merlong Solano",
+    "Marcelo Castro", "Júlio César", "Assis Carvalho", "Elvis Ramos",
+    "PT", "Partido dos Trabalhadores", "time do povo", "governo do Piauí",
+  ],
+  adversarios: ["Jair Bolsonaro", "Flávio Bolsonaro", "bolsonarismo", "direita", "extrema-direita"],
+  terceirosNaoPoliticos: ["Rejane Tavares", "dona Nita", "João Tomaz", "Socorrinha"],
+  pendenteDeConfirmacao:
+    "Adversários de nível estadual ainda não foram confirmados com o mandato.",
+};
+
+let politica: ConfiguracaoPolitica = { ...POLITICA_INICIAL };
+
+let versoes: VersaoDeConfiguracao[] = [
+  { versao: "v1.0", criadaEm: "2026-09-19", criadaPor: "assessor@dep.gov.br",
+    resumo: "Versão inicial, derivada das legendas das publicações.", vigente: true },
+  { versao: "v0.2", criadaEm: "2026-09-12", criadaPor: "assessor@dep.gov.br",
+    resumo: "Acrescentados 4 terceiros não políticos.", vigente: false },
+  { versao: "v0.1", criadaEm: "2026-09-05", criadaPor: "assessor@dep.gov.br",
+    resumo: "Rascunho com partido e aliados nacionais.", vigente: false },
+];
+
+export function politicaAtual(): ConfiguracaoPolitica {
+  return JSON.parse(JSON.stringify(politica));
+}
+
+export function versoesDaPolitica(): VersaoDeConfiguracao[] {
+  return versoes.map((v) => ({ ...v }));
+}
+
+/** Soma 0.1 ao número menor: v1.0 vira v1.1, v1.9 vira v1.10. */
+function proximaVersao(atual: string): string {
+  const [maior, menor] = atual.replace(/^v/, "").split(".").map(Number);
+  return `v${maior}.${(menor ?? 0) + 1}`;
+}
+
+/**
+ * Nunca sobrescreve: cria uma versão nova e empurra a anterior para o
+ * histórico. É o que mantém `politica_versao` significando alguma coisa
+ * num resultado carimbado meses atrás.
+ */
+export function salvarNovaVersao(nova: ConfiguracaoPolitica): ConfiguracaoPolitica {
+  const versao = proximaVersao(politica.versao);
+  const hoje = new Date().toISOString().slice(0, 10);
+
+  versoes = [
+    { versao, criadaEm: hoje, criadaPor: perfil.email,
+      resumo: "Alteração feita pela tela de configuração política.", vigente: true },
+    ...versoes.map((v) => ({ ...v, vigente: false })),
+  ];
+
+  politica = { ...nova, versao, atualizadaEm: hoje, atualizadaPor: perfil.email };
+  return politicaAtual();
 }

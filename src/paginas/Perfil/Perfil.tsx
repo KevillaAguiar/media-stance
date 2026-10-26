@@ -5,6 +5,7 @@ import { Botao } from "../../componentes/Botao/Botao";
 import { Campo } from "../../componentes/Campo/Campo";
 import { EstadoDaConexao } from "../../componentes/EstadoDaConexao/EstadoDaConexao";
 import { Icone } from "../../componentes/Icone/Icone";
+import { Link } from "react-router-dom";
 import {
   alterarSenha,
   desconectarInstagram,
@@ -229,6 +230,35 @@ export function Perfil() {
             </Botao>
           </div>
         </form>
+      )}
+
+      {/* A porta de entrada das telas de administração. Mora aqui, e não
+          na navegação, porque a barra inferior do celular já tem quatro
+          alvos em 375px. Some para quem é assessor — não por segurança,
+          que é do servidor, mas para não oferecer um caminho que termina
+          em recusa. */}
+      {perfil.papel === "administrador" && (
+        <nav className={estilos.configuracoes} aria-label="Configurações">
+          <h2 className={estilos.subtitulo}>Configurações</h2>
+
+          <Link to="/configuracoes/cliente" className={estilos.atalho}>
+            <Icone nome="account_circle" tamanho={20} />
+            <span className={estilos.atalhoTexto}>
+              <span className={estilos.atalhoTitulo}>Cadastro de cliente</span>
+              <span className={estilos.atalhoAjuda}>Tipo do cliente e contas vinculadas</span>
+            </span>
+            <Icone nome="chevron_right" tamanho={20} />
+          </Link>
+
+          <Link to="/configuracoes/politica" className={estilos.atalho}>
+            <Icone nome="assignment" tamanho={20} />
+            <span className={estilos.atalhoTexto}>
+              <span className={estilos.atalhoTitulo}>Configuração política</span>
+              <span className={estilos.atalhoAjuda}>Aliados, adversários e termos do prompt</span>
+            </span>
+            <Icone nome="chevron_right" tamanho={20} />
+          </Link>
+        </nav>
       )}
 
       {/* Só aparece no mobile: lá a barra inferior já tem quatro alvos em
