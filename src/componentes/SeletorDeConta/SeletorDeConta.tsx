@@ -94,11 +94,12 @@ export function SeletorDeConta({
         aria-expanded={aberto}
         aria-haspopup="listbox"
       >
-        {contexto === "faixa" && (
-          <span className={estilos.avatar} aria-hidden="true">
-            <Icone nome="person" tamanho={18} />
-          </span>
-        )}
+        {/* O ícone aparece nos dois contextos. Na lateral, toda linha
+            começa com um ícone na mesma coluna; sem ele o seletor era a
+            única linha fora do alinhamento e parecia incompleto. */}
+        <span className={estilos.avatar} aria-hidden="true">
+          <Icone nome="person" tamanho={20} />
+        </span>
         <span className={estilos.identidade}>
           <span className={estilos.nome}>{foco.nome}</span>
           <span className={estilos.usuario}>{foco.usuario}</span>

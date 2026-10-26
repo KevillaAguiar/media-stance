@@ -10,19 +10,23 @@
   gap: var(--espaco-10);
   width: 100%;
   min-height: 48px;
-  padding: var(--espaco-8) var(--espaco-10) var(--espaco-8) var(--espaco-12);
+  padding: var(--espaco-10) var(--espaco-12);
   border-radius: var(--raio-sm);
   cursor: pointer;
   text-align: left;
 }
 
+/* Sem preenchimento: com ele o gatilho ficava igual ao item ativo da
+   navegação logo abaixo, e os dois liam como "selecionado". O contorno
+   é o que diz que isto é um controle, então ele precisa dos 3:1. */
 .nav .gatilho {
-  border: 1px solid var(--superficie-icone-circulo);
-  background: var(--superficie-nav-item-ativo);
+  border: 1px solid var(--nav-borda-controle);
+  background: none;
   color: var(--texto-on-nav-ativo);
 }
 
 .nav .gatilho:hover {
+  background: var(--superficie-nav-item-ativo);
   border-color: var(--acento-claro);
 }
 
@@ -75,6 +79,15 @@
   border-radius: var(--raio-pill);
   background: var(--superficie-destaque);
   color: var(--texto-secundario);
+}
+
+/* Na lateral o ícone é solto, do tamanho e da cor dos da navegação: o
+   círculo da faixa quebraria a coluna que os outros itens formam. */
+.nav .avatar {
+  width: 20px;
+  height: 20px;
+  background: none;
+  color: var(--nav-icone);
 }
 
 /* ---- lista ---- */

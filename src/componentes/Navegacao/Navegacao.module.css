@@ -179,11 +179,13 @@
 }
 
 /* Seletor de conta: some no celular, onde ele vira faixa no conteúdo. */
-/* Menos recuo que os itens da navegação: o gatilho é um cartão com borda,
-   e com o recuo deles sobrava pouco para o nome — "Deputado Limma" saía
-   cortado em "Deputado Li…" na largura de 240px da lateral. */
+/* Sem recuo lateral próprio: a navegação já afasta 24px das bordas, e o
+   gatilho ocupa exatamente a mesma caixa dos itens abaixo dele. Com um
+   recuo a mais ele ficava mais estreito que eles e parecia deslocado. */
 .seletor {
-  padding: 0 var(--espaco-12) var(--espaco-8);
+  /* Respiro maior que o espaço entre os itens: o seletor não é um
+     deles, e colado à lista ele entrava na contagem. */
+  padding: 0 0 var(--espaco-16);
 }
 
 
