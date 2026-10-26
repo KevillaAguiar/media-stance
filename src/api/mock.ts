@@ -357,6 +357,8 @@ export const perfil: Perfil = {
   cargo: "Assessor de Comunicação",
   email: "assessor@dep.gov.br",
   contaVinculada: "@dep.assessoria",
+  // Administrador no mock para as telas de configuração aparecerem.
+  papel: "administrador",
 };
 
 /* ---- Conexão com a conta do Instagram ----------------------------------

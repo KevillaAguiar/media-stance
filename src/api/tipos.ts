@@ -131,12 +131,27 @@ export interface PainelDeDemandas {
 
 /* ---- Perfil ---- */
 
+/**
+ * Quem pode o quê.
+ *
+ * Dois papéis, não três: um terceiro criaria uma matriz de permissões que
+ * ninguém mantém. O assessor lê os comentários; o administrador também
+ * cadastra cliente, edita a configuração política e conecta contas.
+ *
+ * ISTO NÃO PROTEGE NADA. É o que a interface usa para decidir o que
+ * desenhar. Quem impede de verdade é o servidor devolvendo 403 — quem
+ * digita a URL passa por aqui, e quem chama a API nem precisa do
+ * navegador. Mesmo motivo de `src/sessao/` não ser autenticação.
+ */
+export type PapelDoUsuario = "assessor" | "administrador";
+
 export interface Perfil {
   nome: string;
   cargo: string;
   email: string;
   /** Conta do parlamentar que esta pessoa acompanha. */
   contaVinculada: string;
+  papel: PapelDoUsuario;
 }
 
 /* ---- Conexão com a conta do Instagram (RF-053, RF-054) ---- */
