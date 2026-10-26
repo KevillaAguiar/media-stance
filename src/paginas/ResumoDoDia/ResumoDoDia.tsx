@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { escreverProporcao } from "../../componentes/CartaoEstatistica/CartaoEstatistica";
 import { Link } from "react-router-dom";
 import { Badge } from "../../componentes/Badge/Badge";
 import { Cartao } from "../../componentes/Cartao/Cartao";
@@ -14,7 +15,6 @@ const dataLonga = new Intl.DateTimeFormat("pt-BR", {
   year: "numeric",
   timeZone: "UTC",
 });
-const porcentagem = new Intl.NumberFormat("pt-BR", { style: "percent" });
 const umaCasa = new Intl.NumberFormat("pt-BR", {
   style: "percent",
   minimumFractionDigits: 1,
@@ -110,7 +110,7 @@ export function ResumoDoDia() {
         <Badge tom="engajamento_afetivo">Engajamento afetivo</Badge>
         <p>
           {inteiro.format(engajamentoAfetivo.quantidade)} comentários (
-          {porcentagem.format(engajamentoAfetivo.proporcao)}) são compostos
+          {escreverProporcao(engajamentoAfetivo.proporcao)}) são compostos
           apenas de emojis — fora da contagem de posicionamento
         </p>
       </Cartao>

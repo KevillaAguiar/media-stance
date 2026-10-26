@@ -517,7 +517,7 @@ export function versoesDaPolitica(): VersaoDeConfiguracao[] {
 }
 
 /** Soma 0.1 ao número menor: v1.0 vira v1.1, v1.9 vira v1.10. */
-function proximaVersao(atual: string): string {
+export function proximaVersao(atual: string): string {
   const [maior, menor] = atual.replace(/^v/, "").split(".").map(Number);
   return `v${maior}.${(menor ?? 0) + 1}`;
 }

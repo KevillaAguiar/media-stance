@@ -12,7 +12,7 @@ export interface PaginacaoProps {
  * atual, e reticências no lugar do que foi omitido. Sem isso, 40 páginas
  * viram 40 botões.
  */
-function sequencia(pagina: number, total: number): (number | "...")[] {
+export function sequencia(pagina: number, total: number): (number | "...")[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
 
   const paginas = new Set([1, total, pagina, pagina - 1, pagina + 1]);
