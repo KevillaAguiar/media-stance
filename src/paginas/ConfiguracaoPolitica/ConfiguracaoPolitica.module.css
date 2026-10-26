@@ -104,6 +104,14 @@
   align-items: start;
 }
 
+/* Item de grade nasce com `min-width: auto`, então ele cresce para caber
+   o conteúdo em vez de respeitar a faixa de 1fr. Era isso que fazia o
+   texto de ajuda de "Nº do candidato" empurrar o campo para fora do
+   cartão em larguras intermediárias. */
+.grade > * {
+  min-width: 0;
+}
+
 /* ---- listas de termos ---- */
 
 .tags {

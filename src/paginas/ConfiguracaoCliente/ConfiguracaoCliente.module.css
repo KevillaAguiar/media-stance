@@ -71,6 +71,10 @@
   gap: var(--espaco-12);
 }
 
+.opcoes > * {
+  min-width: 0;
+}
+
 .opcao {
   display: flex;
   flex-direction: column;

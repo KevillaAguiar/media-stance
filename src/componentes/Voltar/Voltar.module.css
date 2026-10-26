@@ -1,0 +1,26 @@
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-4);
+  align-self: flex-start;
+  /* Recua o ícone até a margem do texto: com o padding, o chevron ficaria
+     deslocado em relação ao título logo abaixo. */
+  margin-left: calc(var(--espaco-8) * -1);
+  padding: var(--espaco-8);
+  min-height: 44px;
+  border: none;
+  background: none;
+  color: var(--texto-secundario);
+  font-size: var(--tamanho-corpo);
+  cursor: pointer;
+  border-radius: var(--raio-sm);
+}
+
+.voltar:hover {
+  color: var(--acento-forte);
+}
+
+.voltar:focus-visible {
+  outline: 2px solid var(--acento-base);
+  outline-offset: 2px;
+}

@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Botao } from "../../componentes/Botao/Botao";
 import { Campo } from "../../componentes/Campo/Campo";
 import { Cartao } from "../../componentes/Cartao/Cartao";
+import { Voltar } from "../../componentes/Voltar/Voltar";
 import { Icone } from "../../componentes/Icone/Icone";
 import { Tag, type TomDaTag } from "../../componentes/Tag/Tag";
 import {
@@ -107,6 +108,8 @@ export function ConfiguracaoPolitica() {
 
   return (
     <form className={estilos.pagina} onSubmit={enviar} noValidate>
+      <Voltar destino="/perfil" rotuloDoDestino="o perfil" />
+
       <header className={estilos.cabecalho}>
         <h1 className={estilos.titulo}>Configuração política</h1>
         <p className={estilos.subtitulo}>
