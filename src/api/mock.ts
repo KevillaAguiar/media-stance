@@ -1,3 +1,9 @@
+import {
+  diasAtras,
+  hoje,
+  painelDeDemandas as consultarDemandas,
+  paginaDeComentarios as consultarComentarios,
+} from "./consultas";
 import type {
   Cliente,
   Comentario,
@@ -5,7 +11,6 @@ import type {
   ConfiguracaoPolitica,
   ContaDaMeta,
   ContaEmFoco,
-  ContagemDeDemanda,
   EstadoDaConexao,
   MotivoDeErroDeConexao,
   FiltrosDeComentarios,
@@ -22,15 +27,7 @@ import type {
    sensível pela LGPD, e fixture é arquivo versionado. */
 
 /** Data de hoje no fuso local, como "AAAA-MM-DD". */
-function hoje(): string {
-  const agora = new Date();
-  // Montada campo a campo de propósito: `toISOString()` devolve UTC, e às
-  // 21h em São Paulo o UTC já virou o dia seguinte — o painel mostraria
-  // amanhã.
-  const mes = String(agora.getMonth() + 1).padStart(2, "0");
-  const dia = String(agora.getDate()).padStart(2, "0");
-  return `${agora.getFullYear()}-${mes}-${dia}`;
-}
+
 
 export function resumoDoDia(): ResumoDoDia {
   return {
@@ -198,13 +195,7 @@ const SEMENTES: Semente[] = [
 ];
 
 /** Data de N dias atrás, como "AAAA-MM-DD". */
-function diasAtras(n: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() - n);
-  const mes = String(d.getMonth() + 1).padStart(2, "0");
-  const dia = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${mes}-${dia}`;
-}
+
 
 /**
  * Espalha os comentários pelos últimos 45 dias, com volume variável por
@@ -234,125 +225,14 @@ function todosOsComentarios(): Comentario[] {
   return itens;
 }
 
-const POR_PAGINA = 5;
-
-/** Primeiro dia incluído no recorte, como "AAAA-MM-DD". */
-function inicioDoPeriodo(filtros: FiltrosDeComentarios): string {
-  switch (filtros.periodo) {
-    case "hoje":
-      return diasAtras(0);
-    case "7dias":
-      return diasAtras(6);
-    case "30dias":
-      return diasAtras(29);
-    case "personalizado":
-      return filtros.intervalo?.de ?? diasAtras(0);
-  }
-}
-
-function fimDoPeriodo(filtros: FiltrosDeComentarios): string {
-  return filtros.periodo === "personalizado"
-    ? (filtros.intervalo?.ate ?? diasAtras(0))
-    : diasAtras(0);
-}
-
 export function paginaDeComentarios(
   filtros: FiltrosDeComentarios,
 ): PaginaDeComentarios {
-  const todos = todosOsComentarios();
-  const de = inicioDoPeriodo(filtros);
-  const ate = fimDoPeriodo(filtros);
-
-  const casam = todos.filter((c) => {
-    // Comparação de texto funciona porque "AAAA-MM-DD" ordena como data.
-    const dia = c.publicadoEm.slice(0, 10);
-    return (
-      dia >= de &&
-      dia <= ate &&
-      (filtros.classe === null || c.classe === filtros.classe) &&
-      (filtros.tema === null || c.tema === filtros.tema) &&
-      (!filtros.apenasUrgentes || c.urgente)
-    );
-  });
-
-  const totalDePaginas = Math.max(1, Math.ceil(casam.length / POR_PAGINA));
-  // Protege contra ?pagina=99 na URL, que deixaria a lista vazia sem motivo.
-  const pagina = Math.min(Math.max(1, filtros.pagina), totalDePaginas);
-  const inicio = (pagina - 1) * POR_PAGINA;
-
-  return {
-    itens: casam.slice(inicio, inicio + POR_PAGINA),
-    pagina,
-    totalDePaginas,
-    total: casam.length,
-    temasDisponiveis: [
-      ...new Set(todos.map((c) => c.tema).filter((t): t is string => t !== null)),
-    ].sort((a, b) => a.localeCompare(b, "pt-BR")),
-  };
-}
-
-/* ---- Painel de demandas ---------------------------------------------
-   Demanda é comentário da classe `pedido` com categoria identificada.
-   As outras classes não entram: o painel existe para encaminhar pedido
-   de eleitor, não para medir oposição. */
-
-function contar(
-  itens: Comentario[],
-  campo: "categoria" | "localidade",
-): ContagemDeDemanda[] {
-  const mapa = new Map<string, number>();
-  for (const item of itens) {
-    const valor = item[campo];
-    if (valor) mapa.set(valor, (mapa.get(valor) ?? 0) + 1);
-  }
-  return [...mapa.entries()]
-    .map(([rotulo, quantidade]) => ({ rotulo, quantidade }))
-    .sort((a, b) => b.quantidade - a.quantidade || a.rotulo.localeCompare(b.rotulo, "pt-BR"));
+  return consultarComentarios(todosOsComentarios(), filtros);
 }
 
 export function painelDeDemandas(filtros: FiltrosDeDemandas): PainelDeDemandas {
-  const de =
-    filtros.periodo === "personalizado"
-      ? (filtros.intervalo?.de ?? diasAtras(0))
-      : diasAtras(filtros.periodo === "hoje" ? 0 : filtros.periodo === "7dias" ? 6 : 29);
-  const ate =
-    filtros.periodo === "personalizado"
-      ? (filtros.intervalo?.ate ?? diasAtras(0))
-      : diasAtras(0);
-
-  const noPeriodo = todosOsComentarios().filter((c) => {
-    const dia = c.publicadoEm.slice(0, 10);
-    return c.classe === "pedido" && c.categoria !== null && dia >= de && dia <= ate;
-  });
-
-  const porTema = contar(noPeriodo, "categoria");
-  const porLocalidade = contar(noPeriodo, "localidade");
-
-  // Sem escolha do usuário, a lista abre na categoria mais volumosa: é a
-  // que a assessoria vai querer ver primeiro.
-  const categoria = filtros.categoria ?? porTema[0]?.rotulo ?? null;
-
-  const emFoco = noPeriodo.filter(
-    (c) =>
-      (categoria === null || c.categoria === categoria) &&
-      (filtros.localidade === null || c.localidade === filtros.localidade),
-  );
-
-  const totalDePaginas = Math.max(1, Math.ceil(emFoco.length / POR_PAGINA));
-  const pagina = Math.min(Math.max(1, filtros.pagina), totalDePaginas);
-  const inicio = (pagina - 1) * POR_PAGINA;
-
-  const rotulo = [categoria, filtros.localidade].filter(Boolean).join(" · ");
-
-  return {
-    porTema,
-    porLocalidade,
-    foco: { rotulo: rotulo || "Todas as demandas", total: emFoco.length },
-    itens: emFoco.slice(inicio, inicio + POR_PAGINA),
-    pagina,
-    totalDePaginas,
-    categoriasDisponiveis: porTema.map((t) => t.rotulo),
-  };
+  return consultarDemandas(todosOsComentarios(), filtros);
 }
 
 /* ---- Perfil ---- */

@@ -16,6 +16,7 @@ import type {
   ResumoDoDia,
   VersaoDeConfiguracao,
 } from "./tipos";
+import * as demo from "./demo";
 import * as mock from "./mock";
 
 export * from "./tipos";
@@ -37,7 +38,25 @@ export * from "./tipos";
      }
    --------------------------------------------------------------- */
 
-export const USANDO_MOCK = true;
+/**
+ * De onde vêm os dados das quatro telas internas.
+ *
+ * - `mock`: exemplos inventados. O padrão do dia a dia.
+ * - `demo`: a base de demonstração, com o resultado real da nossa
+ *   rodada. É o caminho de 12/11 — ligado por `VITE_FONTE=demo`, que o
+ *   `npm run demo` já define.
+ *
+ * Só as telas de dados mudam. Login, perfil, cadastro e configuração
+ * continuam no mock nos dois modos: a base de demonstração é resultado
+ * de classificação, não cadastro de usuário.
+ */
+export type FonteDeDados = "mock" | "demo";
+
+export const FONTE: FonteDeDados =
+  import.meta.env?.VITE_FONTE === "demo" ? "demo" : "mock";
+
+export const USANDO_MOCK = FONTE === "mock";
+export const USANDO_BASE_DE_DEMONSTRACAO = FONTE === "demo";
 
 function atraso<T>(valor: T, ms = 400): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(valor), ms));
@@ -45,11 +64,13 @@ function atraso<T>(valor: T, ms = 400): Promise<T> {
 
 /** Conta do parlamentar em sessão. Virá do endpoint de sessão. */
 export async function obterConta(): Promise<Conta> {
+  if (USANDO_BASE_DE_DEMONSTRACAO) return demo.conta();
   if (USANDO_MOCK) return atraso(mock.resumoDoDia().conta, 150);
   throw new Error("API real ainda não configurada");
 }
 
 export async function obterResumoDoDia(): Promise<ResumoDoDia> {
+  if (USANDO_BASE_DE_DEMONSTRACAO) return demo.resumoDoDia();
   if (USANDO_MOCK) return atraso(mock.resumoDoDia());
   throw new Error("API real ainda não configurada");
 }
@@ -57,6 +78,7 @@ export async function obterResumoDoDia(): Promise<ResumoDoDia> {
 export async function obterComentarios(
   filtros: FiltrosDeComentarios,
 ): Promise<PaginaDeComentarios> {
+  if (USANDO_BASE_DE_DEMONSTRACAO) return demo.paginaDeComentarios(filtros);
   if (USANDO_MOCK) return atraso(mock.paginaDeComentarios(filtros));
   throw new Error("API real ainda não configurada");
 }
@@ -64,6 +86,7 @@ export async function obterComentarios(
 export async function obterDemandas(
   filtros: FiltrosDeDemandas,
 ): Promise<PainelDeDemandas> {
+  if (USANDO_BASE_DE_DEMONSTRACAO) return demo.painelDeDemandas(filtros);
   if (USANDO_MOCK) return atraso(mock.painelDeDemandas(filtros));
   throw new Error("API real ainda não configurada");
 }
@@ -269,16 +292,19 @@ export async function vincularContasDaMeta(ids: string[]): Promise<Cliente> {
    uma chamada só em vez de um argumento a mais em cada uma delas. */
 
 export async function obterContaEmFoco(): Promise<ContaEmFoco> {
+  if (USANDO_BASE_DE_DEMONSTRACAO) return demo.foco();
   if (USANDO_MOCK) return atraso(mock.focoAtual(), 150);
   throw new Error("API real ainda não configurada");
 }
 
 export async function listarContasDoCliente(): Promise<ContaEmFoco[]> {
+  if (USANDO_BASE_DE_DEMONSTRACAO) return demo.contas();
   if (USANDO_MOCK) return atraso(mock.contasDoCliente(), 200);
   throw new Error("API real ainda não configurada");
 }
 
 export async function trocarContaEmFoco(id: string): Promise<ContaEmFoco> {
+  if (USANDO_BASE_DE_DEMONSTRACAO) return demo.trocarFoco(id);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 400);
   return mock.trocarFoco(id);

@@ -2,6 +2,9 @@
 .env
 .env.*
 !.env.example
+# Não tem segredo nenhum: só liga a fonte de dados da demonstração.
+# Sem esta exceção, `npm run demo` não funciona para quem clona.
+!.env.demo
 *.pem
 *.key
 token*.json
@@ -24,3 +27,15 @@ pnpm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Base de demonstração (S4.4)
+# ---------------------------------------------------------------------
+# Ela carrega comentário real de pessoa identificável — opinião política
+# é dado pessoal sensível pelo art. 5º, II da LGPD — e este repositório
+# é público. O lugar certo dela é FORA desta pasta, apontada por
+# BASE_DEMO; estas linhas são a segunda barreira, para o caso de alguém
+# gerar aqui dentro por engano.
+base-demo.json
+*base-demo*.json
+public/base-demo*.json
+.env.local
