@@ -4,9 +4,12 @@ Faz as quatro telas internas mostrarem **o resultado real da nossa
 rodada de classificação**, sem servidor nenhum. É o caminho da
 apresentação de 12/11.
 
+O gerador vive em [`ferramentas/base-demo/`](../../ferramentas/base-demo/),
+neste mesmo repositório.
+
 ```bash
-# 1. gerar a base — FORA da pasta do projeto
-python3 gerar_base_demo.py \
+# 1. gerar a base — a SAÍDA vai para fora da pasta do projeto
+python3 ferramentas/base-demo/gerar_base_demo.py \
   --corpus classificados_stance_v5_1.csv \
   --config config_politico.json \
   --saida  ~/media-stance-dados/base-demo.json \
@@ -90,8 +93,10 @@ mais próprio — abre praticamente vazio na apresentação. No corpus v1.1:
 **Não chute o dia: pergunte ao gerador.**
 
 ```bash
-python3 gerar_base_demo.py --corpus classificados_stance_v5_1.csv \
-  --config config_politico.json --saida /dev/null --sugerir-ancora
+python3 ferramentas/base-demo/gerar_base_demo.py \
+  --corpus ../MediaStance-Rotulagem/classificados_stance_v5_1.csv \
+  --config ../MediaStance-Rotulagem/config_politico.json \
+  --saida /dev/null --sugerir-ancora
 ```
 
 Ele lista os dias que rendem uma janela com conteúdo, e não gera nada.
@@ -145,7 +150,7 @@ não cadastro de usuário.
 
 ## Testes
 
-O gerador tem 46 testes (`pytest -q`, ao lado dele), todos sobre linhas
+O gerador tem 46 testes (`cd ferramentas/base-demo && pytest -q`), todos sobre linhas
 inventadas — nenhum comentário real entra num arquivo versionado. Eles
 cobrem a regra do número, o agrupamento em categorias, o deslocamento de
 datas e a garantia de que nenhum identificador de autor vaza para a base.

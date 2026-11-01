@@ -22,6 +22,11 @@ npm-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# ---- Python (ferramentas/) ----
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
 # ---- Sistema / editor ----
 .DS_Store
 Thumbs.db
