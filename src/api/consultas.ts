@@ -17,6 +17,7 @@ import type {
   FiltrosDeDemandas,
   PaginaDeComentarios,
   PainelDeDemandas,
+  RecorteDePeriodo,
 } from "./tipos";
 
 export const POR_PAGINA = 5;
@@ -39,6 +40,26 @@ export function diasAtras(n: number): string {
   return `${d.getFullYear()}-${mes}-${dia}`;
 }
 
+/** Os recortes que a interface oferece. */
+export const RECORTES: RecorteDePeriodo[] = ["hoje", "7dias", "30dias", "personalizado"];
+
+/**
+ * O recorte vindo da URL, ou o padrão da tela quando ele não existe.
+ *
+ * `?periodo=lixo` é inevitável: a URL é editável e compartilhável, e o
+ * tipo `RecorteDePeriodo` não vale nada do lado de fora do TypeScript.
+ * Sem esta checagem, o valor inválido atravessava até o filtro e a lista
+ * voltava vazia — e quem olhava concluía que não havia comentário.
+ */
+export function recorteDaUrl(
+  valor: string | null,
+  padrao: RecorteDePeriodo,
+): RecorteDePeriodo {
+  return RECORTES.includes(valor as RecorteDePeriodo)
+    ? (valor as RecorteDePeriodo)
+    : padrao;
+}
+
 /** Primeiro dia incluído no recorte, como "AAAA-MM-DD". */
 export function inicioDoPeriodo(
   filtros: Pick<FiltrosDeComentarios, "periodo" | "intervalo">,
@@ -52,6 +73,12 @@ export function inicioDoPeriodo(
       return diasAtras(29);
     case "personalizado":
       return filtros.intervalo?.de ?? diasAtras(0);
+    default:
+      // As telas já validam com `recorteDaUrl`, então chegar aqui é
+      // defeito nosso. Mesmo assim devolve o recorte mais largo dos
+      // prontos: mostrar mais do que foi pedido é recuperável, e
+      // mostrar nada parece filtro quebrado.
+      return diasAtras(29);
   }
 }
 
@@ -75,7 +102,10 @@ export function recortarPagina<T>(
   pedida: number,
 ): { itens: T[]; pagina: number; totalDePaginas: number; total: number } {
   const totalDePaginas = Math.max(1, Math.ceil(itens.length / POR_PAGINA));
-  const pagina = Math.min(Math.max(1, pedida), totalDePaginas);
+  // `Number("abc")` é NaN, e NaN atravessa Math.max e Math.min sem ser
+  // corrigido: a conta de corte virava NaN e a lista voltava vazia.
+  const pedidaValida = Number.isFinite(pedida) ? pedida : 1;
+  const pagina = Math.min(Math.max(1, pedidaValida), totalDePaginas);
   const inicio = (pagina - 1) * POR_PAGINA;
   return {
     itens: itens.slice(inicio, inicio + POR_PAGINA),

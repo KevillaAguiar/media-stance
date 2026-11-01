@@ -7,8 +7,8 @@ apresentação de 12/11.
 ```bash
 # 1. gerar a base — FORA da pasta do projeto
 python3 gerar_base_demo.py \
-  --corpus ../MediaStance-Rotulagem/classificados_stance_v1_1_FINAL.csv \
-  --config ../MediaStance-Rotulagem/config_politico.json \
+  --corpus classificados_stance_v5_1.csv \
+  --config config_politico.json \
   --saida  ~/media-stance-dados/base-demo.json \
   --ancorar-em 2026-11-12 \
   --dia-do-corpus 2026-08-15
@@ -79,31 +79,53 @@ duplicado. Qual dia do corpus vira "hoje" é escolha explícita
 (`--dia-do-corpus`), e ela fica registrada na base, em
 `origem.diaDoCorpusComoHoje`.
 
-**Use `2026-08-15`.** Os pedidos se concentram até meados de agosto:
+Com a âncora padrão, o painel de demandas — que é o que o produto tem de
+mais próprio — abre praticamente vazio na apresentação. No corpus v1.1:
 
 | âncora | pedidos na janela de 30 dias |
 |---|---|
 | último dia do corpus (17/09) | 2 |
 | **15/08** | **38** |
 
-Com a âncora padrão, o painel de demandas — que é o que o produto tem de
-mais próprio — abre praticamente vazio na apresentação.
+**Não chute o dia: pergunte ao gerador.**
 
-### Categoria e localidade são montadas aqui, provisoriamente
+```bash
+python3 gerar_base_demo.py --corpus classificados_stance_v5_1.csv \
+  --config config_politico.json --saida /dev/null --sugerir-ancora
+```
 
-O front-end espera `categoria` e `localidade` nos pedidos. **O pipeline
-não extrai nenhuma das duas** — é a lacuna conhecida, e a solução
-definitiva é o prompt passar a extraí-las (P1/P2).
+Ele lista os dias que rendem uma janela com conteúdo, e não gera nada.
+Use o da primeira linha. **Isto precisa ser refeito no v5.1**: os 15/08
+acima vieram de um corpus com 65 pedidos, e agora são 89 — o melhor dia
+pode ser outro.
 
-Até lá, o gerador agrupa o `tema` (texto livre, 681 valores distintos)
-por palavra-chave numa lista explícita e auditável no topo do arquivo. O
-que não casa vai para **"Outros"**, não para a gaveta mais próxima: um
-painel que parece completo e não é seria pior que um painel honesto.
+### Categoria e localidade vêm do pipeline — desde o v5.1
 
-A localidade usa o lugar que o próprio tema nomeia, quando nomeia, e diz
-**"Não identificada"** no resto. Uma contagem honesta de "não
-identificada" é informação; uma localidade adivinhada é erro com cara de
-dado.
+Essa era a única lacuna real entre o que o front-end espera e o que o
+dado tinha. **O prompt v5.1 (27/10) fechou**: `categoria` sai de uma
+lista fechada de 17 valores, normalizada no parser, com `outro` para o
+que não cabe (5,4% do corpus); `localidade` é campo próprio, preenchido
+só quando o comentário nomeia o lugar — legenda não conta —, com 288
+comentários em 93 localidades canônicas.
+
+O gerador lê as colunas. **Coluna do pipeline ganha de heurística,
+sempre.**
+
+A derivação por palavra-chave continua no arquivo como reserva, para
+quem ainda tiver só o `classificados_stance_v1_1_FINAL.csv`. Quando ela
+entra em ação, o gerador avisa em voz alta e grava em
+`origem.categoria` / `origem.localidade` qual dos dois caminhos foi
+usado — número derivado e número extraído não valem a mesma coisa, e
+quem olha o painel precisa poder saber qual está vendo.
+
+Se o pipeline batizar as colunas com outro nome, acrescente em
+`NOMES_DE_CATEGORIA` / `NOMES_DE_LOCALIDADE` no topo do gerador. É mais
+barato que renomear o CSV.
+
+**Uma pergunta ainda aberta:** os 288 comentários com localidade são
+5,9% dos classificáveis, mas o painel só mostra `pedido`. Quantos dos 89
+pedidos trazem localidade decide se a coluna "Por localidade" tem o que
+mostrar — vale conferir antes de 12/11.
 
 ---
 
@@ -123,7 +145,7 @@ não cadastro de usuário.
 
 ## Testes
 
-O gerador tem 37 testes (`pytest -q`, ao lado dele), todos sobre linhas
+O gerador tem 46 testes (`pytest -q`, ao lado dele), todos sobre linhas
 inventadas — nenhum comentário real entra num arquivo versionado. Eles
 cobrem a regra do número, o agrupamento em categorias, o deslocamento de
 datas e a garantia de que nenhum identificador de autor vaza para a base.

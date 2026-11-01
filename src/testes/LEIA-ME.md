@@ -23,8 +23,12 @@ errado.
 | `controle-de-acesso.test.tsx` | assessor não entra nas telas de administração, e falha de rede não abre a porta |
 | `Voltar.test.tsx` | quem abriu a URL direto não é mandado para fora do produto |
 | `versionamento.test.ts` | configuração política nunca é sobrescrita |
+| `consultas.test.ts` | o recorte de período, a paginação e o agrupamento das demandas |
+| `Comentarios.test.tsx` | os filtros que moram na URL, inclusive os valores que ninguém deveria digitar |
+| `Demandas.test.tsx` | troca de categoria e de localidade, e o cruzamento das duas |
+| `demo.test.ts` | a base de demonstração: mínimo para a taxa de atrito, urgentes só de hoje |
 
-## Dois defeitos que estes testes acharam
+## Três defeitos que estes testes acharam
 
 **`0%` ao lado de uma contagem maior que zero.** `Intl` arredonda 0,4%
 para `0%`, e a tela escrevia "2 · 0%" — contradição na mesma linha. O
@@ -32,9 +36,22 @@ mesmo valia para `100%` com alguma coisa ainda de fora. Agora são `<1%` e
 `>99%`. Era o mesmo defeito que o relatório por e-mail já tinha e que foi
 corrigido lá; aqui tinha passado.
 
-**Nenhum.** O resto passou de primeira — o que também é informação: os
-componentes novos foram construídos com estas regras em mente, e os
-testes agora impedem que elas se percam numa refatoração.
+**`?pagina=abc` esvaziava a lista.** `Number("abc")` é `NaN`, e `NaN`
+atravessa `Math.max` e `Math.min` sem ser corrigido — a conta de corte
+virava `NaN` e a lista voltava vazia.
+
+**`?periodo=lixo` esvaziava a lista.** O `switch` não tinha ramo padrão,
+devolvia `undefined`, e `dia >= undefined` é sempre falso.
+
+Os dois últimos são a pior família que existe numa demonstração ao vivo:
+**a tela não quebra, ela mente.** Mostrava "Nenhum comentário por aqui",
+sem erro no console. Quem estivesse olhando concluiria que não há
+comentário, quando o que houve foi um filtro quebrado.
+
+A correção tem duas camadas: as telas validam o `periodo` com
+`recorteDaUrl` antes de montar o filtro, e `recortarPagina` e
+`inicioDoPeriodo` se defendem por conta própria — um valor inválido
+chegando até lá passou a ser defeito nosso, não da URL.
 
 ## O que estes testes NÃO cobrem
 

@@ -7,6 +7,7 @@ import { Menu } from "../../componentes/Menu/Menu";
 import { ModalComentario } from "../../componentes/ModalComentario/ModalComentario";
 import { Paginacao } from "../../componentes/Paginacao/Paginacao";
 import { SeletorDePeriodo } from "../../componentes/SeletorDePeriodo/SeletorDePeriodo";
+import { recorteDaUrl } from "../../api/consultas";
 import {
   obterComentarios,
   type ClasseDePosicionamento,
@@ -14,7 +15,6 @@ import {
   type FiltrosDeComentarios,
   type PaginaDeComentarios,
   type Periodo,
-  type RecorteDePeriodo,
 } from "../../api";
 import estilos from "./Comentarios.module.css";
 
@@ -47,7 +47,7 @@ export function Comentarios() {
   const filtros: FiltrosDeComentarios = {
     classe: (parametros.get("classe") as ClasseDePosicionamento | null) ?? null,
     tema: parametros.get("tema"),
-    periodo: (parametros.get("periodo") as RecorteDePeriodo | null) ?? "hoje",
+    periodo: recorteDaUrl(parametros.get("periodo"), "hoje"),
     intervalo: intervaloDaUrl(parametros),
     apenasUrgentes: parametros.get("urgentes") === "1",
     pagina: Number(parametros.get("pagina") ?? 1),

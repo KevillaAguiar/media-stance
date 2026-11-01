@@ -7,6 +7,7 @@ import { ListaDeContagens } from "../../componentes/ListaDeContagens/ListaDeCont
 import { ModalComentario } from "../../componentes/ModalComentario/ModalComentario";
 import { Paginacao } from "../../componentes/Paginacao/Paginacao";
 import { SeletorDePeriodo } from "../../componentes/SeletorDePeriodo/SeletorDePeriodo";
+import { recorteDaUrl } from "../../api/consultas";
 import {
   obterDemandas,
   type Comentario,
@@ -39,7 +40,7 @@ export function Demandas() {
     localidade: parametros.get("localidade"),
     // Demandas abre em 7 dias, não em hoje: pedido de eleitor se acumula,
     // e um dia só costuma render pouco para encaminhar.
-    periodo: (parametros.get("periodo") as RecorteDePeriodo | null) ?? "7dias",
+    periodo: recorteDaUrl(parametros.get("periodo"), "7dias"),
     intervalo: intervaloDaUrl(parametros),
     pagina: Number(parametros.get("pagina") ?? 1),
   };
