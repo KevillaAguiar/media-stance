@@ -8,11 +8,17 @@
   flex-direction: column;
   width: var(--sidebar);
   flex-shrink: 0;
+  /* Exatamente a altura da janela, nunca a do documento. */
+  height: 100%;
+  /* Sem isto um filho que transborda empurra a coluna em vez de rolar
+     dentro dela — é o padrão de flex, e é o que esconderia o rodapé. */
+  min-height: 0;
   padding: var(--espaco-24);
   background: var(--superficie-nav);
 }
 
 .marca {
+  flex-shrink: 0;
   margin-bottom: var(--espaco-24);
 }
 
@@ -27,11 +33,19 @@
   color: var(--texto-on-nav);
 }
 
+/* A lista é a única parte da barra que rola, e só quando não cabe — numa
+   janela baixa, ou com o zoom do navegador alto. O rodapé fica fora dela
+   de propósito: a troca de tema precisa estar sempre à vista, e era
+   justamente ela que exigia rolar a página inteira. */
 .itens {
   display: flex;
   flex-direction: column;
   gap: var(--espaco-4);
   margin: 0;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .item {
@@ -68,7 +82,8 @@
 }
 
 .rodape {
-  margin-top: auto;
+  /* Nunca encolhe nem rola: é o que a torna sempre acessível. */
+  flex-shrink: 0;
   padding-top: var(--espaco-24);
 }
 
@@ -136,6 +151,9 @@
     inset: auto 0 0 0;
     z-index: 10;
     width: 100%;
+    /* Desfaz a altura cheia da coluna: aqui a navegação é uma barra no
+       rodapé, e `height: 100%` com `bottom: 0` a faria cobrir a tela. */
+    height: auto;
     flex-direction: row;
     align-items: center;
     padding: var(--espaco-8) var(--espaco-12);
@@ -148,6 +166,8 @@
     flex-direction: row;
     justify-content: space-around;
     gap: 0;
+    /* Barra horizontal: nada rola aqui dentro. */
+    overflow-y: visible;
   }
 
   .item {
@@ -183,6 +203,7 @@
    gatilho ocupa exatamente a mesma caixa dos itens abaixo dele. Com um
    recuo a mais ele ficava mais estreito que eles e parecia deslocado. */
 .seletor {
+  flex-shrink: 0;
   /* Respiro maior que o espaço entre os itens: o seletor não é um
      deles, e colado à lista ele entrava na contagem. */
   padding: 0 0 var(--espaco-16);

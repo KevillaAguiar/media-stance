@@ -1,12 +1,28 @@
+/* A casca ocupa exatamente a tela e NÃO cresce com o conteúdo.
+   ---------------------------------------------------------------------
+   Com `min-height`, ela crescia junto: a barra lateral esticava até o fim
+   do documento e o rodapé dela — onde mora a troca de tema — ia parar lá
+   embaixo, só alcançável rolando a página inteira.
+
+   Com `height` + `overflow: hidden`, a casca é do tamanho da janela e o
+   único elemento que rola é o conteúdo. A barra lateral fica parada.
+
+   `100dvh` depois de `100vh` é para o celular: `vh` lá considera a barra
+   do navegador recolhida, e a tela "cresce" quando ela some. */
 .layout {
   display: flex;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 .conteudo {
   flex: 1;
   min-width: 0;
+  /* O único que rola. */
+  overflow-y: auto;
+  /* Chegando ao fim da lista, a rolagem não passa para a página atrás. */
+  overscroll-behavior: contain;
   padding: var(--espaco-40);
 }
 
@@ -39,11 +55,20 @@
 }
 
 @media (max-width: 640px) {
+  /* No celular a navegação não é uma coluna ao lado: é uma barra fixa no
+     rodapé, que já não rola com nada. Então aqui quem rola volta a ser a
+     página, que é o comportamento que o navegador do celular espera —
+     é dele que depende a barra de endereço recolher ao rolar. */
   .layout {
     flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
   }
 
   .conteudo {
+    overflow-y: visible;
     padding: var(--espaco-16);
     /* Espaço para a barra de navegação fixa não cobrir o fim da página. */
     padding-bottom: calc(var(--espaco-40) + 72px);

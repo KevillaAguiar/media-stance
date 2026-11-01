@@ -14,6 +14,26 @@ html {
   color-scheme: light dark;
 }
 
+/* Casca de tela cheia.
+   ---------------------------------------------------------------------
+   Acima do celular, quem rola é o <main>, nunca a página: é isso que
+   mantém a barra lateral parada e a troca de tema sempre à vista.
+   Prender a altura aqui, e não só na `.layout`, é o que impede a janela
+   de ganhar uma rolagem própria por cima — foi exatamente o que acontecia
+   quando a trava existia só no componente.
+
+   No celular a regra não vale: lá a navegação é uma barra fixa no rodapé,
+   e a página precisa rolar normalmente, inclusive para a barra de
+   endereço do navegador recolher. */
+@media (min-width: 641px) {
+  html,
+  body,
+  #raiz {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
 body {
   font-family: "Inter Variable", var(--familia);
   font-size: var(--tamanho-corpo);
