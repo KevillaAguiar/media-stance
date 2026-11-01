@@ -53,21 +53,31 @@ relatório por e-mail.
 
 ### O número do partido conta como posicionamento
 
-Decisão do grupo em 26/10. Comentário que é **só** o número do partido ou
-do candidato daquela conta (`13`, `13123`, `1️⃣3️⃣`, `13.333!`) passa a
-contar como `a_favor` e entra no denominador.
+Decisão do grupo em 26/10, registrada como **RF-060** no documento de
+requisitos v0.6. Comentário que é **só** o número do partido ou do
+candidato daquela conta (`13`, `13123`, `13.333!`) passa a contar como
+`a_favor`.
 
-Isso corrige uma inconsistência real: hoje o mesmo tipo de comentário cai
-em três baldes diferentes — uns entram como `a_favor`, outros como
-`neutro`, e 75 ficam fora do denominador como engajamento afetivo.
+Isso corrige uma inconsistência real: o mesmo tipo de comentário caía ora
+como `a_favor`, ora como `neutro`.
+
+**`1️⃣3️⃣` não entra.** O **RF-020** é explícito: dígito em formato de
+emoji conta como emoji, e comentário só de emoji é `engajamento_afetivo`.
+São 83 comentários no corpus, e o pipeline já os trata assim. A primeira
+versão deste gerador convertia a tecla em dígito antes de checar, o que
+apagava a distinção e inflava o denominador.
 
 | | antes | depois |
 |---|---|---|
-| denominador | 4.890 | 4.965 |
-| a favor | 77,5% | **78,7%** |
+| denominador | 4.890 | 4.890 |
+| a favor | 77,5% | **78,4%** |
 | contra | 4,9% | 4,9% |
 | pedido | 1,3% | 1,3% |
-| neutro | 16,3% | **15,1%** |
+| neutro | 16,3% | **15,3%** |
+
+Repare que **o denominador não muda**: textos com dígito comum já eram
+classificáveis. A regra corrige o rótulo de 45 comentários, não a
+composição da base.
 
 Número de **outro** partido não entra. A decisão não cobre esse caso, e
 chutar o sentido dele seria inventar classificação.
@@ -150,7 +160,7 @@ não cadastro de usuário.
 
 ## Testes
 
-O gerador tem 46 testes (`cd ferramentas/base-demo && pytest -q`), todos sobre linhas
+O gerador tem 54 testes (`cd ferramentas/base-demo && pytest -q`), todos sobre linhas
 inventadas — nenhum comentário real entra num arquivo versionado. Eles
 cobrem a regra do número, o agrupamento em categorias, o deslocamento de
 datas e a garantia de que nenhum identificador de autor vaza para a base.

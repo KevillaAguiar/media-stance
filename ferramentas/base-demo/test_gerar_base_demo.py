@@ -13,6 +13,7 @@ import pytest
 from gerar_base_demo import (
     achar_coluna,
     categoria_de,
+    tem_caractere_comum,
     eh_numero_do_proprio,
     localidade_de,
     montar,
@@ -33,9 +34,22 @@ class TestNumeroSozinho:
     def test_reconhece_o_numero(self, texto):
         assert numero_sozinho(texto) is not None
 
-    def test_reconhece_digito_em_tecla(self):
-        # "1️⃣3️⃣" é como muita gente escreve o número nos comentários.
-        assert numero_sozinho("1️⃣3️⃣") == "13"
+    def test_digito_em_tecla_nao_e_numero_de_partido(self):
+        """RF-020: dígito em formato de emoji conta como emoji.
+
+        "1️⃣3️⃣" é como muita gente escreve o número, mas o requisito é
+        explícito, e o pipeline já trata esses comentários como
+        `engajamento_afetivo`. Trazê-los para o denominador inflava a
+        proporção com 83 comentários do corpus.
+        """
+        assert numero_sozinho("1️⃣3️⃣") is None
+        assert numero_sozinho("7️⃣0️⃣ 💙") is None
+        assert not eh_numero_do_proprio("1️⃣3️⃣", PARTIDO)
+
+    def test_tecla_junto_de_digito_comum_ainda_conta(self):
+        # Tem dígito comum, então pelo RF-020 não é só-emoji e segue para
+        # classificação; aí a regra do número vale.
+        assert numero_sozinho("13 💙") == "13"
 
     @pytest.mark.parametrize(
         "texto",
@@ -297,3 +311,17 @@ class TestAcharColuna:
     def test_pula_a_preferida_quando_ela_esta_vazia(self):
         linhas = [{"categoria": "   ", "categoria_demanda": "b"}]
         assert achar_coluna(linhas, ("categoria", "categoria_demanda")) == "categoria_demanda"
+
+
+class TestRF020:
+    """Os casos de verificação escritos no próprio RF-020, da v0.6."""
+
+    @pytest.mark.parametrize("texto", ["👏👏👏", "7️⃣0️⃣ 💙", "!!!", "..."])
+    def test_so_emoji_ou_pontuacao(self, texto):
+        assert not tem_caractere_comum(texto)
+
+    @pytest.mark.parametrize("texto", ["13", "👏👏 lindo", "Dk"])
+    def test_tem_letra_ou_digito_comum(self, texto):
+        # "qualquer que seja o seu comprimento" — o RF-060 revogou o
+        # descarte por tamanho.
+        assert tem_caractere_comum(texto)

@@ -67,12 +67,39 @@ def _sem_emoji(texto: str) -> str:
     )
 
 
+COMUM = re.compile(r"[0-9A-Za-z\u00c0-\u00ff]")
+
+
+def tem_caractere_comum(texto: str) -> bool:
+    """Sobra alguma letra ou dígito comum depois de tirar emoji e teclas?
+
+    É o teste do RF-020: "um comentário que contenha ao menos uma letra ou
+    um dígito comum não se enquadra" na condição de só-emoji, "qualquer
+    que seja o seu comprimento. Dígitos em formato de emoji (por exemplo,
+    '7️⃣0️⃣') contam como emoji."
+
+    As teclas saem ANTES da checagem, e é esse o ponto: convertê-las em
+    dígito primeiro apagaria a distinção que o requisito faz.
+    """
+    s = texto or ""
+    for tecla in TECLA:
+        s = s.replace(tecla, "")
+    return bool(COMUM.search(_sem_emoji(s)))
+
+
 def numero_sozinho(texto: str) -> str | None:
     """O número, quando o comentário inteiro é só um número.
 
     "13", "1-3", "13123 <coração>" e "13.333!" contam. Qualquer palavra
     junto descarta: aí o comentário diz outra coisa além do número.
+
+    "1️⃣3️⃣" NÃO conta, mesmo sendo o número do partido: pelo RF-020,
+    dígito em formato de emoji é emoji, e o comentário inteiro de emoji é
+    `engajamento_afetivo`. No corpus são 83 comentários, e o pipeline já
+    os trata assim — trazê-los para o denominador era defeito daqui.
     """
+    if not tem_caractere_comum(texto):
+        return None
     s = texto or ""
     for tecla, digito in TECLA.items():
         s = s.replace(tecla, digito)
@@ -92,6 +119,10 @@ def eh_numero_do_proprio(texto: str, partido: dict) -> bool:
 
     Número de OUTRO partido não entra. A decisão não cobre esse caso, e
     chutar o sentido dele seria inventar classificação.
+
+    Com o RF-020 respeitado, a regra NÃO muda o denominador: os textos
+    com dígito comum já são classificáveis. O que ela corrige é o rótulo
+    deles, que hoje oscila entre `a_favor` e `neutro`.
     """
     n = numero_sozinho(texto)
     if n is None:
