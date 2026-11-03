@@ -171,6 +171,9 @@ export async function resumoDoDia(): Promise<ResumoDoDia> {
     data: hoje(),
     classificados: c.classificados,
     engajamentoAfetivo: c.engajamentoAfetivo,
+    // A base de demonstração saiu da rotulagem já classificada: nada
+    // pendente. O campo existe porque o contrato é o mesmo nas três fontes.
+    pendentesDeClassificacao: { quantidade: 0, proporcao: 0 },
     // Urgente é o que exige resposta HOJE, não na janela inteira.
     urgentes: c.comentarios.filter(
       (x) => x.urgente && x.publicadoEm.slice(0, 10) === hoje(),

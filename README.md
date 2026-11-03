@@ -32,11 +32,38 @@ olhando o Figma, ou abrindo discussão com P4 antes de mudar.
 | `/` `/comentarios` `/demandas` `/perfil` | Internas, exigem sessão |
 | `/entrar` `/criar-conta` `/esqueci-senha` `/redefinir-senha` | Públicas |
 
-**A sessão em `src/sessao/` é simulada e não protege nada.** É um
-sinalizador no navegador para que o fluxo possa ser demonstrado sem
-back-end. Quem autentica é o servidor, e quem guarda a sessão é um cookie
-`HttpOnly`. Proteger rota no front é conveniência de navegação, nunca
-barreira de segurança — ao ligar a API real, aquele arquivo sai.
+**A sessão em `src/sessao/` não protege nada.** Quem autentica é o servidor, e
+quem guarda a sessão é um cookie `HttpOnly`. Proteger rota no front é
+conveniência de navegação, nunca barreira de segurança.
+
+## Fonte de dados
+
+Três modos. `demo` e `api` vêm do modo do Vite (`npm run demo`, `npm run api`);
+`VITE_FONTE` continua valendo para fixar um deles sem trocar o comando.
+
+| Modo | Como rodar | De onde vêm os dados |
+|---|---|---|
+| `mock` (padrão) | `npm run dev` | exemplos inventados, em memória |
+| `demo` | `npm run demo` | base de demonstração pré-computada (`BASE_DEMO`), sem rede |
+| `api` | `npm run api` | API real, cookie de sessão de verdade |
+
+Em `api`, o Vite proxia `/api` para `http://localhost:8000` (ou para o valor de
+`API_URL`). O proxy não é atalho: é o que faz front e API terem a mesma origem,
+condição para o cookie `SameSite=Lax` ser enviado.
+
+```bash
+# terminal 1 — API
+cd ../media-stance-api && uv run uvicorn app.main:app --reload
+
+# terminal 2 — front
+npm run api
+```
+
+Contas de demonstração do seed: `admin@demo.local`, `assessor@demo.local` e
+`agencia@demo.local`, senha `demo12345`.
+
+Em produção, o mesmo caminho precisa existir no host: um rewrite de `/api/*`
+para a API **antes** do catch-all do SPA no `vercel.json`.
 
 Cada uma existe em desktop, tablet e mobile. Capturas das três telas principais
 estão em [`design/telas/`](design/telas/) — são referência rápida, não

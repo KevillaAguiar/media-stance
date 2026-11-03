@@ -50,6 +50,16 @@ export default defineConfig({
     // do editor — que renderiza diferente e não tem as ferramentas de
     // desenvolvedor de verdade.
     open: true,
+
+    // Em desenvolvimento, a API entra pela mesma origem do front. É o que
+    // faz o cookie de sessão (HttpOnly, SameSite=Lax) valer: sem o proxy,
+    // front e API em portas diferentes seriam origens diferentes.
+    proxy: {
+      "/api": {
+        target: process.env.API_URL ?? "http://localhost:8000",
+        changeOrigin: false,
+      },
+    },
   },
   test: {
     // jsdom e não um navegador de verdade: estes testes perguntam o que a

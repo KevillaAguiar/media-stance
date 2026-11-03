@@ -58,6 +58,7 @@ export function ResumoDoDia() {
     data,
     classificados,
     engajamentoAfetivo,
+    pendentesDeClassificacao,
     urgentes,
     publicacaoComMaiorAtrito,
     janelaDias,
@@ -68,7 +69,8 @@ export function ResumoDoDia() {
   // não há denominador, e quatro cartões zerados não explicam por quê.
   const totalColetado =
     classificados.reduce((soma, c) => soma + c.quantidade, 0) +
-    engajamentoAfetivo.quantidade;
+    engajamentoAfetivo.quantidade +
+    pendentesDeClassificacao.quantidade;
 
   if (totalColetado === 0) {
     return (
@@ -114,6 +116,24 @@ export function ResumoDoDia() {
           apenas de emojis — fora da contagem de posicionamento
         </p>
       </Cartao>
+
+      {/* Pendente de classificação não é sinônimo de afetivo: é comentário
+          que chegou da coleta e ainda não passou pela rotulagem. Fica
+          visível para o número não parecer incompleto sem explicação. */}
+      {pendentesDeClassificacao.quantidade > 0 && (
+        <Cartao as="section" variante="sutil" className={estilos.pendentes}>
+          <p>
+            <strong>
+              {pendentesDeClassificacao.quantidade === 1
+                ? "1 comentário aguarda classificação"
+                : `${inteiro.format(pendentesDeClassificacao.quantidade)} comentários aguardam classificação`}
+            </strong>{" "}
+            ({escreverProporcao(pendentesDeClassificacao.proporcao)} do total
+            coletado). Eles ainda não foram lidos pela rotulagem e por isso não
+            entram nas classes acima nem no engajamento afetivo.
+          </p>
+        </Cartao>
+      )}
 
       {urgentes > 0 && (
         <div className={estilos.urgente}>

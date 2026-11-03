@@ -4,7 +4,7 @@ import { Botao } from "../../componentes/Botao/Botao";
 import { Campo } from "../../componentes/Campo/Campo";
 import { CampoDeSenha } from "../../componentes/CampoDeSenha/CampoDeSenha";
 import { LayoutAuth } from "../../componentes/LayoutAuth/LayoutAuth";
-import { criarConta } from "../../api";
+import { criarConta, entrar as entrarNaApi } from "../../api";
 import { useSessao } from "../../sessao/sessao";
 import estilos from "../Login/Autenticacao.module.css";
 
@@ -40,6 +40,10 @@ export function Cadastro() {
     setEnviando(true);
     try {
       await criarConta({ nome, email, senha });
+      // Criar a conta não abre sessão: quem abre é o login. Sem esta
+      // chamada, o sinalizador local diria "em sessão" e a primeira
+      // requisição à API devolveria 401, jogando a pessoa de volta aqui.
+      await entrarNaApi(email, senha);
       entrar();
       // Conectar a conta é o passo seguinte do cadastro, não um ajuste
       // opcional: sem ele o sistema não recebe comentário nenhum, e o

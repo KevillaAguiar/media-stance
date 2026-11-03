@@ -40,6 +40,7 @@ export function resumoDoDia(): ResumoDoDia {
       { classe: "neutro", quantidade: 109, proporcao: 0.3 },
     ],
     engajamentoAfetivo: { quantidade: 358, proporcao: 0.49 },
+    pendentesDeClassificacao: { quantidade: 41, proporcao: 0.056 },
     urgentes: 4,
     publicacaoComMaiorAtrito: {
       id: "pub_exemplo_1",

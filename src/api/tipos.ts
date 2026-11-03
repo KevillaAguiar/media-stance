@@ -94,6 +94,12 @@ export interface ResumoDoDia {
   classificados: ContagemPorClasse[];
   /** Fora do denominador das proporções acima. */
   engajamentoAfetivo: { quantidade: number; proporcao: number };
+  /**
+   * Coletado, mas ainda sem classificação — nem posicionamento, nem
+   * afetivo. Fica visível para o painel não fingir que a base toda foi
+   * lida: um número alto aqui muda como o resto deve ser interpretado.
+   */
+  pendentesDeClassificacao: { quantidade: number; proporcao: number };
   /** Comentários que exigem resposta hoje. */
   urgentes: number;
   publicacaoComMaiorAtrito: PublicacaoComAtrito | null;

@@ -18,6 +18,7 @@ import type {
 } from "./tipos";
 import * as demo from "./demo";
 import * as mock from "./mock";
+import * as servidor from "./servidor";
 
 export * from "./tipos";
 
@@ -50,13 +51,23 @@ export * from "./tipos";
  * continuam no mock nos dois modos: a base de demonstração é resultado
  * de classificação, não cadastro de usuário.
  */
-export type FonteDeDados = "mock" | "demo";
+export type FonteDeDados = "mock" | "demo" | "api";
 
-export const FONTE: FonteDeDados =
-  import.meta.env?.VITE_FONTE === "demo" ? "demo" : "mock";
+function lerFonte(): FonteDeDados {
+  const escolhida = import.meta.env?.VITE_FONTE;
+  if (escolhida === "demo") return "demo";
+  if (escolhida === "api") return "api";
+  // `npm run api` roda `vite --mode api`; o modo já basta. Assim quem
+  // clona não precisa criar um arquivo de ambiente para ver a API real.
+  if (import.meta.env?.MODE === "api") return "api";
+  return "mock";
+}
+
+export const FONTE: FonteDeDados = lerFonte();
 
 export const USANDO_MOCK = FONTE === "mock";
 export const USANDO_BASE_DE_DEMONSTRACAO = FONTE === "demo";
+export const USANDO_API = FONTE === "api";
 
 function atraso<T>(valor: T, ms = 400): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(valor), ms));
@@ -64,12 +75,14 @@ function atraso<T>(valor: T, ms = 400): Promise<T> {
 
 /** Conta do parlamentar em sessão. Virá do endpoint de sessão. */
 export async function obterConta(): Promise<Conta> {
+  if (USANDO_API) return servidor.obterConta();
   if (USANDO_BASE_DE_DEMONSTRACAO) return demo.conta();
   if (USANDO_MOCK) return atraso(mock.resumoDoDia().conta, 150);
   throw new Error("API real ainda não configurada");
 }
 
 export async function obterResumoDoDia(): Promise<ResumoDoDia> {
+  if (USANDO_API) return servidor.obterResumoDoDia();
   if (USANDO_BASE_DE_DEMONSTRACAO) return demo.resumoDoDia();
   if (USANDO_MOCK) return atraso(mock.resumoDoDia());
   throw new Error("API real ainda não configurada");
@@ -78,6 +91,7 @@ export async function obterResumoDoDia(): Promise<ResumoDoDia> {
 export async function obterComentarios(
   filtros: FiltrosDeComentarios,
 ): Promise<PaginaDeComentarios> {
+  if (USANDO_API) return servidor.obterComentarios(filtros);
   if (USANDO_BASE_DE_DEMONSTRACAO) return demo.paginaDeComentarios(filtros);
   if (USANDO_MOCK) return atraso(mock.paginaDeComentarios(filtros));
   throw new Error("API real ainda não configurada");
@@ -86,12 +100,14 @@ export async function obterComentarios(
 export async function obterDemandas(
   filtros: FiltrosDeDemandas,
 ): Promise<PainelDeDemandas> {
+  if (USANDO_API) return servidor.obterDemandas(filtros);
   if (USANDO_BASE_DE_DEMONSTRACAO) return demo.painelDeDemandas(filtros);
   if (USANDO_MOCK) return atraso(mock.painelDeDemandas(filtros));
   throw new Error("API real ainda não configurada");
 }
 
 export async function obterPerfil(): Promise<Perfil> {
+  if (USANDO_API) return servidor.obterPerfil();
   if (USANDO_MOCK) return atraso(mock.perfil, 200);
   throw new Error("API real ainda não configurada");
 }
@@ -106,6 +122,7 @@ export async function alterarSenha(
   senhaAtual: string,
   novaSenha: string,
 ): Promise<void> {
+  if (USANDO_API) return servidor.alterarSenha(senhaAtual, novaSenha);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 600);
   // Enquanto não há back-end, erra para exercitar o caminho de falha.
@@ -120,6 +137,7 @@ export async function alterarSenha(
    erro, para que as telas possam ser construídas e demonstradas. */
 
 export async function entrar(email: string, senha: string): Promise<void> {
+  if (USANDO_API) return servidor.entrar(email, senha);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 700);
   if (!email.includes("@") || senha.length < 8) {
@@ -134,6 +152,7 @@ export async function criarConta(dados: {
   email: string;
   senha: string;
 }): Promise<void> {
+  if (USANDO_API) return servidor.criarConta(dados);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 700);
   if (dados.email.endsWith("@exemplo.com")) {
@@ -148,6 +167,7 @@ export async function criarConta(dados: {
  * casos, pelo mesmo motivo da mensagem única do login.
  */
 export async function solicitarRedefinicao(email: string): Promise<void> {
+  if (USANDO_API) return servidor.solicitarRedefinicao(email);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 700);
   void email;
@@ -157,6 +177,7 @@ export async function redefinirSenha(
   token: string,
   novaSenha: string,
 ): Promise<void> {
+  if (USANDO_API) return servidor.redefinirSenha(token, novaSenha);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 700);
   if (!token) throw new Error("Link inválido ou expirado. Peça um novo.");
@@ -174,6 +195,7 @@ export async function redefinirSenha(
 export const ROTA_DE_RETORNO = "/autorizacao/retorno";
 
 export async function iniciarConexaoComInstagram(): Promise<InicioDeAutorizacao> {
+  if (USANDO_API) return servidor.iniciarConexaoComInstagram();
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 400);
   // Sem servidor não há Meta para visitar: o simulador manda direto ao
@@ -195,6 +217,7 @@ export async function concluirConexaoComInstagram(
   state: string,
   simular?: MotivoDeErroDeConexao | null,
 ): Promise<ConexaoDeConta> {
+  if (USANDO_API) return servidor.concluirConexaoComInstagram(code, state, simular);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 900);
   if (!code || !state) {
@@ -204,11 +227,13 @@ export async function concluirConexaoComInstagram(
 }
 
 export async function obterConexaoComInstagram(): Promise<ConexaoDeConta> {
+  if (USANDO_API) return servidor.obterConexaoComInstagram();
   if (USANDO_MOCK) return atraso(mock.conexaoAtual(), 250);
   throw new Error("API real ainda não configurada");
 }
 
 export async function desconectarInstagram(): Promise<void> {
+  if (USANDO_API) return servidor.desconectarInstagram();
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 400);
   mock.desconectar();
@@ -218,6 +243,7 @@ export async function desconectarInstagram(): Promise<void> {
 export async function simularEstadoDaConexao(
   estado: EstadoDaConexao,
 ): Promise<ConexaoDeConta> {
+  if (USANDO_API) return servidor.simularEstadoDaConexao(estado);
   if (!USANDO_MOCK) throw new Error("Disponível apenas com dados simulados");
   await atraso(null, 200);
   return mock.forcarEstado(estado);
@@ -229,11 +255,13 @@ export async function simularEstadoDaConexao(
    o que vai ser recusado — não é ele que protege. */
 
 export async function obterCliente(): Promise<Cliente> {
+  if (USANDO_API) return servidor.obterCliente();
   if (USANDO_MOCK) return atraso(mock.clienteAtual(), 250);
   throw new Error("API real ainda não configurada");
 }
 
 export async function salvarCliente(cliente: Cliente): Promise<Cliente> {
+  if (USANDO_API) return servidor.salvarCliente(cliente);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 600);
   if (!cliente.nome.trim()) throw new Error("O cliente precisa de um nome.");
@@ -244,11 +272,13 @@ export async function salvarCliente(cliente: Cliente): Promise<Cliente> {
 }
 
 export async function obterConfiguracaoPolitica(): Promise<ConfiguracaoPolitica> {
+  if (USANDO_API) return servidor.obterConfiguracaoPolitica();
   if (USANDO_MOCK) return atraso(mock.politicaAtual(), 250);
   throw new Error("API real ainda não configurada");
 }
 
 export async function listarVersoesDaConfiguracao(): Promise<VersaoDeConfiguracao[]> {
+  if (USANDO_API) return servidor.listarVersoesDaConfiguracao();
   if (USANDO_MOCK) return atraso(mock.versoesDaPolitica(), 200);
   throw new Error("API real ainda não configurada");
 }
@@ -261,6 +291,7 @@ export async function listarVersoesDaConfiguracao(): Promise<VersaoDeConfiguraca
 export async function salvarNovaVersaoDaConfiguracao(
   configuracao: ConfiguracaoPolitica,
 ): Promise<ConfiguracaoPolitica> {
+  if (USANDO_API) return servidor.salvarNovaVersaoDaConfiguracao(configuracao);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 700);
   if (configuracao.aliados.length === 0) {
@@ -275,11 +306,13 @@ export async function salvarNovaVersaoDaConfiguracao(
    Nada aqui é digitado — é essa a diferença que torna o `id` confiável. */
 
 export async function listarContasDaMeta(): Promise<ContaDaMeta[]> {
+  if (USANDO_API) return servidor.listarContasDaMeta();
   if (USANDO_MOCK) return atraso(mock.contasDaMeta(), 900);
   throw new Error("API real ainda não configurada");
 }
 
 export async function vincularContasDaMeta(ids: string[]): Promise<Cliente> {
+  if (USANDO_API) return servidor.vincularContasDaMeta(ids);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 600);
   if (ids.length === 0) throw new Error("Escolha ao menos uma conta.");
@@ -292,18 +325,21 @@ export async function vincularContasDaMeta(ids: string[]): Promise<Cliente> {
    uma chamada só em vez de um argumento a mais em cada uma delas. */
 
 export async function obterContaEmFoco(): Promise<ContaEmFoco> {
+  if (USANDO_API) return servidor.obterContaEmFoco();
   if (USANDO_BASE_DE_DEMONSTRACAO) return demo.foco();
   if (USANDO_MOCK) return atraso(mock.focoAtual(), 150);
   throw new Error("API real ainda não configurada");
 }
 
 export async function listarContasDoCliente(): Promise<ContaEmFoco[]> {
+  if (USANDO_API) return servidor.listarContasDoCliente();
   if (USANDO_BASE_DE_DEMONSTRACAO) return demo.contas();
   if (USANDO_MOCK) return atraso(mock.contasDoCliente(), 200);
   throw new Error("API real ainda não configurada");
 }
 
 export async function trocarContaEmFoco(id: string): Promise<ContaEmFoco> {
+  if (USANDO_API) return servidor.trocarContaEmFoco(id);
   if (USANDO_BASE_DE_DEMONSTRACAO) return demo.trocarFoco(id);
   if (!USANDO_MOCK) throw new Error("API real ainda não configurada");
   await atraso(null, 400);
