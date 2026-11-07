@@ -1,0 +1,32 @@
+id,veredito,modo,gabarito,previsto_na_s41
+C003,Erro do modelo,Felicitação a terceiro,neutro,a_favor
+C004,Erro do modelo,Crítica por insinuação,contra,neutro
+C007,Rótulo discutível,Pergunta sobre serviço: pedido ou informativa (R10),neutro,pedido
+C030,Erro do modelo,Pedido em tom de crítica ou sugestão,pedido,contra
+C046,Erro do modelo,Crítica por insinuação,contra,neutro
+C059,Rótulo discutível,Pergunta sobre serviço: pedido ou informativa (R10),neutro,pedido
+C063,Erro do modelo,Apoio implícito curto (número do partido),a_favor,neutro
+C082,Rótulo discutível,Pedido ou crítica,pedido,contra
+C090,Erro do modelo,Apoio a aliado local fora da tabela,a_favor,neutro
+C091,Erro do modelo,Pedido em tom de crítica ou sugestão,pedido,contra
+C096,Rótulo discutível,Pergunta sobre serviço: pedido ou informativa (R10),neutro,pedido
+C097,Sem consenso,"Texto de campanha: pedido, apoio ou neutro",pedido,a_favor
+C102,Erro do modelo,Comentário sobre serviço lido como crítica,neutro,contra
+C108,Rótulo discutível,Felicitação: apoio ou saudação (R9),neutro,a_favor
+C117,Rótulo discutível,Provocação: crítica ou neutro,neutro,contra
+C126,Rótulo discutível,Felicitação: apoio ou saudação (R9),neutro,a_favor
+C134,Erro do modelo,Apoio a aliado local fora da tabela,a_favor,neutro
+C135,Erro do modelo,Felicitação a terceiro,a_favor,neutro
+C136,Erro do modelo,Crítica por insinuação,contra,neutro
+C151,Rótulo discutível,Pergunta sobre serviço: pedido ou informativa (R10),neutro,pedido
+C168,Rótulo discutível,Pergunta sobre serviço: pedido ou informativa (R10),neutro,pedido
+C171,Erro do modelo,Apoio implícito curto (número do partido),a_favor,neutro
+C175,Erro do modelo,Crítica por insinuação,contra,neutro
+C177,Erro do modelo,Pedido em tom de crítica ou sugestão,pedido,contra
+C186,Erro do modelo,Apoio implícito curto (número do partido),a_favor,neutro
+C195,Erro do modelo,Apoio a aliado local fora da tabela,a_favor,neutro
+C212,Sem consenso,Crítica a terceiros: apoio ou crítica,neutro,contra
+C220,Erro do modelo,Felicitação a terceiro,neutro,a_favor
+C221,Erro do modelo,Felicitação a terceiro,a_favor,neutro
+C222,Erro do modelo,Felicitação a terceiro,a_favor,neutro
+C238,Rótulo discutível,Pedido ou crítica,pedido,contra

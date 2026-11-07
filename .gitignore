@@ -44,3 +44,14 @@ base-demo.json
 *base-demo*.json
 public/base-demo*.json
 .env.local
+
+# Corpus dos testes de regressão (S4.4)
+# ---------------------------------------------------------------------
+# A planilha dos 31 erros tem texto de comentário real, legenda do post
+# e observação do revisor. Mesma razão da base de demonstração acima:
+# o lugar dela é FORA desta pasta, apontada por CORPUS_REGRESSAO.
+# Os arquivos versionados em ferramentas/regressao/ têm só id e rótulo.
+erros_llm_modos_de_falha*.xlsx
+*modos_de_falha_consolidado*
+resolu*discord*ncias*.xlsx
+gold_oficial*.csv
