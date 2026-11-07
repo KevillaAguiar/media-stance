@@ -110,6 +110,10 @@ export function Comentarios() {
       </header>
 
       <div className={estilos.filtros}>
+        {/* As três classes são UMA escolha: marcar "Contra" desmarca
+            "Pedido". O grupo diz isso a quem usa leitor de tela, que de
+            outro modo ouviria cinco botões soltos em sequência. */}
+        <div className={estilos.grupoDeClasse} role="group" aria-label="Filtrar por classe">
         {CLASSES.map(({ valor, rotulo }) => {
           const ativo =
             valor === "todos" ? filtros.classe === null : filtros.classe === valor;
@@ -127,6 +131,26 @@ export function Comentarios() {
             </button>
           );
         })}
+        </div>
+
+        {/* Urgente é outro eixo: combina com a classe em vez de
+            substituí-la. Marcar "Contra" e "Urgente" junto mostra as
+            críticas urgentes, não uma coisa ou outra. Por isso ele fica
+            fora do grupo acima, com ícone e um respiro à esquerda — sem
+            isso pareceria uma quarta classe. */}
+        <button
+          type="button"
+          className={`${estilos.chip} ${estilos.urgentes} ${
+            filtros.apenasUrgentes ? estilos.ativo : ""
+          }`}
+          aria-pressed={filtros.apenasUrgentes}
+          onClick={() =>
+            ajustar({ urgentes: filtros.apenasUrgentes ? null : "1" })
+          }
+        >
+          <Icone nome="warning" tamanho={18} />
+          Urgente
+        </button>
 
         <Menu
           rotulo="Tema"
@@ -151,17 +175,6 @@ export function Comentarios() {
             })
           }
         />
-
-        {filtros.apenasUrgentes && (
-          <button
-            type="button"
-            className={`${estilos.chip} ${estilos.urgentes} ${estilos.ativo}`}
-            onClick={() => ajustar({ urgentes: null })}
-          >
-            Apenas urgentes
-            <Icone nome="close" tamanho={18} />
-          </button>
-        )}
       </div>
 
       <div aria-live="polite" aria-busy={carregando} className={estilos.resultado}>

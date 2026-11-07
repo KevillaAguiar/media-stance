@@ -60,7 +60,31 @@
   color: var(--stance-pedido-fg);
 }
 
+/* O grupo das classes anda junto e com o espaçamento normal; o que vem
+   depois dele é outro eixo de filtro. */
+.grupoDeClasse {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-12);
+}
+
 .urgentes {
+  border-color: var(--stance-urgente-fg);
+  color: var(--stance-urgente-fg);
+  /* Respiro maior que o espaço entre as classes: é o que diz, sem
+     palavra nenhuma, que este botão não é a quarta delas. */
+  margin-left: var(--espaco-8);
+}
+
+/* Ligado, ele NÃO vira a pílula cinza dos outros: fica com o mesmo par
+   de cores do badge "Urgente" da lista. Dois motivos. O cinza o deixava
+   idêntico ao "Todos" ligado, e aí dois eixos diferentes pareciam a
+   mesma seleção. E a cor de urgência sumia justo quando o filtro está
+   valendo. Contraste medido: 4,52:1 no claro e 9,28:1 no escuro. */
+.urgentes.ativo,
+.urgentes.ativo:hover {
+  background: var(--stance-urgente-bg);
   border-color: var(--stance-urgente-fg);
   color: var(--stance-urgente-fg);
 }

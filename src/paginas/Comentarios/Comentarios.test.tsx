@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -92,13 +92,59 @@ describe("Tela de comentários", () => {
     await waitFor(() => expect(obter).toHaveBeenCalled());
 
     expect(obter.mock.calls[0][0].apenasUrgentes).toBe(true);
-    expect(await screen.findByRole("button", { name: /Apenas urgentes/ })).toBeInTheDocument();
+    expect(await screen.findByRole("button", { name: /Urgente/ })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
   });
 
-  it("tira o filtro de urgentes quando a pessoa fecha o chip", async () => {
-    abrir("?urgentes=1");
-    await userEvent.click(await screen.findByRole("button", { name: /Apenas urgentes/ }));
+  it("oferece o filtro de urgentes mesmo sem ele estar ligado", async () => {
+    // Antes ele só existia depois de já estar ativo, o que o tornava
+    // inalcançável para quem não veio pelo alerta do resumo do dia.
+    abrir();
+    const botao = await screen.findByRole("button", { name: /Urgente/ });
+    expect(botao).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("liga e desliga o filtro de urgentes no mesmo botão", async () => {
+    abrir();
+    const botao = await screen.findByRole("button", { name: /Urgente/ });
+
+    await userEvent.click(botao);
+    await waitFor(() => expect(urlAtual).toContain("urgentes=1"));
+
+    await userEvent.click(screen.getByRole("button", { name: /Urgente/ }));
     await waitFor(() => expect(urlAtual).not.toContain("urgentes"));
+  });
+
+  it("urgente combina com a classe, em vez de substituí-la", async () => {
+    // É a diferença entre os dois eixos: "Contra" e "Urgente" juntos
+    // mostram as críticas urgentes, não uma coisa ou outra.
+    abrir("?classe=contra");
+    await userEvent.click(await screen.findByRole("button", { name: /Urgente/ }));
+
+    await waitFor(() => expect(urlAtual).toContain("urgentes=1"));
+    expect(urlAtual).toContain("classe=contra");
+
+    const ultimo = obter.mock.calls.at(-1)![0];
+    expect(ultimo.classe).toBe("contra");
+    expect(ultimo.apenasUrgentes).toBe(true);
+  });
+
+  it("trocar de classe não desliga o filtro de urgentes", async () => {
+    abrir("?urgentes=1");
+    await userEvent.click(await screen.findByRole("button", { name: "Pedido" }));
+
+    await waitFor(() => expect(urlAtual).toContain("classe=pedido"));
+    expect(urlAtual).toContain("urgentes=1");
+  });
+
+  it("agrupa as três classes para o leitor de tela", async () => {
+    abrir();
+    const grupo = await screen.findByRole("group", { name: "Filtrar por classe" });
+    // Urgente fica FORA: marcar "Contra" desmarca "Pedido", mas não ele.
+    expect(within(grupo).getAllByRole("button")).toHaveLength(3);
+    expect(within(grupo).queryByRole("button", { name: /Urgente/ })).toBeNull();
   });
 
   it("guarda a classe escolhida na URL", async () => {
