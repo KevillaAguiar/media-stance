@@ -73,7 +73,7 @@ const SEMENTES: Semente[] = [
     urlNaRede: "https://www.instagram.com/p/exemplo-1/",
   },
   {
-    texto: "Quero que venha no nosso Quilombo CEPISA",
+    texto: "Deputado, traga esse projeto para a nossa comunidade também",
     classe: "pedido",
     urgente: false,
     tema: "visita Quilombo CEPISA",
@@ -104,7 +104,7 @@ const SEMENTES: Semente[] = [
     urlNaRede: "https://www.instagram.com/p/exemplo-4/",
   },
   {
-    texto: "Fora petralhas",
+    texto: "Esse aí não representa ninguém daqui",
     classe: "contra",
     urgente: false,
     tema: "crítica partidária",
