@@ -94,6 +94,16 @@ src/
 
 ---
 
+## Testes
+
+```bash
+npm test
+```
+
+109 testes, sem rede e sem servidor. O índice das três suítes do projeto
+— pipeline, front-end e regressão dos casos difíceis — está em
+[`docs/plano-de-testes.md`](docs/plano-de-testes.md).
+
 ## Tokens
 
 [`src/styles/tokens.css`](src/styles/tokens.css) é o espelho da coleção
