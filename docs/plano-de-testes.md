@@ -7,7 +7,7 @@ anexado à documentação técnica (E2).
 
 | Suíte | Onde | Como rodar | Testes |
 | --- | --- | --- | --- |
-| Pipeline (normalização, triagem, deduplicação) | repositório de rotulagem | `PIPELINE_DIR=... python3 -m pytest` | 66 |
+| Pipeline (normalização, triagem, deduplicação) | pasta de testes junto ao repositório do pipeline | `PIPELINE_DIR=... python3 -m pytest` | a confirmar |
 | Front-end | este repositório | `npm test` | 111 |
 | Regressão dos casos difíceis (S4.4) | `ferramentas/regressao/` | `cd ferramentas/regressao && python3 -m pytest` | 38 |
 
