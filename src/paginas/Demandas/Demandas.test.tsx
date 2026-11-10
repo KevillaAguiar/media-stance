@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -105,6 +105,18 @@ describe("Painel de demandas", () => {
     ).toBeInTheDocument();
   });
 
+  it("mostra todas as demandas da localidade quando só ela foi escolhida", async () => {
+    // Clicar em "Teresina (3)" e ver só as de uma categoria escolhida por
+    // baixo dos panos parece contagem errada. A categoria mais volumosa só
+    // vale como ponto de partida quando a pessoa ainda não escolheu nada.
+    abrir("?localidade=Teresina");
+    await pronto();
+
+    expect(
+      await screen.findByRole("heading", { name: /^Teresina \(3\)$/ }),
+    ).toBeInTheDocument();
+  });
+
   it("desfaz o filtro ao clicar no recorte que já está em foco", async () => {
     abrir("?categoria=Sa%C3%BAde");
     await pronto();
@@ -150,6 +162,29 @@ describe("Painel de demandas", () => {
     await pronto();
     // Os pedidos do acervo são de ontem.
     expect(screen.getAllByText("Nada no período escolhido.")).toHaveLength(2);
+  });
+
+  it("etiqueta cada pedido pelo recorte do painel, e não pelo tema", async () => {
+    // Na API real `tema` e `categoria` são campos diferentes. No mock eram
+    // a mesma palavra, e por isso a tela nunca mostrou o defeito: ao
+    // filtrar por localidade, a etiqueta continuava sendo o tema.
+    obter.mockImplementation(async (f: FiltrosDeDemandas) =>
+      painelDeDemandas(
+        [{ ...pedido("Saúde", "Teresina"), tema: "obras" }],
+        f,
+      ),
+    );
+    abrir("?localidade=Teresina");
+    await pronto();
+
+    // Os painéis "Por tema" e "Por localidade" também são listas; o card
+    // é o item que tem o botão de abrir o comentário.
+    const item = screen
+      .getAllByRole("listitem")
+      .find((li) => within(li).queryByRole("button", { name: /Ver comentário/ }))!;
+    expect(within(item).getByText("Saúde")).toBeInTheDocument();
+    expect(within(item).getByText("Teresina")).toBeInTheDocument();
+    expect(within(item).queryByText("obras")).not.toBeInTheDocument();
   });
 
   it("avisa quando a busca falha", async () => {

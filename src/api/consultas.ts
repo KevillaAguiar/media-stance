@@ -181,7 +181,9 @@ export function painelDeDemandas(
 
   // Sem escolha da pessoa, a lista abre na categoria mais volumosa: é a
   // que a assessoria vai querer ver primeiro.
-  const categoria = filtros.categoria ?? porTema[0]?.rotulo ?? null;
+  const categoria =
+    filtros.categoria ??
+    (filtros.localidade === null ? (porTema[0]?.rotulo ?? null) : null);
 
   const emFoco = noPeriodo.filter(
     (c) =>

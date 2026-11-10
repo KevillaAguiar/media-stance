@@ -160,6 +160,7 @@ export function Demandas() {
                       key={comentario.id}
                       comentario={comentario}
                       aoAbrir={setAberto}
+                      etiquetas="demanda"
                     />
                   ))}
                 </ul>

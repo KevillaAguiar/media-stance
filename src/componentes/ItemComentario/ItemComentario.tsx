@@ -13,10 +13,19 @@ const hora = new Intl.DateTimeFormat("pt-BR", {
 export interface ItemComentarioProps {
   comentario: Comentario;
   aoAbrir: (comentario: Comentario) => void;
+  /** O que a etiqueta diz. Na tela de comentários é o tema; no painel de
+   *  demandas é o recorte pelo qual o painel está organizado — categoria e
+   *  localidade —, que na API real são campos diferentes do tema. */
+  etiquetas?: "tema" | "demanda";
 }
 
-export function ItemComentario({ comentario, aoAbrir }: ItemComentarioProps) {
-  const { texto, classe, urgente, tema, publicadoEm } = comentario;
+export function ItemComentario({
+  comentario,
+  aoAbrir,
+  etiquetas = "tema",
+}: ItemComentarioProps) {
+  const { texto, classe, urgente, tema, categoria, localidade, publicadoEm } =
+    comentario;
 
   return (
     <Cartao as="li" className={estilos.item}>
@@ -27,7 +36,14 @@ export function ItemComentario({ comentario, aoAbrir }: ItemComentarioProps) {
 
       <div className={estilos.corpo}>
         <p className={estilos.texto}>{texto}</p>
-        {tema && <ChipTema>{tema}</ChipTema>}
+        {etiquetas === "demanda" ? (
+          <>
+            {categoria && <ChipTema>{categoria}</ChipTema>}
+            {localidade && <ChipTema>{localidade}</ChipTema>}
+          </>
+        ) : (
+          tema && <ChipTema>{tema}</ChipTema>
+        )}
         <p className={estilos.hora}>
           <time dateTime={publicadoEm}>
             {hora.format(new Date(publicadoEm))}
