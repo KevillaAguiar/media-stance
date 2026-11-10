@@ -100,7 +100,7 @@ src/
 npm test
 ```
 
-111 testes, sem rede e sem servidor. O índice das três suítes do projeto
+109 testes, sem rede e sem servidor. O índice das três suítes do projeto
 — pipeline, front-end e regressão dos casos difíceis — está em
 [`docs/plano-de-testes.md`](docs/plano-de-testes.md).
 
