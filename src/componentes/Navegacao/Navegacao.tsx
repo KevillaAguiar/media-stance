@@ -44,6 +44,7 @@ export interface NavegacaoProps {
  */
 export function Navegacao({ conta, papel = null, foco = null, aoTrocarConta }: NavegacaoProps) {
   void papel;
+  void conta;
   return (
     <nav className={estilos.navegacao} aria-label="Navegação principal">
       {/* A marca ficou só com o nome do produto. O `@` que estava aqui era
@@ -51,7 +52,7 @@ export function Navegacao({ conta, papel = null, foco = null, aoTrocarConta }: N
           empilhadas confundem em vez de informar — quem a pessoa é fica
           no Perfil, qual conta ela vê fica no seletor. */}
       <div className={estilos.marca}>
-        <p className={estilos.nome}>{conta?.nome ?? "Media Stance"}</p>
+        <p className={estilos.nome}>Painel de Comentários</p>
       </div>
 
       {foco && aoTrocarConta && (
